@@ -1,0 +1,49 @@
+[workspace]
+members = ['contracts/*']
+
+[profile.release]
+codegen-units = 1
+debug = false
+debug-assertions = false
+incremental = false
+lto = true
+opt-level = 3
+overflow-checks = true
+panic = 'abort'
+rpath = false
+
+[workspace.dependencies]
+# https://github.com/CosmWasm/cosmwasm
+cosmwasm-check = "=1.1.9"
+cosmwasm-crypto = "=1.1.9"
+cosmwasm-derive = "=1.1.9"
+cosmwasm-schema-derive = "=1.1.9"
+cosmwasm-schema = "=1.1.9"
+cosmwasm-std = "=1.1.9"
+cosmwasm-storage = "=1.1.9"
+cosmwasm-vm = "=1.1.9"
+# https://github.com/CosmWasm/cw-plus
+cw-controllers = "=1.1.0"
+cw1 = "=1.1.0"
+cw2 = "=1.1.0"
+cw3 = "=1.1.0"
+cw4 = "=1.1.0"
+cw20 = "=1.1.0"
+# https://github.com/CosmWasm/cw-nfts
+cw721 = "=0.16.0"
+# https://github.com/CosmWasm/cw-storage-plus
+cw-storage-plus = "=1.1.0"
+# https://github.com/CosmWasm/cw-multi-test
+cw-multi-test = "=0.16.2"
+# https://github.com/CosmWasm/cw-utils
+cw-utils = "=1.0.1"
+
+[patch.crates-io]
+cosmwasm-check = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
+cosmwasm-crypto = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
+cosmwasm-derive = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
+cosmwasm-schema-derive = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
+cosmwasm-schema = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
+cosmwasm-std = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
+cosmwasm-storage = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
+cosmwasm-vm = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
