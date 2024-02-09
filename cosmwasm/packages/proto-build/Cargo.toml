@@ -1,5 +1,5 @@
 [package]
-authors = ["Supanat Potiwarakorn <boss@osmosis.team>", "Justin Kilpatrick <justin@althea.net>", "Tony Arcieri <tony@iqlusion.io>"]
+authors = ["Supanat Potiwarakorn <boss@dymension.team>", "Justin Kilpatrick <justin@althea.net>", "Tony Arcieri <tony@iqlusion.io>"]
 edition = "2021"
 name = "proto-build"
 publish = false

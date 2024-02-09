@@ -262,7 +262,7 @@ pub fn allow_serde_vec_u8_as_base64_encoded_string(s: ItemStruct) -> ItemStruct 
     syn::ItemStruct { fields, ..s }
 }
 
-/// some of proto's fields in osmosis' modules are named `ID` but prost generates `id` field
+/// some of proto's fields in dymension' modules are named `ID` but prost generates `id` field
 /// this function adds `#[serde(alias = "ID")]` to the `id` field
 /// so that serde can deserialize `ID` field to `id` field.
 /// This is required because the `ID` field is used in the query response and is serialized as json.
