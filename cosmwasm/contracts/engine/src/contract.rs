@@ -4,7 +4,10 @@ use cosmwasm_std::{Binary, Deps, DepsMut, Env, MessageInfo, Reply, Response, Std
 use cw2::set_contract_version;
 
 use crate::error::ContractError;
-use crate::msg::{ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg};
+use crate::msg::{
+    ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg, RollappExecute, RollappQuery,
+    SequencerExecute, SequencerQuery,
+};
 
 // version info for migration info
 const CONTRACT_NAME: &str = "crates.io:engine";
@@ -51,10 +54,13 @@ pub fn execute(
     msg: ExecuteMsg,
 ) -> Result<Response, ContractError> {
     match msg {
-        // Find matched incoming message variant and execute them with your custom logic.
-        //
-        // With `Response` type, it is possible to dispatch message to invoke external logic.
-        // See: https://github.com/CosmWasm/cosmwasm/blob/main/SEMANTICS.md#dispatching-messages
+        ExecuteMsg::Rollapp(inner) => match inner {
+            RollappExecute::CreateRollapp(_) => Ok(Response::new()),
+            RollappExecute::UpdateState(_) => Ok(Response::new()),
+        },
+        ExecuteMsg::Sequencer(inner) => match inner {
+            SequencerExecute::CreateSequencer(_) => Ok(Response::new()),
+        },
     }
 }
 
@@ -62,11 +68,24 @@ pub fn execute(
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn query(_deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
     match msg {
-        // Find matched incoming message variant and query them your custom logic
-        // and then construct your query response with the type usually defined
-        // `msg.rs` alongside with the query message itself.
-        //
-        // use `cosmwasm_std::to_binary` to serialize query response to json binary.
+        QueryMsg::Rollapp(inner) => match inner {
+            RollappQuery::Params(_) => Ok(vec![].into()),
+            RollappQuery::Rollapp(_) => Ok(vec![].into()),
+            RollappQuery::RollappByEip155(_) => Ok(vec![].into()),
+            RollappQuery::RollappAll(_) => Ok(vec![].into()),
+            RollappQuery::LatestStateIndex(_) => Ok(vec![].into()),
+            RollappQuery::StateInfo(_) => Ok(vec![].into()),
+            RollappQuery::StateInfoAll(_) => Ok(vec![].into()),
+        },
+        QueryMsg::Sequencer(inner) => match inner {
+            SequencerQuery::Params(_) => Ok(vec![].into()),
+            SequencerQuery::Sequencer(_) => Ok(vec![].into()),
+            SequencerQuery::SequencerAll(_) => Ok(vec![].into()),
+            SequencerQuery::SequencersByRollapp(_) => Ok(vec![].into()),
+            SequencerQuery::SequencersByRollappAll(_) => Ok(vec![].into()),
+            SequencerQuery::Scheduler(_) => Ok(vec![].into()),
+            SequencerQuery::SchedulerAll(_) => Ok(vec![].into()),
+        },
     }
 }
 
