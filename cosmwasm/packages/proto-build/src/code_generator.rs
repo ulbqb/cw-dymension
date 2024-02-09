@@ -125,8 +125,14 @@ impl CodeGenerator {
         // Compile proto files for each file in `protos` variable
         // `buf generate —template {<buf_gen_template} <proto_file>`
         for project in all_related_projects {
-            let buf_root = if project.name == "cosmos" || project.name == "ics23" {
+            let buf_root = if project.name == "cosmos"
+                || project.name == "tendermint"
+                || project.name == "ibc"
+                || project.name == "osmosis"
+            {
                 self.root.join(&project.project_dir).join("proto")
+            } else if project.name == "ics23" {
+                self.root.join(&project.project_dir)
             } else {
                 WalkDir::new(&self.root.join(&project.project_dir))
                     .into_iter()

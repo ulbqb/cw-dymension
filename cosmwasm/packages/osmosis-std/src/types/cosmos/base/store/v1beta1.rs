@@ -22,8 +22,6 @@ pub struct CommitInfo {
     pub version: i64,
     #[prost(message, repeated, tag = "2")]
     pub store_infos: ::prost::alloc::vec::Vec<StoreInfo>,
-    #[prost(message, optional, tag = "3")]
-    pub timestamp: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// StoreInfo defines store-specific commit information. It contains a reference
 /// between a store name and the commit ID.
@@ -46,7 +44,7 @@ pub struct StoreInfo {
     #[serde(alias = "commitID")]
     pub commit_id: ::core::option::Option<CommitId>,
 }
-/// CommitID defines the commitment information when a specific store is
+/// CommitID defines the committment information when a specific store is
 /// committed.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(

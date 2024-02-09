@@ -15,14 +15,8 @@ use osmosis_std_derive::CosmwasmExt;
 pub struct Params {
     #[prost(string, tag = "1")]
     pub community_tax: ::prost::alloc::string::String,
-    /// Deprecated: The base_proposer_reward field is deprecated and is no longer used
-    /// in the x/distribution module's reward mechanism.
-    #[deprecated]
     #[prost(string, tag = "2")]
     pub base_proposer_reward: ::prost::alloc::string::String,
-    /// Deprecated: The bonus_proposer_reward field is deprecated and is no longer used
-    /// in the x/distribution module's reward mechanism.
-    #[deprecated]
     #[prost(string, tag = "3")]
     pub bonus_proposer_reward: ::prost::alloc::string::String,
     #[prost(bool, tag = "4")]
@@ -186,11 +180,6 @@ pub struct FeePool {
 /// CommunityPoolSpendProposal details a proposal for use of community funds,
 /// together with how many coins are proposed to be spent, and to which
 /// recipient account.
-///
-/// Deprecated: Do not use. As of the Cosmos SDK release v0.47.x, there is no
-/// longer a need for an explicit CommunityPoolSpendProposal. To spend community
-/// pool funds, a simple MsgCommunityPoolSpend can be invoked from the x/gov
-/// module via a v1 governance proposal.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -203,7 +192,6 @@ pub struct FeePool {
     CosmwasmExt,
 )]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.CommunityPoolSpendProposal")]
-#[deprecated]
 pub struct CommunityPoolSpendProposal {
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
@@ -334,7 +322,7 @@ pub struct ValidatorOutstandingRewardsRecord {
     /// validator_address is the address of the validator.
     #[prost(string, tag = "1")]
     pub validator_address: ::prost::alloc::string::String,
-    /// outstanding_rewards represents the outstanding rewards of a validator.
+    /// outstanding_rewards represents the oustanding rewards of a validator.
     #[prost(message, repeated, tag = "2")]
     pub outstanding_rewards: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
 }
@@ -451,7 +439,7 @@ pub struct ValidatorSlashEventRecord {
     /// validator_address is the address of the validator.
     #[prost(string, tag = "1")]
     pub validator_address: ::prost::alloc::string::String,
-    /// height defines the block height at which the slash event occurred.
+    /// height defines the block height at which the slash event occured.
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
@@ -483,7 +471,7 @@ pub struct ValidatorSlashEventRecord {
 )]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.GenesisState")]
 pub struct GenesisState {
-    /// params defines all the parameters of the module.
+    /// params defines all the paramaters of the module.
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
     /// fee_pool defines the fee pool at genesis.
@@ -498,7 +486,7 @@ pub struct GenesisState {
     /// fee_pool defines the outstanding rewards of all validators at genesis.
     #[prost(message, repeated, tag = "5")]
     pub outstanding_rewards: ::prost::alloc::vec::Vec<ValidatorOutstandingRewardsRecord>,
-    /// fee_pool defines the accumulated commissions of all validators at genesis.
+    /// fee_pool defines the accumulated commisions of all validators at genesis.
     #[prost(message, repeated, tag = "6")]
     pub validator_accumulated_commissions:
         ::prost::alloc::vec::Vec<ValidatorAccumulatedCommissionRecord>,
@@ -550,52 +538,6 @@ pub struct QueryParamsResponse {
     /// params defines the parameters of the module.
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
-}
-/// QueryValidatorDistributionInfoRequest is the request type for the Query/ValidatorDistributionInfo RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryValidatorDistributionInfoRequest")]
-#[proto_query(
-    path = "/cosmos.distribution.v1beta1.Query/ValidatorDistributionInfo",
-    response_type = QueryValidatorDistributionInfoResponse
-)]
-pub struct QueryValidatorDistributionInfoRequest {
-    /// validator_address defines the validator address to query for.
-    #[prost(string, tag = "1")]
-    pub validator_address: ::prost::alloc::string::String,
-}
-/// QueryValidatorDistributionInfoResponse is the response type for the Query/ValidatorDistributionInfo RPC method.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryValidatorDistributionInfoResponse")]
-pub struct QueryValidatorDistributionInfoResponse {
-    /// operator_address defines the validator operator address.
-    #[prost(string, tag = "1")]
-    pub operator_address: ::prost::alloc::string::String,
-    /// self_bond_rewards defines the self delegations rewards.
-    #[prost(message, repeated, tag = "2")]
-    pub self_bond_rewards: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
-    /// commission defines the commission the validator received.
-    #[prost(message, repeated, tag = "3")]
-    pub commission: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
 }
 /// QueryValidatorOutstandingRewardsRequest is the request type for the
 /// Query/ValidatorOutstandingRewards RPC method.
@@ -676,7 +618,7 @@ pub struct QueryValidatorCommissionRequest {
 )]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryValidatorCommissionResponse")]
 pub struct QueryValidatorCommissionResponse {
-    /// commission defines the commission the validator received.
+    /// commission defines the commision the validator received.
     #[prost(message, optional, tag = "1")]
     pub commission: ::core::option::Option<ValidatorAccumulatedCommission>,
 }
@@ -974,8 +916,7 @@ pub struct MsgSetWithdrawAddress {
     #[prost(string, tag = "2")]
     pub withdraw_address: ::prost::alloc::string::String,
 }
-/// MsgSetWithdrawAddressResponse defines the Msg/SetWithdrawAddress response
-/// type.
+/// MsgSetWithdrawAddressResponse defines the Msg/SetWithdrawAddress response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -1009,8 +950,7 @@ pub struct MsgWithdrawDelegatorReward {
     #[prost(string, tag = "2")]
     pub validator_address: ::prost::alloc::string::String,
 }
-/// MsgWithdrawDelegatorRewardResponse defines the Msg/WithdrawDelegatorReward
-/// response type.
+/// MsgWithdrawDelegatorRewardResponse defines the Msg/WithdrawDelegatorReward response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -1046,8 +986,7 @@ pub struct MsgWithdrawValidatorCommission {
     #[prost(string, tag = "1")]
     pub validator_address: ::prost::alloc::string::String,
 }
-/// MsgWithdrawValidatorCommissionResponse defines the
-/// Msg/WithdrawValidatorCommission response type.
+/// MsgWithdrawValidatorCommissionResponse defines the Msg/WithdrawValidatorCommission response type.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -1099,91 +1038,6 @@ pub struct MsgFundCommunityPool {
 )]
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgFundCommunityPoolResponse")]
 pub struct MsgFundCommunityPoolResponse {}
-/// MsgUpdateParams is the Msg/UpdateParams request type.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgUpdateParams")]
-pub struct MsgUpdateParams {
-    /// authority is the address that controls the module (defaults to x/gov unless overwritten).
-    #[prost(string, tag = "1")]
-    pub authority: ::prost::alloc::string::String,
-    /// params defines the x/distribution parameters to update.
-    ///
-    /// NOTE: All parameters must be supplied.
-    #[prost(message, optional, tag = "2")]
-    pub params: ::core::option::Option<Params>,
-}
-/// MsgUpdateParamsResponse defines the response structure for executing a
-/// MsgUpdateParams message.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgUpdateParamsResponse")]
-pub struct MsgUpdateParamsResponse {}
-/// MsgCommunityPoolSpend defines a message for sending tokens from the community
-/// pool to another account. This message is typically executed via a governance
-/// proposal with the governance module being the executing authority.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgCommunityPoolSpend")]
-pub struct MsgCommunityPoolSpend {
-    /// authority is the address that controls the module (defaults to x/gov unless overwritten).
-    #[prost(string, tag = "1")]
-    pub authority: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub recipient: ::prost::alloc::string::String,
-    #[prost(message, repeated, tag = "3")]
-    pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
-}
-/// MsgCommunityPoolSpendResponse defines the response to executing a
-/// MsgCommunityPoolSpend message.
-///
-/// Since: cosmos-sdk 0.47
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgCommunityPoolSpendResponse")]
-pub struct MsgCommunityPoolSpendResponse {}
 pub struct DistributionQuerier<'a, Q: cosmwasm_std::CustomQuery> {
     querier: &'a cosmwasm_std::QuerierWrapper<'a, Q>,
 }
@@ -1193,12 +1047,6 @@ impl<'a, Q: cosmwasm_std::CustomQuery> DistributionQuerier<'a, Q> {
     }
     pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
-    }
-    pub fn validator_distribution_info(
-        &self,
-        validator_address: ::prost::alloc::string::String,
-    ) -> Result<QueryValidatorDistributionInfoResponse, cosmwasm_std::StdError> {
-        QueryValidatorDistributionInfoRequest { validator_address }.query(self.querier)
     }
     pub fn validator_outstanding_rewards(
         &self,

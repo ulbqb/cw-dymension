@@ -103,7 +103,7 @@ pub struct QueryParamsResponse {
     #[prost(message, optional, tag = "1")]
     pub params: ::core::option::Option<Params>,
 }
-/// MsgRegisterInterchainAccount defines the payload for Msg/RegisterAccount
+/// MsgRegisterInterchainAccount defines the payload for Msg/MsgRegisterInterchainAccount
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -127,7 +127,7 @@ pub struct MsgRegisterInterchainAccount {
     #[prost(string, tag = "3")]
     pub version: ::prost::alloc::string::String,
 }
-/// MsgRegisterInterchainAccountResponse defines the response for Msg/RegisterAccount
+/// MsgRegisterInterchainAccountResponse defines the response for Msg/MsgRegisterInterchainAccountResponse
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
     Clone,
@@ -146,9 +146,6 @@ pub struct MsgRegisterInterchainAccountResponse {
     #[prost(string, tag = "1")]
     #[serde(alias = "channelID")]
     pub channel_id: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    #[serde(alias = "portID")]
-    pub port_id: ::prost::alloc::string::String,
 }
 /// MsgSendTx defines the payload for Msg/SendTx
 #[allow(clippy::derive_partial_eq_without_eq)]

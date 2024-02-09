@@ -1,5 +1,5 @@
 pub mod cosmos;
-pub mod cosmwasm;
+pub mod dymensionxyz;
 pub mod ibc;
-pub mod osmosis;
+pub mod ics23;
 pub mod tendermint;

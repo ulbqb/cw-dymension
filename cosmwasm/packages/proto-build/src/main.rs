@@ -11,19 +11,16 @@ use proto_build::{
 };
 
 /// The Cosmos SDK commit or tag to be cloned and used to build the proto files
-const COSMOS_SDK_REV: &str = "v0.47.5-osmo";
+const COSMOS_SDK_REV: &str = "v0.46.15";
 
 /// The osmosis commit or tag to be cloned and used to build the proto files
-const OSMOSIS_REV: &str = "v22.0.0";
-
-/// The wasmd commit or tag to be cloned and used to build the proto files
-const WASMD_REV: &str = "v0.45.0-osmo";
+const OSMOSIS_REV: &str = "v3.0.0";
 
 /// The cometbft commit or tag to be cloned and used to build the proto files
-const COMETBFT_REV: &str = "v0.37.2";
+const COMETBFT_REV: &str = "v0.34.29";
 
 /// The ibc-go commit or tag to be cloned and used to build the proto files
-const IBC_GO_REV: &str = "v7.3.1";
+const IBC_GO_REV: &str = "v6.2.1";
 
 /// The ics23 commit or tag to be cloned and used to build the proto files
 ///
@@ -31,7 +28,7 @@ const IBC_GO_REV: &str = "v7.3.1";
 /// so we are using this version instead which will work but
 /// [prehash_key_before_comparison](https://github.com/cosmos/ics23/commit/cea74ba58ffbf87154701cd5959184acedf09cd6#diff-fe43695465b668ae6b79cc97ff2103fbb665f8440c42bc4f85a1942380a3fae4)
 /// will be missing
-const ICS23_REV: &str = "rust/v0.10.0";
+const ICS23_REV: &str = "v0.9.0";
 
 // All paths must end with a / and either be absolute or include a ./ to reference the current
 // working directory.
@@ -41,9 +38,7 @@ const OUT_DIR: &str = "../osmosis-std/src/types/";
 /// Directory where the cosmos-sdk submodule is located
 const COSMOS_SDK_DIR: &str = "../../dependencies/cosmos-sdk/";
 /// Directory where the osmosis submodule is located
-const OSMOSIS_DIR: &str = "../../dependencies/osmosis/";
-/// Directory where the wasmd submodule is located
-const WASMD_DIR: &str = "../../dependencies/wasmd/";
+const OSMOSIS_DIR: &str = "../../dependencies/dymension/";
 /// Directory where the cometbft submodule is located
 const COMETBFT_DIR: &str = "../../dependencies/cometbft/";
 /// Directory where the ibc-go submodule is located
@@ -59,7 +54,6 @@ pub fn generate() {
     if args.iter().any(|arg| arg == "--update-deps") {
         git::update_submodule(COSMOS_SDK_DIR, COSMOS_SDK_REV);
         git::update_submodule(OSMOSIS_DIR, OSMOSIS_REV);
-        git::update_submodule(WASMD_DIR, WASMD_REV);
         git::update_submodule(COMETBFT_DIR, COMETBFT_REV);
         git::update_submodule(IBC_GO_DIR, IBC_GO_REV);
         git::update_submodule(ICS23_DIR, ICS23_REV);
@@ -72,12 +66,6 @@ pub fn generate() {
         name: "osmosis".to_string(),
         version: OSMOSIS_REV.to_string(),
         project_dir: OSMOSIS_DIR.to_string(),
-        exclude_mods: vec![],
-    };
-    let wasmd_project = CosmosProject {
-        name: "wasmd".to_string(),
-        version: WASMD_REV.to_string(),
-        project_dir: WASMD_DIR.to_string(),
         exclude_mods: vec![],
     };
     let cometbft_project = CosmosProject {
@@ -98,7 +86,7 @@ pub fn generate() {
         name: "cosmos".to_string(),
         version: COSMOS_SDK_REV.to_string(),
         project_dir: COSMOS_SDK_DIR.to_string(),
-        exclude_mods: vec!["reflection".to_string(), "autocli".to_string()],
+        exclude_mods: vec![],
     };
 
     let ics23_project = CosmosProject {
@@ -112,13 +100,7 @@ pub fn generate() {
         out_dir,
         tmp_build_dir,
         osmosis_project,
-        vec![
-            ibc_project,
-            cometbft_project,
-            cosmos_project,
-            wasmd_project,
-            ics23_project,
-        ],
+        vec![ibc_project, cosmos_project, cometbft_project, ics23_project],
     );
 
     osmosis_code_generator.generate();
