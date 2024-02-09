@@ -1,5 +1,5 @@
 [workspace]
-members = ['contracts/*']
+members = ['contracts/*', 'packages/*']
 
 [profile.release]
 codegen-units = 1
@@ -47,3 +47,4 @@ cosmwasm-schema = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+
 cosmwasm-std = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
 cosmwasm-storage = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
 cosmwasm-vm = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
+home = { git = "https://github.com/rust-lang/cargo.git", tag = "home-0.5.5" }
