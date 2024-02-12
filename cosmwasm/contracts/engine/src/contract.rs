@@ -8,12 +8,13 @@ use cw2::set_contract_version;
 use crate::error::ContractError;
 use crate::msg::{
     ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg, RollappExecute, RollappQuery,
-    SequencerExecute, SequencerQuery,
+    SequencerExecute, SequencerQuery, SystemExecute,
 };
 use crate::rollapp::{
     execute as rollapp_exec, instantiate as rollapp_init, query as rollapp_query,
 };
 use crate::sequencer::{execute as seq_exec, instantiate as seq_init, query as seq_query};
+use crate::system::execute as sys_exec;
 
 // version info for migration info
 const CONTRACT_NAME: &str = "crates.io:engine";
@@ -73,6 +74,9 @@ pub fn execute(
             SequencerExecute::CreateSequencer(exec_msg) => {
                 seq_exec::create_sequencer(deps.storage, exec_msg)
             }
+        },
+        ExecuteMsg::System(exec_type) => match exec_type {
+            SystemExecute::EndBlocks() => sys_exec::end_blocks(deps.storage, env),
         },
     }
 }

@@ -14,6 +14,7 @@ pub struct InstantiateMsg {
 pub enum ExecuteMsg {
     Rollapp(RollappExecute),
     Sequencer(SequencerExecute),
+    System(SystemExecute),
 }
 
 #[cw_serde]
@@ -25,6 +26,11 @@ pub enum RollappExecute {
 #[cw_serde]
 pub enum SequencerExecute {
     CreateSequencer(sequencer::MsgCreateSequencer),
+}
+
+#[cw_serde]
+pub enum SystemExecute {
+    EndBlocks(),
 }
 
 /// Message type for `migrate` entry_point

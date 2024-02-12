@@ -1,5 +1,5 @@
 use cosmwasm_std::{Order, StdError, StdResult, Storage};
-use cw_storage_plus::{Item, Map};
+use cw_storage_plus::{Bound, Item, Map};
 use dymension_std::types::cosmos::base::query::v1beta1::{PageRequest, PageResponse};
 use dymension_std::types::dymensionxyz::dymension::rollapp::{
     BlockHeightToFinalizationQueue, DeployerParams, Params, Rollapp, StateInfo, StateInfoIndex,
@@ -187,10 +187,10 @@ pub fn get_all_latest_finalized_state_index(
 }
 
 // block height to finalization queue
-pub fn block_height_to_finalization_queue_key(finalization_heiht: u64) -> Vec<u8> {
+pub fn block_height_to_finalization_queue_key(finalization_height: u64) -> Vec<u8> {
     let mut key: Vec<u8> = vec![];
 
-    key.append(&mut finalization_heiht.to_be_bytes().to_vec());
+    key.append(&mut finalization_height.to_be_bytes().to_vec());
     key.append(&mut "/".into());
 
     key
@@ -215,6 +215,20 @@ pub fn get_block_height_to_finalization_queue(
         storage,
         block_height_to_finalization_queue_key(finalization_height),
     )
+}
+
+pub fn get_block_height_to_finalization_queue_range(
+    storage: &dyn Storage,
+    max_height: u64,
+    limit: u64,
+) -> StdResult<Vec<(Vec<u8>, BlockHeightToFinalizationQueue)>> {
+    let max = Some(Bound::ExclusiveRaw(block_height_to_finalization_queue_key(
+        max_height,
+    )));
+    BLOCK_HEIGHT_TO_FINALIZATION_QUEUE
+        .range(storage, None, max, Order::Ascending)
+        .take(limit as usize)
+        .collect()
 }
 
 pub fn get_all_block_height_to_finalization_queue(

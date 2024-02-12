@@ -1,4 +1,4 @@
-use cosmwasm_std::{Env, Response, StdError, Storage};
+use cosmwasm_std::{Env, Event, Response, StdError, Storage};
 use dymension_std::types::dymensionxyz::dymension::rollapp::{
     BlockHeightToFinalizationQueue, MsgCreateRollapp, MsgUpdateState, Rollapp, StateInfo,
     StateInfoIndex, StateStatus,
@@ -187,13 +187,16 @@ pub fn update_state(
     );
 
     Ok(Response::new()
-        .add_attribute("method", EVENT_TYPE_STATE_UPDATE)
-        .add_attribute(ATTRIBUTE_KEY_ROLLAPP_ID, msg.rollapp_id)
-        .add_attribute(
-            ATTRIBUTE_KEY_STATE_INFO_INDEX,
-            state_info_index.index.to_string(),
-        )
-        .add_attribute(ATTRIBUTE_KEY_START_HEIGHT, msg.start_height.to_string())
-        .add_attribute(ATTRIBUTE_KEY_NUM_BLOCKS, msg.num_blocks.to_string())
-        .add_attribute(ATTRIBUTE_KEY_DA_PATH, msg.da_path))
+        .add_attribute("method", "update_state")
+        .add_event(
+            Event::new(EVENT_TYPE_STATE_UPDATE)
+                .add_attribute(ATTRIBUTE_KEY_ROLLAPP_ID, msg.rollapp_id)
+                .add_attribute(
+                    ATTRIBUTE_KEY_STATE_INFO_INDEX,
+                    state_info_index.index.to_string(),
+                )
+                .add_attribute(ATTRIBUTE_KEY_START_HEIGHT, msg.start_height.to_string())
+                .add_attribute(ATTRIBUTE_KEY_NUM_BLOCKS, msg.num_blocks.to_string())
+                .add_attribute(ATTRIBUTE_KEY_DA_PATH, msg.da_path),
+        ))
 }

@@ -5,6 +5,7 @@ pub mod state;
 
 pub mod rollapp;
 pub mod sequencer;
+pub mod system;
 pub mod utils;
 
 pub use crate::error::ContractError;
