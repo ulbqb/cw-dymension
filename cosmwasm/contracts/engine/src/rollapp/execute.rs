@@ -6,6 +6,7 @@ use dymension_std::types::dymensionxyz::dymension::rollapp::{
 
 use crate::error::ContractError;
 use crate::rollapp::{state::*, types::*};
+use crate::sequencer::handler as seq_handler;
 
 pub fn create_rollapp(
     storage: &mut dyn Storage,
@@ -91,6 +92,7 @@ pub fn update_state(
     }
 
     // TODO: BeforeUpdateState
+    seq_handler::before_update_state(storage, msg.creator.clone(), msg.rollapp_id.clone())?;
 
     if !rollapp
         .permissioned_addresses
