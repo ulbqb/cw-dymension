@@ -13,6 +13,7 @@ use crate::msg::{
 use crate::rollapp::{
     execute as rollapp_exec, instantiate as rollapp_init, query as rollapp_query,
 };
+use crate::sequencer::{execute as seq_exec, instantiate as seq_init, query as seq_query};
 
 // version info for migration info
 const CONTRACT_NAME: &str = "crates.io:engine";
@@ -29,6 +30,7 @@ pub fn instantiate(
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
 
     rollapp_init::instantiate(deps.storage, msg.rollapp);
+    seq_init::instantiate(deps.storage, msg.sequencer);
 
     Ok(Response::new()
         .add_attribute("method", "instantiate")
@@ -68,7 +70,9 @@ pub fn execute(
             }
         },
         ExecuteMsg::Sequencer(exec_type) => match exec_type {
-            SequencerExecute::CreateSequencer(_) => Ok(Response::new()),
+            SequencerExecute::CreateSequencer(exec_msg) => {
+                seq_exec::create_sequencer(deps.storage, exec_msg)
+            }
         },
     }
 }
@@ -97,13 +101,21 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
             }
         },
         QueryMsg::Sequencer(q_type) => match q_type {
-            SequencerQuery::Params(_) => Ok(vec![].into()),
-            SequencerQuery::Sequencer(_) => Ok(vec![].into()),
-            SequencerQuery::SequencerAll(_) => Ok(vec![].into()),
-            SequencerQuery::SequencersByRollapp(_) => Ok(vec![].into()),
-            SequencerQuery::SequencersByRollappAll(_) => Ok(vec![].into()),
-            SequencerQuery::Scheduler(_) => Ok(vec![].into()),
-            SequencerQuery::SchedulerAll(_) => Ok(vec![].into()),
+            SequencerQuery::Params(_) => to_binary(&seq_query::params(deps.storage)?),
+            SequencerQuery::Sequencer(req) => to_binary(&seq_query::sequencer(deps.storage, req)?),
+            SequencerQuery::SequencerAll(req) => {
+                to_binary(&seq_query::sequencer_all(deps.storage, req)?)
+            }
+            SequencerQuery::SequencersByRollapp(req) => {
+                to_binary(&seq_query::sequencers_by_rollapp(deps.storage, req)?)
+            }
+            SequencerQuery::SequencersByRollappAll(req) => {
+                to_binary(&seq_query::sequencers_by_rollapp_all(deps.storage, req)?)
+            }
+            SequencerQuery::Scheduler(req) => to_binary(&seq_query::scheduler(deps.storage, req)?),
+            SequencerQuery::SchedulerAll(req) => {
+                to_binary(&seq_query::scheduler_all(deps.storage, req)?)
+            }
         },
     }
 }

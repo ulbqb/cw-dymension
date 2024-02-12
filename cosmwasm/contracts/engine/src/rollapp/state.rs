@@ -5,7 +5,8 @@ use dymension_std::types::dymensionxyz::dymension::rollapp::{
     BlockHeightToFinalizationQueue, DeployerParams, Params, Rollapp, StateInfo, StateInfoIndex,
 };
 
-use crate::rollapp::{pagination, types};
+use crate::rollapp::types;
+use crate::utils::pagination;
 
 // state
 const ROLLAPP: Map<Vec<u8>, Rollapp> = Map::new(types::STATE_ROLLAPP);
