@@ -1,12 +1,17 @@
 #[cfg(not(feature = "library"))]
 use cosmwasm_std::entry_point;
-use cosmwasm_std::{Binary, Deps, DepsMut, Env, MessageInfo, Reply, Response, StdResult};
+use cosmwasm_std::{
+    to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Reply, Response, StdResult,
+};
 use cw2::set_contract_version;
 
 use crate::error::ContractError;
 use crate::msg::{
     ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg, RollappExecute, RollappQuery,
     SequencerExecute, SequencerQuery,
+};
+use crate::rollapp::{
+    execute as rollapp_exec, instantiate as rollapp_init, query as rollapp_query,
 };
 
 // version info for migration info
@@ -19,12 +24,12 @@ pub fn instantiate(
     deps: DepsMut,
     _env: Env,
     info: MessageInfo,
-    _msg: InstantiateMsg,
+    msg: InstantiateMsg,
 ) -> Result<Response, ContractError> {
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
 
-    // With `Response` type, it is possible to dispatch message to invoke external logic.
-    // See: https://github.com/CosmWasm/cosmwasm/blob/main/SEMANTICS.md#dispatching-messages
+    rollapp_init::instantiate(deps.storage, msg.rollapp);
+
     Ok(Response::new()
         .add_attribute("method", "instantiate")
         .add_attribute("owner", info.sender))
@@ -48,17 +53,21 @@ pub fn migrate(_deps: DepsMut, _env: Env, msg: MigrateMsg) -> Result<Response, C
 /// Handling contract execution
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn execute(
-    _deps: DepsMut,
-    _env: Env,
+    deps: DepsMut,
+    env: Env,
     _info: MessageInfo,
     msg: ExecuteMsg,
 ) -> Result<Response, ContractError> {
     match msg {
-        ExecuteMsg::Rollapp(inner) => match inner {
-            RollappExecute::CreateRollapp(_) => Ok(Response::new()),
-            RollappExecute::UpdateState(_) => Ok(Response::new()),
+        ExecuteMsg::Rollapp(exec_type) => match exec_type {
+            RollappExecute::CreateRollapp(exec_msg) => {
+                rollapp_exec::create_rollapp(deps.storage, exec_msg)
+            }
+            RollappExecute::UpdateState(exec_msg) => {
+                rollapp_exec::update_state(env, deps.storage, exec_msg)
+            }
         },
-        ExecuteMsg::Sequencer(inner) => match inner {
+        ExecuteMsg::Sequencer(exec_type) => match exec_type {
             SequencerExecute::CreateSequencer(_) => Ok(Response::new()),
         },
     }
@@ -66,18 +75,28 @@ pub fn execute(
 
 /// Handling contract query
 #[cfg_attr(not(feature = "library"), entry_point)]
-pub fn query(_deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
+pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
     match msg {
-        QueryMsg::Rollapp(inner) => match inner {
-            RollappQuery::Params(_) => Ok(vec![].into()),
-            RollappQuery::Rollapp(_) => Ok(vec![].into()),
-            RollappQuery::RollappByEip155(_) => Ok(vec![].into()),
-            RollappQuery::RollappAll(_) => Ok(vec![].into()),
-            RollappQuery::LatestStateIndex(_) => Ok(vec![].into()),
-            RollappQuery::StateInfo(_) => Ok(vec![].into()),
-            RollappQuery::StateInfoAll(_) => Ok(vec![].into()),
+        QueryMsg::Rollapp(q_type) => match q_type {
+            RollappQuery::Params(_) => to_binary(&rollapp_query::params(deps.storage)?),
+            RollappQuery::Rollapp(req) => to_binary(&rollapp_query::rollapp(deps.storage, req)?),
+            RollappQuery::RollappByEip155(req) => {
+                to_binary(&rollapp_query::rollapp_eip155(deps.storage, req)?)
+            }
+            RollappQuery::RollappAll(req) => {
+                to_binary(&rollapp_query::rollapp_all(deps.storage, req)?)
+            }
+            RollappQuery::LatestStateIndex(req) => {
+                to_binary(&rollapp_query::latest_state_index(deps.storage, req)?)
+            }
+            RollappQuery::StateInfo(req) => {
+                to_binary(&rollapp_query::state_info(deps.storage, req)?)
+            }
+            RollappQuery::StateInfoAll(req) => {
+                to_binary(&rollapp_query::state_info_all(deps.storage, req)?)
+            }
         },
-        QueryMsg::Sequencer(inner) => match inner {
+        QueryMsg::Sequencer(q_type) => match q_type {
             SequencerQuery::Params(_) => Ok(vec![].into()),
             SequencerQuery::Sequencer(_) => Ok(vec![].into()),
             SequencerQuery::SequencerAll(_) => Ok(vec![].into()),
