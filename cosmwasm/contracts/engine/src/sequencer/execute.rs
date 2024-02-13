@@ -4,12 +4,14 @@ use dymension_std::types::dymensionxyz::dymension::sequencer::{
 };
 
 use crate::error::ContractError;
-use crate::rollapp::state::*;
-use crate::sequencer::types::*;
-
-use super::state::{
+use crate::rollapp::state::get_rollapp;
+use crate::sequencer::state::{
     get_sequencer, get_sequencers_by_rollapp, set_scheduler, set_sequencer,
     set_sequencers_by_rollapp,
+};
+use crate::sequencer::types::{
+    validate_description, ERR_INVALID_PUB_KEY, ERR_LOGIC, ERR_MAX_SEQUENCERS_LIMIT,
+    ERR_SEQUENCER_ALREADY_REGISTERED, ERR_SEQUENCER_NOT_PERMISSIONED, ERR_UNKNOWN_ROLLAPP_ID,
 };
 
 pub fn create_sequencer(

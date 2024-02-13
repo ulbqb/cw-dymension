@@ -1,7 +1,10 @@
 use cosmwasm_std::{StdError, StdResult, Storage};
 use dymension_std::types::dymensionxyz::dymension::sequencer::OperatingStatus;
 
-use crate::sequencer::{state::*, types::*};
+use crate::sequencer::state::{get_scheduler, get_sequencer};
+use crate::sequencer::types::{
+    ERR_LOGIC, ERR_NOT_ACTIVE_SEQUENCER, ERR_SEQUENCER_ROLLAPP_MISMATCH, ERR_UNKNOWN_SEQUENCER,
+};
 
 pub fn before_update_state(
     storage: &mut dyn Storage,

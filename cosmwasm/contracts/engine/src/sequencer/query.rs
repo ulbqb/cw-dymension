@@ -7,7 +7,11 @@ use dymension_std::types::dymensionxyz::dymension::sequencer::{
     QueryGetSequencersByRollappResponse, QueryParamsResponse, Scheduler, SequencerInfo,
 };
 
-use crate::sequencer::{state::*, types::*};
+use crate::sequencer::state::{
+    get_params, get_scheduler, get_sequencer, get_sequencers_by_rollapp, paginate_scheduler,
+    paginate_sequencer, paginate_sequencers_by_rollapp,
+};
+use crate::sequencer::types::ERR_LOGIC;
 
 pub fn params(storage: &dyn Storage) -> StdResult<QueryParamsResponse> {
     Ok(QueryParamsResponse {

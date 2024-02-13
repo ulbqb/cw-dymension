@@ -4,8 +4,15 @@ use dymension_std::types::dymensionxyz::dymension::rollapp::{
 };
 
 use crate::error::ContractError;
-use crate::rollapp::state::*;
-use crate::system::types::*;
+use crate::rollapp::state::{
+    get_block_height_to_finalization_queue_range, get_state_info, set_latest_finalized_state_index,
+    set_state_info,
+};
+use crate::rollapp::types::{
+    ATTRIBUTE_KEY_NUM_BLOCKS, ATTRIBUTE_KEY_ROLLAPP_ID, ATTRIBUTE_KEY_START_HEIGHT,
+    ATTRIBUTE_KEY_STATE_INFO_INDEX, ATTRIBUTE_KEY_STATUS, EVENT_TYPE_STATUS_CHANGE,
+};
+use crate::system::types::PROCESSING_MAX_NUM;
 
 pub fn end_blocks(storage: &mut dyn Storage, env: Env) -> Result<Response, ContractError> {
     let mut res = Response::new().add_attribute("method", "end_blocks");

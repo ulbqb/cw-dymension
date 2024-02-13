@@ -7,7 +7,13 @@ use dymension_std::types::dymensionxyz::dymension::rollapp::{
     StateInfo, StateInfoIndex, StateInfoSummary,
 };
 
-use crate::rollapp::{state::*, types::*};
+use crate::rollapp::state::{
+    get_latest_finalized_state_index, get_latest_state_info_index, get_params, get_rollapp,
+    get_rollapp_eip155, get_state_info, paginate_rollapp, paginate_state_info,
+};
+use crate::rollapp::types::{
+    ERR_INVALID_HEIGHT, ERR_LOGIC, ERR_STATE_NOT_EXISTS, ERR_UNKNOWN_ROLLAPP_ID,
+};
 
 pub fn params(storage: &dyn Storage) -> StdResult<QueryParamsResponse> {
     Ok(QueryParamsResponse {

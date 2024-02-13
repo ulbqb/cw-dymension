@@ -5,7 +5,20 @@ use dymension_std::types::dymensionxyz::dymension::rollapp::{
 };
 
 use crate::error::ContractError;
-use crate::rollapp::{state::*, types::*};
+use crate::rollapp::state::{
+    deployer_whitelist, dispute_period_in_blocks, get_all_rollapp,
+    get_block_height_to_finalization_queue, get_latest_state_info_index, get_rollapp,
+    get_state_info, rollapp_enable, set_block_height_to_finalization_queue,
+    set_latest_state_info_index, set_rollapp, set_state_info,
+};
+use crate::rollapp::types::{
+    ATTRIBUTE_KEY_DA_PATH, ATTRIBUTE_KEY_NUM_BLOCKS, ATTRIBUTE_KEY_ROLLAPP_ID,
+    ATTRIBUTE_KEY_START_HEIGHT, ATTRIBUTE_KEY_STATE_INFO_INDEX, ERR_LOGIC,
+    ERR_MULTI_UPDATE_STATE_IN_BLOCK, ERR_ROLLAPPS_DISABLED,
+    ERR_ROLLAPP_CREATOR_EXCEED_MAXIMUM_ROLLAPPS, ERR_ROLLAPP_EXISTS,
+    ERR_UNAUTHORIZED_ROLLAPP_CREATOR, ERR_UNKNOWN_ROLLAPP_ID, ERR_VERSION_MISMATCH,
+    ERR_WRONG_BLOCK_HEIGHT, EVENT_TYPE_STATE_UPDATE,
+};
 use crate::sequencer::handler as seq_handler;
 
 pub fn create_rollapp(
