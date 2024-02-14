@@ -1,5 +1,4 @@
 use crate::error::ContractError;
-use regex::Regex;
 
 // state
 pub const STATE_ROLLAPP: &str = "Rollapp/Rollapp/";
@@ -11,8 +10,10 @@ pub const STATE_BLOCK_HEIGHT_TO_FINALIZATION_QUEUE: &str =
     "Rollapp/BlockHeightToFinalizationQueue/";
 pub const STATE_PARAMS: &str = "Rollapp/Params/";
 
-// regex
-const REGEX_CHAIN_ID: &str = "^([a-z]{1,})_{1}([1-9][0-9]*)-{1}([1-9][0-9]*)$";
+// chain id format
+const CHAIN_ID_FORMAT_A_Z: &str = "abcdefghijklmnopqrstuvwxyz";
+const CHAIN_ID_FORMAT_0_9: &str = "0123456789";
+const CHAIN_ID_FORMAT_1_9: &str = "123456789";
 
 // event
 pub const EVENT_TYPE_STATE_UPDATE: &str = "state_update";
@@ -68,8 +69,7 @@ pub fn parse_chain_id(mut chain_id: String) -> Result<Option<u64>, ContractError
         });
     }
 
-    let ethermint_chain_id = Regex::new(REGEX_CHAIN_ID).unwrap();
-    let matches = ethermint_chain_id.captures(chain_id.as_str());
+    let matches = capture_chain_id(chain_id.clone());
 
     let cap = match matches {
         // The division was valid
@@ -97,6 +97,64 @@ pub fn parse_chain_id(mut chain_id: String) -> Result<Option<u64>, ContractError
     }
 }
 
+// The regex package is so large that it needs to have a dedicated capture function
+fn capture_chain_id(chain_id: String) -> Option<Vec<String>> {
+    let mut cap: Vec<String> = vec![chain_id.clone()];
+    let mut buf: String = "".into();
+    for i in 0..chain_id.len() {
+        let char: String = chain_id.chars().skip(i).take(1).collect();
+        if cap.len() == 1 {
+            if char == "_" {
+                cap.push(buf.to_string());
+                buf = "".into();
+                continue;
+            }
+            if !CHAIN_ID_FORMAT_A_Z.contains(char.as_str()) {
+                return None;
+            }
+            buf.push_str(char.as_str());
+        }
+
+        if cap.len() == 2 {
+            if char == "-" {
+                cap.push(buf.to_string());
+                buf = "".into();
+                continue;
+            }
+            if buf.len() == 0 {
+                if !CHAIN_ID_FORMAT_1_9.contains(char.as_str()) {
+                    return None;
+                }
+            } else {
+                if !CHAIN_ID_FORMAT_0_9.contains(char.as_str()) {
+                    return None;
+                }
+            }
+            buf.push_str(char.as_str());
+        }
+
+        if cap.len() == 3 {
+            if buf.len() == 0 {
+                if !CHAIN_ID_FORMAT_1_9.contains(char.as_str()) {
+                    return None;
+                }
+            } else {
+                if !CHAIN_ID_FORMAT_0_9.contains(char.as_str()) {
+                    return None;
+                }
+            }
+            buf.push_str(char.as_str());
+            if i + 1 == chain_id.len() {
+                cap.push(buf.to_string());
+            }
+        }
+    }
+    if cap.len() == 1 {
+        return None;
+    }
+    Some(cap)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -105,5 +163,33 @@ mod tests {
     fn test_parse_chain_id() {
         let result = parse_chain_id("dymension_100-1".to_string()).unwrap();
         assert_eq!(Some(100), result)
+    }
+
+    #[test]
+    fn test_capture_chain_id() {
+        let cap = capture_chain_id("dymension_100-1".into()).unwrap();
+        assert_eq!(4, cap.len());
+        assert_eq!("dymension_100-1", cap[0]);
+        assert_eq!("dymension", cap[1]);
+        assert_eq!("100", cap[2]);
+        assert_eq!("1", cap[3]);
+
+        let cap = capture_chain_id("dymension@100-1".into());
+        assert_eq!(None, cap);
+
+        let cap = capture_chain_id("dymension_100@1".into());
+        assert_eq!(None, cap);
+
+        let cap = capture_chain_id("dymension@100@1".into());
+        assert_eq!(None, cap);
+
+        let cap = capture_chain_id("dymension_000-1".into());
+        assert_eq!(None, cap);
+
+        let cap = capture_chain_id("dymension_100-0".into());
+        assert_eq!(None, cap);
+
+        let cap = capture_chain_id("dymension_000-0".into());
+        assert_eq!(None, cap);
     }
 }
