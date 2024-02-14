@@ -1,10 +1,9 @@
-use cosmwasm_std::{Env, Event, Response, StdError, Storage};
+use cosmwasm_std::{Env, Event, Response, StdError, StdResult, Storage};
 use dymension_std::types::dymensionxyz::dymension::rollapp::{
     BlockHeightToFinalizationQueue, MsgCreateRollapp, MsgUpdateState, Rollapp, StateInfo,
     StateInfoIndex, StateStatus,
 };
 
-use crate::error::ContractError;
 use crate::rollapp::state::{
     deployer_whitelist, dispute_period_in_blocks, get_all_rollapp,
     get_block_height_to_finalization_queue, get_latest_state_info_index, get_rollapp,
@@ -21,16 +20,13 @@ use crate::rollapp::types::{
 };
 use crate::sequencer::handler as seq_handler;
 
-pub fn create_rollapp(
-    storage: &mut dyn Storage,
-    msg: MsgCreateRollapp,
-) -> Result<Response, ContractError> {
+pub fn create_rollapp(storage: &mut dyn Storage, msg: MsgCreateRollapp) -> StdResult<Response> {
     if !rollapp_enable(storage)? {
-        return Err(StdError::generic_err(ERR_ROLLAPPS_DISABLED).into());
+        return Err(StdError::generic_err(ERR_ROLLAPPS_DISABLED));
     }
 
     if get_rollapp(storage, msg.rollapp_id.clone()).is_ok() {
-        return Err(StdError::generic_err(ERR_ROLLAPP_EXISTS).into());
+        return Err(StdError::generic_err(ERR_ROLLAPP_EXISTS));
     }
 
     if let Ok(whitelist) = deployer_whitelist(storage) {
@@ -50,8 +46,7 @@ pub fn create_rollapp(
                         if rollapps_num_of_creator >= item.max_rollapps {
                             return Err(StdError::generic_err(
                                 ERR_ROLLAPP_CREATOR_EXCEED_MAXIMUM_ROLLAPPS,
-                            )
-                            .into());
+                            ));
                         }
                     }
 
@@ -59,7 +54,7 @@ pub fn create_rollapp(
                 }
             }
             if !b_in_whitelist {
-                return Err(StdError::generic_err(ERR_UNAUTHORIZED_ROLLAPP_CREATOR).into());
+                return Err(StdError::generic_err(ERR_UNAUTHORIZED_ROLLAPP_CREATOR));
             }
         }
     }
@@ -86,22 +81,21 @@ pub fn update_state(
     env: Env,
     storage: &mut dyn Storage,
     msg: MsgUpdateState,
-) -> Result<Response, ContractError> {
+) -> StdResult<Response> {
     if !rollapp_enable(storage)? {
-        return Err(StdError::generic_err(ERR_ROLLAPPS_DISABLED).into());
+        return Err(StdError::generic_err(ERR_ROLLAPPS_DISABLED));
     }
 
     let rollapp = match get_rollapp(storage, msg.rollapp_id.clone()) {
         Ok(ra) => ra,
-        Err(_) => return Err(StdError::generic_err(ERR_UNKNOWN_ROLLAPP_ID).into()),
+        Err(_) => return Err(StdError::generic_err(ERR_UNKNOWN_ROLLAPP_ID)),
     };
 
     if rollapp.version != msg.version {
         return Err(StdError::generic_err(format!(
             "{}: rollappId({}) current version is {}, but got {}",
             ERR_VERSION_MISMATCH, msg.rollapp_id, rollapp.version, msg.version
-        ))
-        .into());
+        )));
     }
 
     // TODO: BeforeUpdateState
@@ -114,8 +108,7 @@ pub fn update_state(
         return Err(StdError::generic_err(format!(
             "{}: unpermissioned sequencer ({}) is registered for rollappId({})",
             ERR_LOGIC, msg.creator, msg.rollapp_id
-        ))
-        .into());
+        )));
     }
 
     let new_index: u64 = match get_latest_state_info_index(storage, msg.rollapp_id.clone()) {
@@ -127,15 +120,14 @@ pub fn update_state(
             ) {
                 Ok(state_info) => {
                     if state_info.creation_height == env.block.height {
-                        return Err(StdError::generic_err(ERR_MULTI_UPDATE_STATE_IN_BLOCK).into());
+                        return Err(StdError::generic_err(ERR_MULTI_UPDATE_STATE_IN_BLOCK));
                     }
                     let expected_start_height = state_info.start_height + state_info.num_blocks;
                     if expected_start_height != msg.start_height {
                         return Err(StdError::generic_err(format!(
                             "{}: expected height ({}), but received ({})",
                             ERR_WRONG_BLOCK_HEIGHT, expected_start_height, msg.start_height
-                        ))
-                        .into());
+                        )));
                     }
                     latest_state_info_index.index + 1
                 }
@@ -143,8 +135,7 @@ pub fn update_state(
                     return Err(StdError::generic_err(format!(
                         "{}: missing stateInfo for state-index ({}) of rollappId({})",
                         ERR_LOGIC, latest_state_info_index.index, msg.rollapp_id
-                    ))
-                    .into())
+                    )))
                 }
             }
         }
@@ -153,8 +144,7 @@ pub fn update_state(
                 return Err(StdError::generic_err(format!(
                     "{}: expected height 1, but received ({})",
                     ERR_WRONG_BLOCK_HEIGHT, msg.start_height
-                ))
-                .into());
+                )));
             }
             1
         }

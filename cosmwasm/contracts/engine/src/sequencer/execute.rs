@@ -1,9 +1,8 @@
-use cosmwasm_std::{Response, StdError, Storage};
+use cosmwasm_std::{Response, StdError, StdResult, Storage};
 use dymension_std::types::dymensionxyz::dymension::sequencer::{
     MsgCreateSequencer, OperatingStatus, Scheduler, Sequencer, Sequencers, SequencersByRollapp,
 };
 
-use crate::error::ContractError;
 use crate::rollapp::state::get_rollapp;
 use crate::sequencer::state::{
     get_sequencer, get_sequencers_by_rollapp, set_scheduler, set_sequencer,
@@ -14,28 +13,24 @@ use crate::sequencer::types::{
     ERR_SEQUENCER_ALREADY_REGISTERED, ERR_SEQUENCER_NOT_PERMISSIONED, ERR_UNKNOWN_ROLLAPP_ID,
 };
 
-pub fn create_sequencer(
-    storage: &mut dyn Storage,
-    msg: MsgCreateSequencer,
-) -> Result<Response, ContractError> {
+pub fn create_sequencer(storage: &mut dyn Storage, msg: MsgCreateSequencer) -> StdResult<Response> {
     if msg.dymint_pub_key.is_none() {
         return Err(StdError::generic_err(format!(
             "{}: sequencer pubkey can not be empty",
             ERR_INVALID_PUB_KEY
-        ))
-        .into());
+        )));
     }
 
     let rollapp = match get_rollapp(storage, msg.rollapp_id.clone()) {
         Ok(x) => x,
-        Err(_) => return Err(StdError::generic_err(ERR_UNKNOWN_ROLLAPP_ID).into()),
+        Err(_) => return Err(StdError::generic_err(ERR_UNKNOWN_ROLLAPP_ID)),
     };
 
     if !rollapp
         .permissioned_addresses
         .contains(&msg.creator.clone())
     {
-        return Err(StdError::generic_err(ERR_SEQUENCER_NOT_PERMISSIONED).into());
+        return Err(StdError::generic_err(ERR_SEQUENCER_NOT_PERMISSIONED));
     }
 
     let sequencer = match get_sequencer(storage, msg.creator.clone()) {
@@ -44,12 +39,11 @@ pub fn create_sequencer(
                 return Err(StdError::generic_err(format!(
                     "{}: sequencer pubkey does not match",
                     ERR_INVALID_PUB_KEY
-                ))
-                .into());
+                )));
             }
 
             if x.rollapp_i_ds.contains(&msg.rollapp_id) {
-                return Err(StdError::generic_err(ERR_SEQUENCER_ALREADY_REGISTERED).into());
+                return Err(StdError::generic_err(ERR_SEQUENCER_ALREADY_REGISTERED));
             }
             x.rollapp_i_ds.push(msg.rollapp_id.clone());
             x
@@ -78,11 +72,10 @@ pub fn create_sequencer(
                 return Err(StdError::generic_err(format!(
                     "{}: rollapp id: {} cannot have more than {} sequencers but got: {}",
                     ERR_LOGIC, msg.rollapp_id, max_sequencers, current_num_sequencers
-                ))
-                .into());
+                )));
             }
             if max_sequencers == current_num_sequencers {
-                return Err(StdError::generic_err(ERR_MAX_SEQUENCERS_LIMIT).into());
+                return Err(StdError::generic_err(ERR_MAX_SEQUENCERS_LIMIT));
             }
 
             x.sequencers = match x.sequencers.clone() {
@@ -124,7 +117,7 @@ pub fn create_sequencer(
 
     if let Some(desc) = msg.description {
         if let Some(err) = validate_description(desc) {
-            return Err(err.into());
+            return Err(err);
         }
     };
 

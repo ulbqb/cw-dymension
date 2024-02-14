@@ -1,4 +1,4 @@
-use crate::error::ContractError;
+use cosmwasm_std::{StdError, StdResult};
 
 // state
 pub const STATE_ROLLAPP: &str = "Rollapp/Rollapp/";
@@ -54,19 +54,17 @@ pub const RR_INVALID_ROLLAPP_ID: &str = "invalid rollapp-id";
 pub const ERR_EIP155_EXISTS: &str = "EIP155 already exist; must use unique EIP155 identifier";
 pub const ERR_ROLLAPPS_DISABLED: &str = "rollapps are disabled";
 
-pub fn parse_chain_id(mut chain_id: String) -> Result<Option<u64>, ContractError> {
+pub fn parse_chain_id(mut chain_id: String) -> StdResult<Option<u64>> {
     chain_id.retain(|c| !c.is_whitespace());
 
     if chain_id.len() == 0 {
-        return Err(ContractError::CustomError {
-            val: "chain-id cannot be empty".into(),
-        });
+        return Err(StdError::generic_err("chain-id cannot be empty"));
     }
 
     if chain_id.len() > 48 {
-        return Err(ContractError::CustomError {
-            val: format!("rollapp-id '{chain_id}' cannot exceed 48 chars"),
-        });
+        return Err(StdError::generic_err(format!(
+            "rollapp-id '{chain_id}' cannot exceed 48 chars"
+        )));
     }
 
     let matches = capture_chain_id(chain_id.clone());
@@ -87,12 +85,10 @@ pub fn parse_chain_id(mut chain_id: String) -> Result<Option<u64>, ContractError
     match chain_id_int {
         Ok(id) => return Ok(Some(id)),
         Err(_) => {
-            return Err(ContractError::CustomError {
-                val: format!(
-                    "epoch {} must be base-10 integer format",
-                    cap[2].to_string()
-                ),
-            })
+            return Err(StdError::generic_err(format!(
+                "epoch {} must be base-10 integer format",
+                cap[2].to_string()
+            )))
         }
     }
 }
