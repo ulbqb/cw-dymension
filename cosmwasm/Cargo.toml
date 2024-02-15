@@ -39,12 +39,12 @@ cw-multi-test = "=0.16.2"
 cw-utils = "=1.0.1"
 
 [patch.crates-io]
-cosmwasm-check = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
-cosmwasm-crypto = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
-cosmwasm-derive = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
-cosmwasm-schema-derive = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
-cosmwasm-schema = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
-cosmwasm-std = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
-cosmwasm-storage = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
-cosmwasm-vm = { git = "https://github.com/Finschia/cosmwasm", tag = "v1.1.9+0.8.1" }
+cosmwasm-check = { git = "https://github.com/ulbqb/cosmwasm", branch = "fix/serde_json_wasm" }
+cosmwasm-crypto = { git = "https://github.com/ulbqb/cosmwasm", branch = "fix/serde_json_wasm" }
+cosmwasm-derive = { git = "https://github.com/ulbqb/cosmwasm", branch = "fix/serde_json_wasm" }
+cosmwasm-schema-derive = { git = "https://github.com/ulbqb/cosmwasm", branch = "fix/serde_json_wasm" }
+cosmwasm-schema = { git = "https://github.com/ulbqb/cosmwasm", branch = "fix/serde_json_wasm" }
+cosmwasm-std = { git = "https://github.com/ulbqb/cosmwasm", branch = "fix/serde_json_wasm" }
+cosmwasm-storage = { git = "https://github.com/ulbqb/cosmwasm", branch = "fix/serde_json_wasm" }
+cosmwasm-vm = { git = "https://github.com/ulbqb/cosmwasm", branch = "fix/serde_json_wasm" }
 home = { git = "https://github.com/rust-lang/cargo.git", tag = "home-0.5.5" }

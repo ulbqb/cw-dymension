@@ -1,4 +1,4 @@
-use ::serde::{ser, Deserialize, Deserializer, Serialize, Serializer};
+use ::serde::{de::DeserializeOwned, ser, Deserialize, Deserializer, Serialize, Serializer};
 use chrono::{DateTime, NaiveDateTime, Utc};
 use cosmwasm_std::StdResult;
 use serde::de;
@@ -175,6 +175,21 @@ pub struct Any {
     pub value: ::prost::alloc::vec::Vec<u8>,
 }
 
+#[derive(Clone, PartialEq, Eq, Debug, Serialize, Deserialize)]
+pub struct AnyT<T>
+where
+    T: Serialize + DeserializeOwned,
+{
+    #[serde(rename = "@type")]
+    pub type_url: String,
+    #[serde(
+        flatten,
+        serialize_with = "T::serialize",
+        deserialize_with = "T::deserialize"
+    )]
+    pub value: T,
+}
+
 macro_rules! expand_as_any {
     ($($ty:path,)*) => {
 
@@ -193,7 +208,11 @@ macro_rules! expand_as_any {
                             prost::Message::decode(self.value.as_slice()).map_err(ser::Error::custom);
 
                         if let Ok(value) = value {
-                            return value.serialize(serializer);
+                            let any_t = AnyT{
+                                type_url: <$ty>::TYPE_URL.to_string(),
+                                value: value,
+                            };
+                            return any_t.serialize(serializer);
                         }
                     }
                 )*
