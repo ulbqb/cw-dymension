@@ -136,3 +136,41 @@ pub fn set_params(storage: &mut dyn Storage, params: Params) {
 pub fn get_params(storage: &dyn Storage) -> StdResult<Params> {
     PARAMS.load(storage)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use cosmwasm_std::testing::mock_dependencies;
+    use dymension_std::types::cosmos::crypto::ed25519::PubKey;
+    use dymension_std::types::dymensionxyz::dymension::sequencer::{Description, Sequencer};
+
+    #[test]
+    fn test_set_sequencer() {
+        let mut deps = mock_dependencies();
+        let pubk = PubKey {
+            key: vec![1, 2, 3, 4, 5, 6, 7, 8],
+        };
+        let data = Sequencer {
+            sequencer_address: "sequencer address".into(),
+            dymint_pub_key: Some(dymension_std::shim::Any {
+                type_url: PubKey::TYPE_URL.into(),
+                value: pubk.to_proto_bytes(),
+            }),
+            rollapp_i_ds: vec!["test_1234-5".into()],
+            description: Some(Description {
+                moniker: "sequencer".into(),
+                identity: "sequencer".into(),
+                website: "sequencer".into(),
+                security_contact: "sequencer".into(),
+                details: "".into(),
+            }),
+        };
+        set_sequencer(&mut deps.storage, data.clone());
+        let res = get_sequencer(&mut deps.storage, data.sequencer_address.clone()).unwrap();
+        assert_eq!(
+            PubKey::TYPE_URL,
+            res.clone().dymint_pub_key.unwrap().type_url
+        );
+        assert_eq!(pubk.to_proto_bytes(), res.dymint_pub_key.unwrap().value);
+    }
+}
