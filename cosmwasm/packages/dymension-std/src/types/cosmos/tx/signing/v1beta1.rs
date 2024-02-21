@@ -89,10 +89,7 @@ pub mod signature_descriptor {
         pub struct Single {
             /// mode is the signing mode of the single signer
             #[prost(enumeration = "super::super::SignMode", tag = "1")]
-            #[serde(
-                serialize_with = "crate::serde::as_str::serialize",
-                deserialize_with = "crate::serde::as_str::deserialize"
-            )]
+            #[serde(with = "super::super::SignMode")]
             pub mode: i32,
             /// signature is the raw signature bytes
             #[prost(bytes = "vec", tag = "2")]
@@ -216,5 +213,25 @@ impl SignMode {
             "SIGN_MODE_EIP_191" => Some(Self::Eip191),
             _ => None,
         }
+    }
+}
+impl SignMode {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
     }
 }

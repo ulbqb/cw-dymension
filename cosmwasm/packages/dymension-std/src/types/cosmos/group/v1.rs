@@ -313,10 +313,7 @@ pub struct Proposal {
     pub group_policy_version: u64,
     /// status represents the high level position in the life cycle of the proposal. Initial value is Submitted.
     #[prost(enumeration = "ProposalStatus", tag = "8")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "ProposalStatus")]
     pub status: i32,
     /// final_tally_result contains the sums of all weighted votes for this
     /// proposal for each vote option. It is empty at submission, and only
@@ -333,10 +330,7 @@ pub struct Proposal {
     pub voting_period_end: ::core::option::Option<crate::shim::Timestamp>,
     /// executor_result is the final result of the proposal execution. Initial value is NotRun.
     #[prost(enumeration = "ProposalExecutorResult", tag = "11")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "ProposalExecutorResult")]
     pub executor_result: i32,
     /// messages is a list of `sdk.Msg`s that will be executed if the proposal passes.
     #[prost(message, repeated, tag = "12")]
@@ -396,10 +390,7 @@ pub struct Vote {
     pub voter: ::prost::alloc::string::String,
     /// option is the voter's choice on the proposal.
     #[prost(enumeration = "VoteOption", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "VoteOption")]
     pub option: i32,
     /// metadata is any arbitrary metadata to attached to the vote.
     #[prost(string, tag = "4")]
@@ -714,10 +705,7 @@ pub struct EventExec {
     pub proposal_id: u64,
     /// result is the proposal execution result.
     #[prost(enumeration = "ProposalExecutorResult", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "ProposalExecutorResult")]
     pub result: i32,
     /// logs contains error logs in case the execution result is FAILURE.
     #[prost(string, tag = "3")]
@@ -773,10 +761,7 @@ pub struct EventProposalPruned {
     pub proposal_id: u64,
     /// status is the proposal status (UNSPECIFIED, SUBMITTED, ACCEPTED, REJECTED, ABORTED, WITHDRAWN).
     #[prost(enumeration = "ProposalStatus", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "ProposalStatus")]
     pub status: i32,
     /// tally_result is the proposal tally result (when applicable).
     #[prost(message, optional, tag = "3")]
@@ -1921,10 +1906,7 @@ pub struct MsgSubmitProposal {
     /// whether it should be executed immediately on creation or not.
     /// If so, proposers signatures are considered as Yes votes.
     #[prost(enumeration = "Exec", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "Exec")]
     pub exec: i32,
 }
 /// MsgSubmitProposalResponse is the Msg/SubmitProposal response type.
@@ -2017,10 +1999,7 @@ pub struct MsgVote {
     pub voter: ::prost::alloc::string::String,
     /// option is the voter's choice on the proposal.
     #[prost(enumeration = "VoteOption", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "VoteOption")]
     pub option: i32,
     /// metadata is any arbitrary metadata to attached to the vote.
     #[prost(string, tag = "4")]
@@ -2028,10 +2007,7 @@ pub struct MsgVote {
     /// exec defines whether the proposal should be executed
     /// immediately after voting or not.
     #[prost(enumeration = "Exec", tag = "5")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "Exec")]
     pub exec: i32,
 }
 /// MsgVoteResponse is the Msg/Vote response type.
@@ -2090,10 +2066,7 @@ pub struct MsgExec {
 pub struct MsgExecResponse {
     /// result is the final result of the proposal execution.
     #[prost(enumeration = "ProposalExecutorResult", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "ProposalExecutorResult")]
     pub result: i32,
 }
 /// MsgLeaveGroup is the Msg/LeaveGroup request type.
@@ -2289,5 +2262,85 @@ impl<'a, Q: cosmwasm_std::CustomQuery> GroupQuerier<'a, Q> {
         pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
     ) -> Result<QueryGroupsResponse, cosmwasm_std::StdError> {
         QueryGroupsRequest { pagination }.query(self.querier)
+    }
+}
+impl VoteOption {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
+    }
+}
+impl ProposalStatus {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
+    }
+}
+impl ProposalExecutorResult {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
+    }
+}
+impl Exec {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
     }
 }

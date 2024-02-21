@@ -155,10 +155,7 @@ pub struct SignatureAndData {
     )]
     pub signature: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "DataType", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "DataType")]
     pub data_type: i32,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
@@ -231,10 +228,7 @@ pub struct SignBytes {
     pub diversifier: ::prost::alloc::string::String,
     /// type of the data used
     #[prost(enumeration = "DataType", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "DataType")]
     pub data_type: i32,
     /// marshaled data
     #[prost(bytes = "vec", tag = "5")]
@@ -528,5 +522,25 @@ impl DataType {
             "DATA_TYPE_HEADER" => Some(Self::Header),
             _ => None,
         }
+    }
+}
+impl DataType {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
     }
 }

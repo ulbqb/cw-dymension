@@ -251,10 +251,7 @@ pub struct RequestCheckTx {
     )]
     pub tx: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "CheckTxType", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "CheckTxType")]
     pub r#type: i32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -868,10 +865,7 @@ pub struct ResponseListSnapshots {
 #[proto_message(type_url = "/tendermint.abci.ResponseOfferSnapshot")]
 pub struct ResponseOfferSnapshot {
     #[prost(enumeration = "response_offer_snapshot::Result", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "response_offer_snapshot::Result")]
     pub result: i32,
 }
 /// Nested message and enum types in `ResponseOfferSnapshot`.
@@ -922,6 +916,26 @@ pub mod response_offer_snapshot {
             }
         }
     }
+    impl Result {
+        pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+        where
+            S: serde::Serializer,
+        {
+            let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+            serializer.serialize_str(s.as_str_name())
+        }
+        pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+        where
+            D: serde::Deserializer<'de>,
+        {
+            use serde::Deserialize;
+            let s = String::deserialize(deserializer)?;
+            let e = Self::from_str_name(s.as_str())
+                .ok_or("cannot transform")
+                .map_err(serde::de::Error::custom)?;
+            Ok(e as i32)
+        }
+    }
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(
@@ -957,10 +971,7 @@ pub struct ResponseLoadSnapshotChunk {
 #[proto_message(type_url = "/tendermint.abci.ResponseApplySnapshotChunk")]
 pub struct ResponseApplySnapshotChunk {
     #[prost(enumeration = "response_apply_snapshot_chunk::Result", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "response_apply_snapshot_chunk::Result")]
     pub result: i32,
     /// Chunks to refetch and reapply
     #[prost(uint32, repeated, tag = "2")]
@@ -1019,6 +1030,26 @@ pub mod response_apply_snapshot_chunk {
                 "REJECT_SNAPSHOT" => Some(Self::RejectSnapshot),
                 _ => None,
             }
+        }
+    }
+    impl Result {
+        pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+        where
+            S: serde::Serializer,
+        {
+            let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+            serializer.serialize_str(s.as_str_name())
+        }
+        pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+        where
+            D: serde::Deserializer<'de>,
+        {
+            use serde::Deserialize;
+            let s = String::deserialize(deserializer)?;
+            let e = Self::from_str_name(s.as_str())
+                .ok_or("cannot transform")
+                .map_err(serde::de::Error::custom)?;
+            Ok(e as i32)
         }
     }
 }
@@ -1272,10 +1303,7 @@ pub struct VoteInfo {
 #[proto_message(type_url = "/tendermint.abci.Evidence")]
 pub struct Evidence {
     #[prost(enumeration = "EvidenceType", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "EvidenceType")]
     pub r#type: i32,
     /// The offending validator
     #[prost(message, optional, tag = "2")]
@@ -1404,5 +1432,45 @@ impl EvidenceType {
             "LIGHT_CLIENT_ATTACK" => Some(Self::LightClientAttack),
             _ => None,
         }
+    }
+}
+impl CheckTxType {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
+    }
+}
+impl EvidenceType {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
     }
 }

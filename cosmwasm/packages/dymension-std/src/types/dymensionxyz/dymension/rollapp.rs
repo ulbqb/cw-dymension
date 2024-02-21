@@ -312,10 +312,7 @@ pub struct StateInfo {
     pub creation_height: u64,
     /// status is the status of the state update
     #[prost(enumeration = "StateStatus", tag = "8")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "StateStatus")]
     pub status: i32,
     /// BDs is a list of block description objects (one per block)
     /// the list must be ordered by height, starting from startHeight to startHeight+numBlocks-1
@@ -342,10 +339,7 @@ pub struct StateInfoSummary {
     pub state_info_index: ::core::option::Option<StateInfoIndex>,
     /// status is the status of the state update
     #[prost(enumeration = "StateStatus", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "StateStatus")]
     pub status: i32,
     /// creationHeight is the height at which the UpdateState took place
     #[prost(uint64, tag = "3")]
@@ -979,5 +973,25 @@ impl<'a, Q: cosmwasm_std::CustomQuery> RollappQuerier<'a, Q> {
             pagination,
         }
         .query(self.querier)
+    }
+}
+impl StateStatus {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
     }
 }

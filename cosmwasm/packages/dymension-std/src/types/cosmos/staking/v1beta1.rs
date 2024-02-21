@@ -21,10 +21,7 @@ pub struct StakeAuthorization {
     pub max_tokens: ::core::option::Option<super::super::base::v1beta1::Coin>,
     /// authorization_type defines one of AuthorizationType.
     #[prost(enumeration = "AuthorizationType", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "AuthorizationType")]
     pub authorization_type: i32,
     /// validators is the oneof that represents either allow_list or deny_list
     #[prost(oneof = "stake_authorization::Validators", tags = "2, 3")]
@@ -241,10 +238,7 @@ pub struct Validator {
     pub jailed: bool,
     /// status is the validator status (bonded/unbonding/unbonded).
     #[prost(enumeration = "BondStatus", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "BondStatus")]
     pub status: i32,
     /// tokens define the delegated tokens (incl. self-delegation).
     #[prost(string, tag = "5")]
@@ -1757,5 +1751,45 @@ impl<'a, Q: cosmwasm_std::CustomQuery> StakingQuerier<'a, Q> {
     }
     pub fn params(&self) -> Result<QueryParamsResponse, cosmwasm_std::StdError> {
         QueryParamsRequest {}.query(self.querier)
+    }
+}
+impl AuthorizationType {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
+    }
+}
+impl BondStatus {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
     }
 }

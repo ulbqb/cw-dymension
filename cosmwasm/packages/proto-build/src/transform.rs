@@ -122,7 +122,8 @@ fn append(
     descriptor: &FileDescriptorSet,
     nested_mod: bool,
 ) -> Vec<Item> {
-    transformers::append_querier(items, src, nested_mod, descriptor)
+    let items = transformers::append_querier(items, src, nested_mod, descriptor);
+    transformers::append_ser_de_impl(items)
 }
 
 fn transform_items(
@@ -140,8 +141,9 @@ fn transform_items(
                 let s = transformers::serde_alias_id_with_uppercased(s);
                 let s = transformers::allow_serde_vec_u8_as_base64_encoded_string(s);
                 let s = transformers::allow_serde_int_as_str(s);
+                let s = transformers::allow_serde_vec_int_as_vec_str(s);
 
-                transformers::allow_serde_vec_int_as_vec_str(s)
+                transformers::allow_serde_enum_as_str(s)
             }),
 
             Item::Enum(e) => Item::Enum({

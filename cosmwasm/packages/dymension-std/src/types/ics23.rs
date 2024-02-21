@@ -149,28 +149,16 @@ pub mod commitment_proof {
 #[proto_message(type_url = "/ics23.LeafOp")]
 pub struct LeafOp {
     #[prost(enumeration = "HashOp", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "HashOp")]
     pub hash: i32,
     #[prost(enumeration = "HashOp", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "HashOp")]
     pub prehash_key: i32,
     #[prost(enumeration = "HashOp", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "HashOp")]
     pub prehash_value: i32,
     #[prost(enumeration = "LengthOp", tag = "4")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "LengthOp")]
     pub length: i32,
     /// prefix is a fixed bytes that may optionally be included at the beginning to differentiate
     /// a leaf node from an inner node.
@@ -211,10 +199,7 @@ pub struct LeafOp {
 #[proto_message(type_url = "/ics23.InnerOp")]
 pub struct InnerOp {
     #[prost(enumeration = "HashOp", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "HashOp")]
     pub hash: i32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
@@ -332,10 +317,7 @@ pub struct InnerSpec {
     pub empty_child: ::prost::alloc::vec::Vec<u8>,
     /// hash is the algorithm that must be used for each InnerOp
     #[prost(enumeration = "HashOp", tag = "6")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "HashOp")]
     pub hash: i32,
 }
 ///
@@ -612,5 +594,45 @@ impl LengthOp {
             "REQUIRE_64_BYTES" => Some(Self::Require64Bytes),
             _ => None,
         }
+    }
+}
+impl HashOp {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
+    }
+}
+impl LengthOp {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
     }
 }

@@ -324,10 +324,7 @@ pub mod mode_info {
     pub struct Single {
         /// mode is the signing mode of the single signer
         #[prost(enumeration = "super::super::signing::v1beta1::SignMode", tag = "1")]
-        #[serde(
-            serialize_with = "crate::serde::as_str::serialize",
-            deserialize_with = "crate::serde::as_str::deserialize"
-        )]
+        #[serde(with = "super::super::signing::v1beta1::SignMode")]
         pub mode: i32,
     }
     /// Multi is the mode info for a multisig public key
@@ -466,10 +463,7 @@ pub struct AuxSignerData {
     pub sign_doc: ::core::option::Option<SignDocDirectAux>,
     /// mode is the signing mode of the single signer.
     #[prost(enumeration = "super::signing::v1beta1::SignMode", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "super::signing::v1beta1::SignMode")]
     pub mode: i32,
     /// sig is the signature of the sign doc.
     #[prost(bytes = "vec", tag = "4")]
@@ -503,10 +497,7 @@ pub struct GetTxsEventRequest {
     #[prost(message, optional, tag = "2")]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
     #[prost(enumeration = "OrderBy", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "OrderBy")]
     pub order_by: i32,
     /// page is the page number to query, starts at 1. If not provided, will default to first page.
     #[prost(uint64, tag = "4")]
@@ -581,10 +572,7 @@ pub struct BroadcastTxRequest {
     )]
     pub tx_bytes: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "BroadcastMode", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "BroadcastMode")]
     pub mode: i32,
 }
 /// BroadcastTxResponse is the response type for the
@@ -827,5 +815,45 @@ impl BroadcastMode {
             "BROADCAST_MODE_ASYNC" => Some(Self::Async),
             _ => None,
         }
+    }
+}
+impl OrderBy {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
+    }
+}
+impl BroadcastMode {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
     }
 }

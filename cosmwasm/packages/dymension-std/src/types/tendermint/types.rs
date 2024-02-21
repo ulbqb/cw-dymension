@@ -295,10 +295,7 @@ pub struct Data {
 #[proto_message(type_url = "/tendermint.types.Vote")]
 pub struct Vote {
     #[prost(enumeration = "SignedMsgType", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "SignedMsgType")]
     pub r#type: i32,
     #[prost(int64, tag = "2")]
     #[serde(
@@ -385,10 +382,7 @@ pub struct Commit {
 pub struct CommitSig {
     #[prost(enumeration = "BlockIdFlag", tag = "1")]
     #[serde(alias = "blockID_flag")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "BlockIdFlag")]
     pub block_id_flag: i32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
@@ -419,10 +413,7 @@ pub struct CommitSig {
 #[proto_message(type_url = "/tendermint.types.Proposal")]
 pub struct Proposal {
     #[prost(enumeration = "SignedMsgType", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "SignedMsgType")]
     pub r#type: i32,
     #[prost(int64, tag = "2")]
     #[serde(
@@ -1025,10 +1016,7 @@ pub struct CanonicalPartSetHeader {
 pub struct CanonicalProposal {
     /// type alias for byte
     #[prost(enumeration = "SignedMsgType", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "SignedMsgType")]
     pub r#type: i32,
     /// canonicalization requires fixed size encoding here
     #[prost(sfixed64, tag = "2")]
@@ -1074,10 +1062,7 @@ pub struct CanonicalProposal {
 pub struct CanonicalVote {
     /// type alias for byte
     #[prost(enumeration = "SignedMsgType", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "SignedMsgType")]
     pub r#type: i32,
     /// canonicalization requires fixed size encoding here
     #[prost(sfixed64, tag = "2")]
@@ -1101,4 +1086,44 @@ pub struct CanonicalVote {
     #[prost(string, tag = "6")]
     #[serde(alias = "chainID")]
     pub chain_id: ::prost::alloc::string::String,
+}
+impl BlockIdFlag {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
+    }
+}
+impl SignedMsgType {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
+    }
 }

@@ -166,7 +166,7 @@ pub fn allow_serde_int_as_str(s: ItemStruct) -> ItemStruct {
                 parse_quote!(usize),
             ];
 
-            if int_types.contains(&field.ty) {
+            if int_types.contains(&field.ty) && extract_prost_enum_attr(field.clone()).is_none() {
                 let from_str: syn::Attribute = parse_quote! {
                     #[serde(
                         serialize_with = "crate::serde::as_str::serialize",
@@ -247,6 +247,36 @@ pub fn allow_serde_vec_u8_as_base64_encoded_string(s: ItemStruct) -> ItemStruct 
                     )]
                 };
                 field.attrs.append(&mut vec![from_str]);
+                field
+            } else {
+                field
+            }
+        })
+        .collect::<Vec<syn::Field>>();
+
+    let fields_named: syn::FieldsNamed = parse_quote! {
+        { #(#fields_vec,)* }
+    };
+    let fields = syn::Fields::Named(fields_named);
+
+    syn::ItemStruct { fields, ..s }
+}
+
+pub fn allow_serde_enum_as_str(s: ItemStruct) -> ItemStruct {
+    let fields_vec = s
+        .fields
+        .clone()
+        .into_iter()
+        .map(|mut field| {
+            if field.ty == parse_quote!(i32) {
+                if let Some(enum_str) = extract_prost_enum_attr(field.clone()) {
+                    let from_str: syn::Attribute = parse_quote! {
+                        #[serde(
+                            with = #enum_str,
+                        )]
+                    };
+                    field.attrs.append(&mut vec![from_str]);
+                }
                 field
             } else {
                 field
@@ -555,6 +585,68 @@ pub fn append_querier(
     vec![items, querier].concat()
 }
 
+// #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+pub fn append_ser_de_impl(items: Vec<Item>) -> Vec<Item> {
+    let impls: Vec<Item> = items
+        .clone()
+        .into_iter()
+        .filter_map(|item| match item {
+            Item::Enum(e) => {
+                for attr in e.attrs.clone().into_iter() {
+                    if attr.path.is_ident("derive") {
+                        if let Ok(meta) = attr.parse_meta() {
+                            match meta {
+                                syn::Meta::List(syn::MetaList { nested, .. }) => {
+                                    for nested_meta in nested.into_iter() {
+                                        match nested_meta {
+                                            syn::NestedMeta::Meta(syn::Meta::Path(path)) => {
+                                                if path.eq(&parse_quote!(::prost::Enumeration)) {
+                                                    return Some(e);
+                                                }
+                                            }
+                                            _ => (),
+                                        }
+                                    }
+                                }
+                                _ => (),
+                            }
+                        }
+                    }
+                }
+                None
+            },
+            _ => None,
+        })
+        .map(|e| {
+            let enum_ident = e.ident;
+            parse_quote! {
+                impl #enum_ident {
+                    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+                    where
+                        S: serde::Serializer,
+                    {
+                        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+                        serializer.serialize_str(s.as_str_name())
+                    }
+
+                    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+                    where
+                        D: serde::Deserializer<'de>,
+                    {
+                        use serde::Deserialize;
+                        let s = String::deserialize(deserializer)?;
+                        let e = Self::from_str_name(s.as_str())
+                            .ok_or("cannot transform")
+                            .map_err(serde::de::Error::custom)?;
+                        Ok(e as i32)
+                    }
+                }
+            }
+        })
+        .collect();
+    vec![items, impls].concat()
+}
+
 /// This is a hack to fix a clashing name in the stake_authorization module
 pub fn fix_clashing_stake_authorization_validators(input: ItemMod) -> ItemMod {
     // do this only if the module is named "stake_authorization"
@@ -598,6 +690,37 @@ pub fn fix_clashing_stake_authorization_validators(input: ItemMod) -> ItemMod {
         content: Some((input.content.unwrap().0, items.collect())),
         ..input
     }
+}
+
+pub fn extract_prost_enum_attr(field: syn::Field) -> Option<String> {
+    for attr in field.attrs.into_iter() {
+        if attr.path.is_ident("prost") {
+            if let Ok(meta) = attr.parse_meta() {
+                match meta {
+                    syn::Meta::List(syn::MetaList { nested, .. }) => {
+                        for nested_meta in nested.into_iter() {
+                            match nested_meta {
+                                syn::NestedMeta::Meta(syn::Meta::NameValue(
+                                    syn::MetaNameValue {
+                                        path,
+                                        lit: syn::Lit::Str(lit_str),
+                                        ..
+                                    },
+                                )) => {
+                                    if path.is_ident("enumeration") {
+                                        return Some(lit_str.value());
+                                    }
+                                }
+                                _ => (),
+                            }
+                        }
+                    }
+                    _ => (),
+                }
+            }
+        }
+    }
+    None
 }
 
 #[cfg(test)]

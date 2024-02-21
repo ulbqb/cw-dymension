@@ -17,17 +17,11 @@ use dymension_std_derive::CosmwasmExt;
 pub struct Channel {
     /// current state of the channel end
     #[prost(enumeration = "State", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "State")]
     pub state: i32,
     /// whether the channel is ordered or unordered
     #[prost(enumeration = "Order", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "Order")]
     pub ordering: i32,
     /// counterparty channel end
     #[prost(message, optional, tag = "3")]
@@ -57,17 +51,11 @@ pub struct Channel {
 pub struct IdentifiedChannel {
     /// current state of the channel end
     #[prost(enumeration = "State", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "State")]
     pub state: i32,
     /// whether the channel is ordered or unordered
     #[prost(enumeration = "Order", tag = "2")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "Order")]
     pub ordering: i32,
     /// counterparty channel end
     #[prost(message, optional, tag = "3")]
@@ -1556,10 +1544,7 @@ pub struct MsgRecvPacket {
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgRecvPacketResponse")]
 pub struct MsgRecvPacketResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "ResponseResultType")]
     pub result: i32,
 }
 /// MsgTimeout receives timed-out packet
@@ -1610,10 +1595,7 @@ pub struct MsgTimeout {
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgTimeoutResponse")]
 pub struct MsgTimeoutResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "ResponseResultType")]
     pub result: i32,
 }
 /// MsgTimeoutOnClose timed-out packet upon counterparty channel closure.
@@ -1670,10 +1652,7 @@ pub struct MsgTimeoutOnClose {
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgTimeoutOnCloseResponse")]
 pub struct MsgTimeoutOnCloseResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "ResponseResultType")]
     pub result: i32,
 }
 /// MsgAcknowledgement receives incoming IBC acknowledgement
@@ -1724,10 +1703,7 @@ pub struct MsgAcknowledgement {
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgAcknowledgementResponse")]
 pub struct MsgAcknowledgementResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "ResponseResultType")]
     pub result: i32,
 }
 /// ResponseResultType defines the possible outcomes of the execution of a message
@@ -1936,5 +1912,65 @@ impl<'a, Q: cosmwasm_std::CustomQuery> ChannelQuerier<'a, Q> {
             channel_id,
         }
         .query(self.querier)
+    }
+}
+impl State {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
+    }
+}
+impl Order {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
+    }
+}
+impl ResponseResultType {
+    pub fn serialize<S>(value: &i32, serializer: S) -> core::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let s = Self::try_from(*value).map_err(serde::ser::Error::custom)?;
+        serializer.serialize_str(s.as_str_name())
+    }
+    pub fn deserialize<'de, D>(deserializer: D) -> core::result::Result<i32, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        use serde::Deserialize;
+        let s = String::deserialize(deserializer)?;
+        let e = Self::from_str_name(s.as_str())
+            .ok_or("cannot transform")
+            .map_err(serde::de::Error::custom)?;
+        Ok(e as i32)
     }
 }

@@ -199,10 +199,7 @@ pub struct HasVote {
     )]
     pub round: i32,
     #[prost(enumeration = "super::types::SignedMsgType", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "super::types::SignedMsgType")]
     pub r#type: i32,
     #[prost(int32, tag = "4")]
     #[serde(
@@ -238,10 +235,7 @@ pub struct VoteSetMaj23 {
     )]
     pub round: i32,
     #[prost(enumeration = "super::types::SignedMsgType", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "super::types::SignedMsgType")]
     pub r#type: i32,
     #[prost(message, optional, tag = "4")]
     #[serde(alias = "blockID")]
@@ -274,10 +268,7 @@ pub struct VoteSetBits {
     )]
     pub round: i32,
     #[prost(enumeration = "super::types::SignedMsgType", tag = "3")]
-    #[serde(
-        serialize_with = "crate::serde::as_str::serialize",
-        deserialize_with = "crate::serde::as_str::deserialize"
-    )]
+    #[serde(with = "super::types::SignedMsgType")]
     pub r#type: i32,
     #[prost(message, optional, tag = "4")]
     #[serde(alias = "blockID")]
