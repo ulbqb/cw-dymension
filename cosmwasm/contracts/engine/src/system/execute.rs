@@ -11,16 +11,33 @@ use crate::rollapp::types::{
     ATTRIBUTE_KEY_NUM_BLOCKS, ATTRIBUTE_KEY_ROLLAPP_ID, ATTRIBUTE_KEY_START_HEIGHT,
     ATTRIBUTE_KEY_STATE_INFO_INDEX, ATTRIBUTE_KEY_STATUS, EVENT_TYPE_STATUS_CHANGE,
 };
-use crate::system::types::PROCESSING_MAX_NUM;
+use crate::system::types::{get_min_height, set_min_height, MsgEndBlocks, PROCESSING_MAX_NUM};
 
-pub fn end_blocks(storage: &mut dyn Storage, env: Env) -> StdResult<Response> {
+pub fn end_blocks(storage: &mut dyn Storage, env: Env, msg: MsgEndBlocks) -> StdResult<Response> {
+    let mut num_to_process = PROCESSING_MAX_NUM;
+    if let Some(n) = msg.num {
+        if n < PROCESSING_MAX_NUM {
+            num_to_process = n;
+        }
+    }
+    let min_height = get_min_height(storage).unwrap_or(1);
+    let queue_list = get_block_height_to_finalization_queue_range(
+        storage,
+        min_height,
+        env.block.height,
+        num_to_process,
+    )?;
+    if queue_list.len() == 0 {
+        return Err(StdError::generic_err("No block to finalize"));
+    }
+
     let mut res = Response::new().add_attribute("method", "end_blocks");
-    for queue in
-        get_block_height_to_finalization_queue_range(storage, env.block.height, PROCESSING_MAX_NUM)?
-    {
+    for queue in queue_list.clone() {
         let end_block_res = end_block(storage, queue.1)?;
         res = res.add_events(end_block_res.events);
     }
+
+    set_min_height(storage, queue_list.last().unwrap().1.finalization_height);
 
     return Ok(res);
 }

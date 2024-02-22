@@ -219,14 +219,18 @@ pub fn get_block_height_to_finalization_queue(
 
 pub fn get_block_height_to_finalization_queue_range(
     storage: &dyn Storage,
+    min_height: u64,
     max_height: u64,
-    limit: u64,
+    limit: u8,
 ) -> StdResult<Vec<(Vec<u8>, BlockHeightToFinalizationQueue)>> {
+    let min = Some(Bound::ExclusiveRaw(block_height_to_finalization_queue_key(
+        min_height,
+    )));
     let max = Some(Bound::ExclusiveRaw(block_height_to_finalization_queue_key(
         max_height,
     )));
     BLOCK_HEIGHT_TO_FINALIZATION_QUEUE
-        .range(storage, None, max, Order::Ascending)
+        .range(storage, min, max, Order::Ascending)
         .take(limit as usize)
         .collect()
 }

@@ -2,6 +2,8 @@ use cosmwasm_schema::{cw_serde, QueryResponses};
 use cosmwasm_std::Binary;
 use dymension_std::types::dymensionxyz::dymension::{rollapp, sequencer};
 
+use crate::system::types::MsgEndBlocks;
+
 /// Message type for `instantiate` entry_point
 #[cw_serde]
 pub struct InstantiateMsg {
@@ -30,7 +32,7 @@ pub enum SequencerExecute {
 
 #[cw_serde]
 pub enum SystemExecute {
-    EndBlocks(),
+    EndBlocks(MsgEndBlocks),
 }
 
 /// Message type for `migrate` entry_point

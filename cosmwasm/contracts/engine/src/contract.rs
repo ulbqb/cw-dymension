@@ -75,7 +75,7 @@ pub fn execute(
             }
         },
         ExecuteMsg::System(exec_type) => match exec_type {
-            SystemExecute::EndBlocks() => sys_exec::end_blocks(deps.storage, env),
+            SystemExecute::EndBlocks(exec_msg) => sys_exec::end_blocks(deps.storage, env, exec_msg),
         },
     }
 }
