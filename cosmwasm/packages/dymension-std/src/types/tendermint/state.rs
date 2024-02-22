@@ -16,10 +16,13 @@ use dymension_std_derive::CosmwasmExt;
 #[proto_message(type_url = "/tendermint.state.ABCIResponses")]
 pub struct AbciResponses {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub deliver_txs: ::prost::alloc::vec::Vec<super::abci::ResponseDeliverTx>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub end_block: ::core::option::Option<super::abci::ResponseEndBlock>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub begin_block: ::core::option::Option<super::abci::ResponseBeginBlock>,
 }
 /// ValidatorsInfo represents the latest validator set, or the last height it changed
@@ -37,12 +40,14 @@ pub struct AbciResponses {
 #[proto_message(type_url = "/tendermint.state.ValidatorsInfo")]
 pub struct ValidatorsInfo {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub validator_set: ::core::option::Option<super::types::ValidatorSet>,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub last_height_changed: i64,
 }
 /// ConsensusParamsInfo represents the latest consensus params, or the last height it changed
@@ -60,12 +65,14 @@ pub struct ValidatorsInfo {
 #[proto_message(type_url = "/tendermint.state.ConsensusParamsInfo")]
 pub struct ConsensusParamsInfo {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub consensus_params: ::core::option::Option<super::types::ConsensusParams>,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub last_height_changed: i64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -82,12 +89,14 @@ pub struct ConsensusParamsInfo {
 #[proto_message(type_url = "/tendermint.state.ABCIResponsesInfo")]
 pub struct AbciResponsesInfo {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub abci_responses: ::core::option::Option<AbciResponses>,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -104,8 +113,10 @@ pub struct AbciResponsesInfo {
 #[proto_message(type_url = "/tendermint.state.Version")]
 pub struct Version {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub consensus: ::core::option::Option<super::version::Consensus>,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub software: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -122,16 +133,19 @@ pub struct Version {
 #[proto_message(type_url = "/tendermint.state.State")]
 pub struct State {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub version: ::core::option::Option<Version>,
     /// immutable
     #[prost(string, tag = "2")]
     #[serde(alias = "chainID")]
+    #[serde(default)]
     pub chain_id: ::prost::alloc::string::String,
     #[prost(int64, tag = "14")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub initial_height: i64,
     /// LastBlockHeight=0 at genesis (ie. block(H=0) does not exist)
     #[prost(int64, tag = "3")]
@@ -139,11 +153,14 @@ pub struct State {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub last_block_height: i64,
     #[prost(message, optional, tag = "4")]
     #[serde(alias = "last_blockID")]
+    #[serde(default)]
     pub last_block_id: ::core::option::Option<super::types::BlockId>,
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub last_block_time: ::core::option::Option<crate::shim::Timestamp>,
     /// LastValidators is used to validate block.LastCommit.
     /// Validators are persisted to the database separately every time they change,
@@ -152,26 +169,32 @@ pub struct State {
     /// we set s.LastHeightValidatorsChanged = s.LastBlockHeight + 1 + 1
     /// Extra +1 due to nextValSet delay.
     #[prost(message, optional, tag = "6")]
+    #[serde(default)]
     pub next_validators: ::core::option::Option<super::types::ValidatorSet>,
     #[prost(message, optional, tag = "7")]
+    #[serde(default)]
     pub validators: ::core::option::Option<super::types::ValidatorSet>,
     #[prost(message, optional, tag = "8")]
+    #[serde(default)]
     pub last_validators: ::core::option::Option<super::types::ValidatorSet>,
     #[prost(int64, tag = "9")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub last_height_validators_changed: i64,
     /// Consensus parameters used for validating blocks.
     /// Changes returned by EndBlock and updated after Commit.
     #[prost(message, optional, tag = "10")]
+    #[serde(default)]
     pub consensus_params: ::core::option::Option<super::types::ConsensusParams>,
     #[prost(int64, tag = "11")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub last_height_consensus_params_changed: i64,
     /// Merkle root of the results from executing prev block
     #[prost(bytes = "vec", tag = "12")]
@@ -179,6 +202,7 @@ pub struct State {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub last_results_hash: ::prost::alloc::vec::Vec<u8>,
     /// the latest AppHash we've received from calling abci.Commit()
     #[prost(bytes = "vec", tag = "13")]
@@ -186,5 +210,6 @@ pub struct State {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub app_hash: ::prost::alloc::vec::Vec<u8>,
 }

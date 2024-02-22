@@ -292,6 +292,28 @@ pub fn allow_serde_enum_as_str(s: ItemStruct) -> ItemStruct {
     syn::ItemStruct { fields, ..s }
 }
 
+pub fn allow_serde_default(s: ItemStruct) -> ItemStruct {
+    let fields_vec = s
+        .fields
+        .clone()
+        .into_iter()
+        .map(|mut field| {
+            let default_serde: syn::Attribute = parse_quote! {
+                #[serde(default)]
+            };
+            field.attrs.append(&mut vec![default_serde]);
+            field
+        })
+        .collect::<Vec<syn::Field>>();
+
+    let fields_named: syn::FieldsNamed = parse_quote! {
+        { #(#fields_vec,)* }
+    };
+    let fields = syn::Fields::Named(fields_named);
+
+    syn::ItemStruct { fields, ..s }
+}
+
 /// some of proto's fields in dymension' modules are named `ID` but prost generates `id` field
 /// this function adds `#[serde(alias = "ID")]` to the `id` field
 /// so that serde can deserialize `ID` field to `id` field.

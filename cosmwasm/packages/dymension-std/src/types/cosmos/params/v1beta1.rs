@@ -14,10 +14,13 @@ use dymension_std_derive::CosmwasmExt;
 #[proto_message(type_url = "/cosmos.params.v1beta1.ParameterChangeProposal")]
 pub struct ParameterChangeProposal {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub title: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub changes: ::prost::alloc::vec::Vec<ParamChange>,
 }
 /// ParamChange defines an individual parameter change, for use in
@@ -36,10 +39,13 @@ pub struct ParameterChangeProposal {
 #[proto_message(type_url = "/cosmos.params.v1beta1.ParamChange")]
 pub struct ParamChange {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub subspace: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub key: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub value: ::prost::alloc::string::String,
 }
 /// QueryParamsRequest is request type for the Query/Params RPC method.
@@ -62,9 +68,11 @@ pub struct ParamChange {
 pub struct QueryParamsRequest {
     /// subspace defines the module to query the parameter for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub subspace: ::prost::alloc::string::String,
     /// key defines the key of the parameter in the subspace.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub key: ::prost::alloc::string::String,
 }
 /// QueryParamsResponse is response type for the Query/Params RPC method.
@@ -83,6 +91,7 @@ pub struct QueryParamsRequest {
 pub struct QueryParamsResponse {
     /// param defines the queried parameter.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub param: ::core::option::Option<ParamChange>,
 }
 /// QuerySubspacesRequest defines a request type for querying for all registered
@@ -124,6 +133,7 @@ pub struct QuerySubspacesRequest {}
 #[proto_message(type_url = "/cosmos.params.v1beta1.QuerySubspacesResponse")]
 pub struct QuerySubspacesResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub subspaces: ::prost::alloc::vec::Vec<Subspace>,
 }
 /// Subspace defines a parameter subspace name and all the keys that exist for
@@ -144,8 +154,10 @@ pub struct QuerySubspacesResponse {
 #[proto_message(type_url = "/cosmos.params.v1beta1.Subspace")]
 pub struct Subspace {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub subspace: ::prost::alloc::string::String,
     #[prost(string, repeated, tag = "2")]
+    #[serde(default)]
     pub keys: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 pub struct ParamsQuerier<'a, Q: cosmwasm_std::CustomQuery> {

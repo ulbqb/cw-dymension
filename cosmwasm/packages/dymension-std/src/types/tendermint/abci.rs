@@ -16,6 +16,7 @@ pub struct Request {
         oneof = "request::Value",
         tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15"
     )]
+    #[serde(default)]
     pub value: ::core::option::Option<request::Value>,
 }
 /// Nested message and enum types in `Request`.
@@ -78,6 +79,7 @@ pub mod request {
 #[proto_message(type_url = "/tendermint.abci.RequestEcho")]
 pub struct RequestEcho {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub message: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -107,18 +109,21 @@ pub struct RequestFlush {}
 #[proto_message(type_url = "/tendermint.abci.RequestInfo")]
 pub struct RequestInfo {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub version: ::prost::alloc::string::String,
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub block_version: u64,
     #[prost(uint64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub p2p_version: u64,
 }
 /// nondeterministic
@@ -136,8 +141,10 @@ pub struct RequestInfo {
 #[proto_message(type_url = "/tendermint.abci.RequestSetOption")]
 pub struct RequestSetOption {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub key: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub value: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -154,25 +161,31 @@ pub struct RequestSetOption {
 #[proto_message(type_url = "/tendermint.abci.RequestInitChain")]
 pub struct RequestInitChain {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub time: ::core::option::Option<crate::shim::Timestamp>,
     #[prost(string, tag = "2")]
     #[serde(alias = "chainID")]
+    #[serde(default)]
     pub chain_id: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub consensus_params: ::core::option::Option<ConsensusParams>,
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub validators: ::prost::alloc::vec::Vec<ValidatorUpdate>,
     #[prost(bytes = "vec", tag = "5")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub app_state_bytes: ::prost::alloc::vec::Vec<u8>,
     #[prost(int64, tag = "6")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub initial_height: i64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -193,16 +206,20 @@ pub struct RequestQuery {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub path: ::prost::alloc::string::String,
     #[prost(int64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(bool, tag = "4")]
+    #[serde(default)]
     pub prove: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -223,12 +240,16 @@ pub struct RequestBeginBlock {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub hash: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub header: ::core::option::Option<super::types::Header>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub last_commit_info: ::core::option::Option<LastCommitInfo>,
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub byzantine_validators: ::prost::alloc::vec::Vec<Evidence>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -249,9 +270,11 @@ pub struct RequestCheckTx {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub tx: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "CheckTxType", tag = "2")]
     #[serde(with = "CheckTxType")]
+    #[serde(default)]
     pub r#type: i32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -272,6 +295,7 @@ pub struct RequestDeliverTx {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub tx: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -292,6 +316,7 @@ pub struct RequestEndBlock {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -337,6 +362,7 @@ pub struct RequestListSnapshots {}
 pub struct RequestOfferSnapshot {
     /// snapshot offered by peers
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub snapshot: ::core::option::Option<Snapshot>,
     /// light client-verified app hash for snapshot height
     #[prost(bytes = "vec", tag = "2")]
@@ -344,6 +370,7 @@ pub struct RequestOfferSnapshot {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub app_hash: ::prost::alloc::vec::Vec<u8>,
 }
 /// loads a snapshot chunk
@@ -365,18 +392,21 @@ pub struct RequestLoadSnapshotChunk {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: u64,
     #[prost(uint32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub format: u32,
     #[prost(uint32, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub chunk: u32,
 }
 /// Applies a snapshot chunk
@@ -398,14 +428,17 @@ pub struct RequestApplySnapshotChunk {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub index: u32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub chunk: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub sender: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -425,6 +458,7 @@ pub struct Response {
         oneof = "response::Value",
         tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16"
     )]
+    #[serde(default)]
     pub value: ::core::option::Option<response::Value>,
 }
 /// Nested message and enum types in `Response`.
@@ -490,6 +524,7 @@ pub mod response {
 #[proto_message(type_url = "/tendermint.abci.ResponseException")]
 pub struct ResponseException {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub error: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -506,6 +541,7 @@ pub struct ResponseException {
 #[proto_message(type_url = "/tendermint.abci.ResponseEcho")]
 pub struct ResponseEcho {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub message: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -535,26 +571,31 @@ pub struct ResponseFlush {}
 #[proto_message(type_url = "/tendermint.abci.ResponseInfo")]
 pub struct ResponseInfo {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub data: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub version: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub app_version: u64,
     #[prost(int64, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub last_block_height: i64,
     #[prost(bytes = "vec", tag = "5")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub last_block_app_hash: ::prost::alloc::vec::Vec<u8>,
 }
 /// nondeterministic
@@ -576,11 +617,14 @@ pub struct ResponseSetOption {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub code: u32,
     /// bytes data = 2;
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub log: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub info: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -597,14 +641,17 @@ pub struct ResponseSetOption {
 #[proto_message(type_url = "/tendermint.abci.ResponseInitChain")]
 pub struct ResponseInitChain {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub consensus_params: ::core::option::Option<ConsensusParams>,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub validators: ::prost::alloc::vec::Vec<ValidatorUpdate>,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub app_hash: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -625,42 +672,51 @@ pub struct ResponseQuery {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub code: u32,
     /// bytes data = 2; // use "value" instead.
     ///
     /// nondeterministic
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub log: ::prost::alloc::string::String,
     /// nondeterministic
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub info: ::prost::alloc::string::String,
     #[prost(int64, tag = "5")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub index: i64,
     #[prost(bytes = "vec", tag = "6")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub key: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "7")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub value: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "8")]
+    #[serde(default)]
     pub proof_ops: ::core::option::Option<super::crypto::ProofOps>,
     #[prost(int64, tag = "9")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(string, tag = "10")]
+    #[serde(default)]
     pub codespace: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -677,6 +733,7 @@ pub struct ResponseQuery {
 #[proto_message(type_url = "/tendermint.abci.ResponseBeginBlock")]
 pub struct ResponseBeginBlock {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub events: ::prost::alloc::vec::Vec<Event>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -697,46 +754,57 @@ pub struct ResponseCheckTx {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub code: u32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<u8>,
     /// nondeterministic
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub log: ::prost::alloc::string::String,
     /// nondeterministic
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub info: ::prost::alloc::string::String,
     #[prost(int64, tag = "5")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub gas_wanted: i64,
     #[prost(int64, tag = "6")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub gas_used: i64,
     #[prost(message, repeated, tag = "7")]
+    #[serde(default)]
     pub events: ::prost::alloc::vec::Vec<Event>,
     #[prost(string, tag = "8")]
+    #[serde(default)]
     pub codespace: ::prost::alloc::string::String,
     #[prost(string, tag = "9")]
+    #[serde(default)]
     pub sender: ::prost::alloc::string::String,
     #[prost(int64, tag = "10")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub priority: i64,
     /// mempool_error is set by CometBFT.
     /// ABCI applictions creating a ResponseCheckTX should not set mempool_error.
     #[prost(string, tag = "11")]
+    #[serde(default)]
     pub mempool_error: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -757,35 +825,43 @@ pub struct ResponseDeliverTx {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub code: u32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<u8>,
     /// nondeterministic
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub log: ::prost::alloc::string::String,
     /// nondeterministic
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub info: ::prost::alloc::string::String,
     #[prost(int64, tag = "5")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub gas_wanted: i64,
     #[prost(int64, tag = "6")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub gas_used: i64,
     /// nondeterministic
     #[prost(message, repeated, tag = "7")]
+    #[serde(default)]
     pub events: ::prost::alloc::vec::Vec<Event>,
     #[prost(string, tag = "8")]
+    #[serde(default)]
     pub codespace: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -802,10 +878,13 @@ pub struct ResponseDeliverTx {
 #[proto_message(type_url = "/tendermint.abci.ResponseEndBlock")]
 pub struct ResponseEndBlock {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub validator_updates: ::prost::alloc::vec::Vec<ValidatorUpdate>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub consensus_param_updates: ::core::option::Option<ConsensusParams>,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub events: ::prost::alloc::vec::Vec<Event>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -827,12 +906,14 @@ pub struct ResponseCommit {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<u8>,
     #[prost(int64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub retain_height: i64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -849,6 +930,7 @@ pub struct ResponseCommit {
 #[proto_message(type_url = "/tendermint.abci.ResponseListSnapshots")]
 pub struct ResponseListSnapshots {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub snapshots: ::prost::alloc::vec::Vec<Snapshot>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -866,6 +948,7 @@ pub struct ResponseListSnapshots {
 pub struct ResponseOfferSnapshot {
     #[prost(enumeration = "response_offer_snapshot::Result", tag = "1")]
     #[serde(with = "response_offer_snapshot::Result")]
+    #[serde(default)]
     pub result: i32,
 }
 /// Nested message and enum types in `ResponseOfferSnapshot`.
@@ -955,6 +1038,7 @@ pub struct ResponseLoadSnapshotChunk {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub chunk: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -972,6 +1056,7 @@ pub struct ResponseLoadSnapshotChunk {
 pub struct ResponseApplySnapshotChunk {
     #[prost(enumeration = "response_apply_snapshot_chunk::Result", tag = "1")]
     #[serde(with = "response_apply_snapshot_chunk::Result")]
+    #[serde(default)]
     pub result: i32,
     /// Chunks to refetch and reapply
     #[prost(uint32, repeated, tag = "2")]
@@ -979,9 +1064,11 @@ pub struct ResponseApplySnapshotChunk {
         serialize_with = "crate::serde::as_str_vec::serialize",
         deserialize_with = "crate::serde::as_str_vec::deserialize"
     )]
+    #[serde(default)]
     pub refetch_chunks: ::prost::alloc::vec::Vec<u32>,
     /// Chunk senders to reject and ban
     #[prost(string, repeated, tag = "3")]
+    #[serde(default)]
     pub reject_senders: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Nested message and enum types in `ResponseApplySnapshotChunk`.
@@ -1069,12 +1156,16 @@ pub mod response_apply_snapshot_chunk {
 #[proto_message(type_url = "/tendermint.abci.ConsensusParams")]
 pub struct ConsensusParams {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub block: ::core::option::Option<BlockParams>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub evidence: ::core::option::Option<super::types::EvidenceParams>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub validator: ::core::option::Option<super::types::ValidatorParams>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub version: ::core::option::Option<super::types::VersionParams>,
 }
 /// BlockParams contains limits on the block size.
@@ -1097,6 +1188,7 @@ pub struct BlockParams {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_bytes: i64,
     /// Note: must be greater or equal to -1
     #[prost(int64, tag = "2")]
@@ -1104,6 +1196,7 @@ pub struct BlockParams {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_gas: i64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1124,8 +1217,10 @@ pub struct LastCommitInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i32,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub votes: ::prost::alloc::vec::Vec<VoteInfo>,
 }
 /// Event allows application developers to attach additional information to
@@ -1145,8 +1240,10 @@ pub struct LastCommitInfo {
 #[proto_message(type_url = "/tendermint.abci.Event")]
 pub struct Event {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub r#type: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub attributes: ::prost::alloc::vec::Vec<EventAttribute>,
 }
 /// EventAttribute is a single key-value pair, associated with an event.
@@ -1168,15 +1265,18 @@ pub struct EventAttribute {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub key: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub value: ::prost::alloc::vec::Vec<u8>,
     /// nondeterministic
     #[prost(bool, tag = "3")]
+    #[serde(default)]
     pub index: bool,
 }
 /// TxResult contains results of executing the transaction.
@@ -1200,20 +1300,24 @@ pub struct TxResult {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(uint32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub index: u32,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub tx: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub result: ::core::option::Option<ResponseDeliverTx>,
 }
 /// Validator
@@ -1236,6 +1340,7 @@ pub struct Validator {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub address: ::prost::alloc::vec::Vec<u8>,
     /// PubKey pub_key = 2 \[(gogoproto.nullable)=false\];
     ///
@@ -1245,6 +1350,7 @@ pub struct Validator {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub power: i64,
 }
 /// ValidatorUpdate
@@ -1262,12 +1368,14 @@ pub struct Validator {
 #[proto_message(type_url = "/tendermint.abci.ValidatorUpdate")]
 pub struct ValidatorUpdate {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pub_key: ::core::option::Option<super::crypto::PublicKey>,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub power: i64,
 }
 /// VoteInfo
@@ -1285,8 +1393,10 @@ pub struct ValidatorUpdate {
 #[proto_message(type_url = "/tendermint.abci.VoteInfo")]
 pub struct VoteInfo {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub validator: ::core::option::Option<Validator>,
     #[prost(bool, tag = "2")]
+    #[serde(default)]
     pub signed_last_block: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1304,9 +1414,11 @@ pub struct VoteInfo {
 pub struct Evidence {
     #[prost(enumeration = "EvidenceType", tag = "1")]
     #[serde(with = "EvidenceType")]
+    #[serde(default)]
     pub r#type: i32,
     /// The offending validator
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub validator: ::core::option::Option<Validator>,
     /// The height when the offense occurred
     #[prost(int64, tag = "3")]
@@ -1314,9 +1426,11 @@ pub struct Evidence {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     /// The corresponding time where the offense occurred
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub time: ::core::option::Option<crate::shim::Timestamp>,
     /// Total voting power of the validator set in case the ABCI application does
     /// not store historical validators.
@@ -1326,6 +1440,7 @@ pub struct Evidence {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub total_voting_power: i64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1347,6 +1462,7 @@ pub struct Snapshot {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: u64,
     /// The application-specific snapshot format
     #[prost(uint32, tag = "2")]
@@ -1354,6 +1470,7 @@ pub struct Snapshot {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub format: u32,
     /// Number of chunks in the snapshot
     #[prost(uint32, tag = "3")]
@@ -1361,6 +1478,7 @@ pub struct Snapshot {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub chunks: u32,
     /// Arbitrary snapshot hash, equal only if identical
     #[prost(bytes = "vec", tag = "4")]
@@ -1368,6 +1486,7 @@ pub struct Snapshot {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub hash: ::prost::alloc::vec::Vec<u8>,
     /// Arbitrary application metadata
     #[prost(bytes = "vec", tag = "5")]
@@ -1375,6 +1494,7 @@ pub struct Snapshot {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub metadata: ::prost::alloc::vec::Vec<u8>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]

@@ -44,14 +44,17 @@ pub struct PacketMsg {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub channel_id: i32,
     #[prost(bool, tag = "2")]
+    #[serde(default)]
     pub eof: bool,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -68,6 +71,7 @@ pub struct PacketMsg {
 #[proto_message(type_url = "/tendermint.p2p.Packet")]
 pub struct Packet {
     #[prost(oneof = "packet::Sum", tags = "1, 2, 3")]
+    #[serde(default)]
     pub sum: ::core::option::Option<packet::Sum>,
 }
 /// Nested message and enum types in `Packet`.
@@ -106,12 +110,14 @@ pub mod packet {
 #[proto_message(type_url = "/tendermint.p2p.AuthSigMessage")]
 pub struct AuthSigMessage {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pub_key: ::core::option::Option<super::crypto::PublicKey>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub sig: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -129,14 +135,17 @@ pub struct AuthSigMessage {
 pub struct NetAddress {
     #[prost(string, tag = "1")]
     #[serde(alias = "ID")]
+    #[serde(default)]
     pub id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub ip: ::prost::alloc::string::String,
     #[prost(uint32, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub port: u32,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -157,18 +166,21 @@ pub struct ProtocolVersion {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub p2p: u64,
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub block: u64,
     #[prost(uint64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub app: u64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -185,25 +197,33 @@ pub struct ProtocolVersion {
 #[proto_message(type_url = "/tendermint.p2p.DefaultNodeInfo")]
 pub struct DefaultNodeInfo {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub protocol_version: ::core::option::Option<ProtocolVersion>,
     #[prost(string, tag = "2")]
     #[serde(alias = "default_nodeID")]
+    #[serde(default)]
     pub default_node_id: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub listen_addr: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub network: ::prost::alloc::string::String,
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub version: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "6")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub channels: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "7")]
+    #[serde(default)]
     pub moniker: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "8")]
+    #[serde(default)]
     pub other: ::core::option::Option<DefaultNodeInfoOther>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -220,8 +240,10 @@ pub struct DefaultNodeInfo {
 #[proto_message(type_url = "/tendermint.p2p.DefaultNodeInfoOther")]
 pub struct DefaultNodeInfoOther {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub tx_index: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub rpc_address: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -251,6 +273,7 @@ pub struct PexRequest {}
 #[proto_message(type_url = "/tendermint.p2p.PexAddrs")]
 pub struct PexAddrs {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub addrs: ::prost::alloc::vec::Vec<NetAddress>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -267,6 +290,7 @@ pub struct PexAddrs {
 #[proto_message(type_url = "/tendermint.p2p.Message")]
 pub struct Message {
     #[prost(oneof = "message::Sum", tags = "1, 2")]
+    #[serde(default)]
     pub sum: ::core::option::Option<message::Sum>,
 }
 /// Nested message and enum types in `Message`.

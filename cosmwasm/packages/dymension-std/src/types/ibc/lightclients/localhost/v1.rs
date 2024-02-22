@@ -17,8 +17,10 @@ pub struct ClientState {
     /// self chain ID
     #[prost(string, tag = "1")]
     #[serde(alias = "chainID")]
+    #[serde(default)]
     pub chain_id: ::prost::alloc::string::String,
     /// self latest block height
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub height: ::core::option::Option<super::super::super::core::client::v1::Height>,
 }

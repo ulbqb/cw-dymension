@@ -16,6 +16,7 @@ use dymension_std_derive::CosmwasmExt;
 pub struct GenericAuthorization {
     /// Msg, identified by it's type URL, to grant unrestricted permissions to execute
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub msg: ::prost::alloc::string::String,
 }
 /// Grant gives permissions to execute
@@ -34,11 +35,13 @@ pub struct GenericAuthorization {
 #[proto_message(type_url = "/cosmos.authz.v1beta1.Grant")]
 pub struct Grant {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub authorization: ::core::option::Option<crate::shim::Any>,
     /// time when the grant will expire and will be pruned. If null, then the grant
     /// doesn't have a time expiration (other conditions  in `authorization`
     /// may apply to invalidate the grant)
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub expiration: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// GrantAuthorization extends a grant with both the addresses of the grantee and granter.
@@ -57,12 +60,16 @@ pub struct Grant {
 #[proto_message(type_url = "/cosmos.authz.v1beta1.GrantAuthorization")]
 pub struct GrantAuthorization {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub granter: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub grantee: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub authorization: ::core::option::Option<crate::shim::Any>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub expiration: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// GrantQueueItem contains the list of TypeURL of a sdk.Msg.
@@ -81,6 +88,7 @@ pub struct GrantAuthorization {
 pub struct GrantQueueItem {
     /// msg_type_urls contains the list of TypeURL of a sdk.Msg.
     #[prost(string, repeated, tag = "1")]
+    #[serde(default)]
     pub msg_type_urls: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// EventGrant is emitted on Msg/Grant
@@ -99,12 +107,15 @@ pub struct GrantQueueItem {
 pub struct EventGrant {
     /// Msg type URL for which an autorization is granted
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub msg_type_url: ::prost::alloc::string::String,
     /// Granter account address
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub granter: ::prost::alloc::string::String,
     /// Grantee account address
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub grantee: ::prost::alloc::string::String,
 }
 /// EventRevoke is emitted on Msg/Revoke
@@ -123,12 +134,15 @@ pub struct EventGrant {
 pub struct EventRevoke {
     /// Msg type URL for which an autorization is revoked
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub msg_type_url: ::prost::alloc::string::String,
     /// Granter account address
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub granter: ::prost::alloc::string::String,
     /// Grantee account address
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub grantee: ::prost::alloc::string::String,
 }
 /// GenesisState defines the authz module's genesis state.
@@ -146,6 +160,7 @@ pub struct EventRevoke {
 #[proto_message(type_url = "/cosmos.authz.v1beta1.GenesisState")]
 pub struct GenesisState {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub authorization: ::prost::alloc::vec::Vec<GrantAuthorization>,
 }
 /// QueryGrantsRequest is the request type for the Query/Grants RPC method.
@@ -167,14 +182,18 @@ pub struct GenesisState {
 )]
 pub struct QueryGrantsRequest {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub granter: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub grantee: ::prost::alloc::string::String,
     /// Optional, msg_type_url, when set, will query only grants matching given msg type.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub msg_type_url: ::prost::alloc::string::String,
     /// pagination defines an pagination for the request.
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryGrantsResponse is the response type for the Query/Authorizations RPC method.
@@ -193,9 +212,11 @@ pub struct QueryGrantsRequest {
 pub struct QueryGrantsResponse {
     /// authorizations is a list of grants granted for grantee by granter.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub grants: ::prost::alloc::vec::Vec<Grant>,
     /// pagination defines an pagination for the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryGranterGrantsRequest is the request type for the Query/GranterGrants RPC method.
@@ -217,9 +238,11 @@ pub struct QueryGrantsResponse {
 )]
 pub struct QueryGranterGrantsRequest {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub granter: ::prost::alloc::string::String,
     /// pagination defines an pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryGranterGrantsResponse is the response type for the Query/GranterGrants RPC method.
@@ -238,9 +261,11 @@ pub struct QueryGranterGrantsRequest {
 pub struct QueryGranterGrantsResponse {
     /// grants is a list of grants granted by the granter.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub grants: ::prost::alloc::vec::Vec<GrantAuthorization>,
     /// pagination defines an pagination for the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryGranteeGrantsRequest is the request type for the Query/IssuedGrants RPC method.
@@ -262,9 +287,11 @@ pub struct QueryGranterGrantsResponse {
 )]
 pub struct QueryGranteeGrantsRequest {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub grantee: ::prost::alloc::string::String,
     /// pagination defines an pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryGranteeGrantsResponse is the response type for the Query/GranteeGrants RPC method.
@@ -283,9 +310,11 @@ pub struct QueryGranteeGrantsRequest {
 pub struct QueryGranteeGrantsResponse {
     /// grants is a list of grants granted to the grantee.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub grants: ::prost::alloc::vec::Vec<GrantAuthorization>,
     /// pagination defines an pagination for the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// MsgGrant is a request type for Grant method. It declares authorization to the grantee
@@ -304,10 +333,13 @@ pub struct QueryGranteeGrantsResponse {
 #[proto_message(type_url = "/cosmos.authz.v1beta1.MsgGrant")]
 pub struct MsgGrant {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub granter: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub grantee: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub grant: ::core::option::Option<Grant>,
 }
 /// MsgExecResponse defines the Msg/MsgExecResponse response type.
@@ -325,6 +357,7 @@ pub struct MsgGrant {
 #[proto_message(type_url = "/cosmos.authz.v1beta1.MsgExecResponse")]
 pub struct MsgExecResponse {
     #[prost(bytes = "vec", repeated, tag = "1")]
+    #[serde(default)]
     pub results: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 /// MsgExec attempts to execute the provided messages using
@@ -344,11 +377,13 @@ pub struct MsgExecResponse {
 #[proto_message(type_url = "/cosmos.authz.v1beta1.MsgExec")]
 pub struct MsgExec {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub grantee: ::prost::alloc::string::String,
     /// Authorization Msg requests to execute. Each msg must implement Authorization interface
     /// The x/authz will try to find a grant matching (msg.signers\[0\], grantee, MsgTypeURL(msg))
     /// triple and validate it.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub msgs: ::prost::alloc::vec::Vec<crate::shim::Any>,
 }
 /// MsgGrantResponse defines the Msg/MsgGrant response type.
@@ -381,10 +416,13 @@ pub struct MsgGrantResponse {}
 #[proto_message(type_url = "/cosmos.authz.v1beta1.MsgRevoke")]
 pub struct MsgRevoke {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub granter: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub grantee: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub msg_type_url: ::prost::alloc::string::String,
 }
 /// MsgRevokeResponse defines the Msg/MsgRevokeResponse response type.

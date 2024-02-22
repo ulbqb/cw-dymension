@@ -17,11 +17,13 @@ pub struct BitArray {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub bits: i64,
     #[prost(uint64, repeated, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str_vec::serialize",
         deserialize_with = "crate::serde::as_str_vec::deserialize"
     )]
+    #[serde(default)]
     pub elems: ::prost::alloc::vec::Vec<u64>,
 }

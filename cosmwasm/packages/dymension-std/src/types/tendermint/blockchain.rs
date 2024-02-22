@@ -18,6 +18,7 @@ pub struct BlockRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
 }
 /// NoBlockResponse informs the node that the peer does not have block at the requested height
@@ -39,6 +40,7 @@ pub struct NoBlockResponse {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
 }
 /// BlockResponse returns block to the requested
@@ -56,6 +58,7 @@ pub struct NoBlockResponse {
 #[proto_message(type_url = "/tendermint.blockchain.BlockResponse")]
 pub struct BlockResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub block: ::core::option::Option<super::types::Block>,
 }
 /// StatusRequest requests the status of a peer.
@@ -91,12 +94,14 @@ pub struct StatusResponse {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub base: i64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -113,6 +118,7 @@ pub struct StatusResponse {
 #[proto_message(type_url = "/tendermint.blockchain.Message")]
 pub struct Message {
     #[prost(oneof = "message::Sum", tags = "1, 2, 3, 4, 5")]
+    #[serde(default)]
     pub sum: ::core::option::Option<message::Sum>,
 }
 /// Nested message and enum types in `Message`.

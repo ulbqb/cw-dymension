@@ -18,26 +18,31 @@ pub struct Snapshot {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: u64,
     #[prost(uint32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub format: u32,
     #[prost(uint32, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub chunks: u32,
     #[prost(bytes = "vec", tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub hash: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub metadata: ::core::option::Option<Metadata>,
 }
 /// Metadata contains SDK-specific snapshot metadata.
@@ -56,6 +61,7 @@ pub struct Snapshot {
 pub struct Metadata {
     /// SHA-256 chunk hashes
     #[prost(bytes = "vec", repeated, tag = "1")]
+    #[serde(default)]
     pub chunk_hashes: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 /// SnapshotItem is an item contained in a rootmulti.Store snapshot.
@@ -76,6 +82,7 @@ pub struct Metadata {
 pub struct SnapshotItem {
     /// item is the specific type of snapshot item.
     #[prost(oneof = "snapshot_item::Item", tags = "1, 2, 3, 4, 5, 6")]
+    #[serde(default)]
     pub item: ::core::option::Option<snapshot_item::Item>,
 }
 /// Nested message and enum types in `SnapshotItem`.
@@ -124,6 +131,7 @@ pub mod snapshot_item {
 #[proto_message(type_url = "/cosmos.base.snapshots.v1beta1.SnapshotStoreItem")]
 pub struct SnapshotStoreItem {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub name: ::prost::alloc::string::String,
 }
 /// SnapshotIAVLItem is an exported IAVL node.
@@ -147,12 +155,14 @@ pub struct SnapshotIavlItem {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub key: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub value: ::prost::alloc::vec::Vec<u8>,
     /// version is block height
     #[prost(int64, tag = "3")]
@@ -160,6 +170,7 @@ pub struct SnapshotIavlItem {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub version: i64,
     /// height is depth of the tree.
     #[prost(int32, tag = "4")]
@@ -167,6 +178,7 @@ pub struct SnapshotIavlItem {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i32,
 }
 /// SnapshotExtensionMeta contains metadata about an external snapshotter.
@@ -186,12 +198,14 @@ pub struct SnapshotIavlItem {
 #[proto_message(type_url = "/cosmos.base.snapshots.v1beta1.SnapshotExtensionMeta")]
 pub struct SnapshotExtensionMeta {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub name: ::prost::alloc::string::String,
     #[prost(uint32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub format: u32,
 }
 /// SnapshotExtensionPayload contains payloads of an external snapshotter.
@@ -215,6 +229,7 @@ pub struct SnapshotExtensionPayload {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub payload: ::prost::alloc::vec::Vec<u8>,
 }
 /// SnapshotKVItem is an exported Key/Value Pair
@@ -238,12 +253,14 @@ pub struct SnapshotKvItem {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub key: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub value: ::prost::alloc::vec::Vec<u8>,
 }
 /// SnapshotSchema is an exported schema of smt store
@@ -263,5 +280,6 @@ pub struct SnapshotKvItem {
 #[proto_message(type_url = "/cosmos.base.snapshots.v1beta1.SnapshotSchema")]
 pub struct SnapshotSchema {
     #[prost(bytes = "vec", repeated, tag = "1")]
+    #[serde(default)]
     pub keys: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }

@@ -18,13 +18,16 @@ pub struct StakeAuthorization {
     /// max_tokens specifies the maximum amount of tokens can be delegate to a validator. If it is
     /// empty, there is no spend limit and any amount of coins can be delegated.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub max_tokens: ::core::option::Option<super::super::base::v1beta1::Coin>,
     /// authorization_type defines one of AuthorizationType.
     #[prost(enumeration = "AuthorizationType", tag = "4")]
     #[serde(with = "AuthorizationType")]
+    #[serde(default)]
     pub authorization_type: i32,
     /// validators is the oneof that represents either allow_list or deny_list
     #[prost(oneof = "stake_authorization::Validators", tags = "2, 3")]
+    #[serde(default)]
     pub validators: ::core::option::Option<stake_authorization::Validators>,
 }
 /// Nested message and enum types in `StakeAuthorization`.
@@ -45,6 +48,7 @@ pub mod stake_authorization {
     #[proto_message(type_url = "/cosmos.staking.v1beta1.")]
     pub struct Validators_ {
         #[prost(string, repeated, tag = "1")]
+        #[serde(default)]
         pub address: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     }
     /// validators is the oneof that represents either allow_list or deny_list
@@ -126,8 +130,10 @@ impl AuthorizationType {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.HistoricalInfo")]
 pub struct HistoricalInfo {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub header: ::core::option::Option<super::super::super::tendermint::types::Header>,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub valset: ::prost::alloc::vec::Vec<Validator>,
 }
 /// CommissionRates defines the initial commission rates to be used for creating
@@ -147,12 +153,15 @@ pub struct HistoricalInfo {
 pub struct CommissionRates {
     /// rate is the commission rate charged to delegators, as a fraction.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub rate: ::prost::alloc::string::String,
     /// max_rate defines the maximum commission rate which validator can ever charge, as a fraction.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub max_rate: ::prost::alloc::string::String,
     /// max_change_rate defines the maximum daily increase of the validator commission, as a fraction.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub max_change_rate: ::prost::alloc::string::String,
 }
 /// Commission defines commission parameters for a given validator.
@@ -171,9 +180,11 @@ pub struct CommissionRates {
 pub struct Commission {
     /// commission_rates defines the initial commission rates to be used for creating a validator.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub commission_rates: ::core::option::Option<CommissionRates>,
     /// update_time is the last time the commission rate was changed.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub update_time: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// Description defines a validator description.
@@ -192,18 +203,23 @@ pub struct Commission {
 pub struct Description {
     /// moniker defines a human-readable name for the validator.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub moniker: ::prost::alloc::string::String,
     /// identity defines an optional identity signature (ex. UPort or Keybase).
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub identity: ::prost::alloc::string::String,
     /// website defines an optional website link.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub website: ::prost::alloc::string::String,
     /// security_contact defines an optional email for security contact.
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub security_contact: ::prost::alloc::string::String,
     /// details define other optional details.
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub details: ::prost::alloc::string::String,
 }
 /// Validator defines a validator, together with the total amount of the
@@ -229,25 +245,32 @@ pub struct Description {
 pub struct Validator {
     /// operator_address defines the address of the validator's operator; bech encoded in JSON.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub operator_address: ::prost::alloc::string::String,
     /// consensus_pubkey is the consensus public key of the validator, as a Protobuf Any.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub consensus_pubkey: ::core::option::Option<crate::shim::Any>,
     /// jailed defined whether the validator has been jailed from bonded status or not.
     #[prost(bool, tag = "3")]
+    #[serde(default)]
     pub jailed: bool,
     /// status is the validator status (bonded/unbonding/unbonded).
     #[prost(enumeration = "BondStatus", tag = "4")]
     #[serde(with = "BondStatus")]
+    #[serde(default)]
     pub status: i32,
     /// tokens define the delegated tokens (incl. self-delegation).
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub tokens: ::prost::alloc::string::String,
     /// delegator_shares defines total shares issued to a validator's delegators.
     #[prost(string, tag = "6")]
+    #[serde(default)]
     pub delegator_shares: ::prost::alloc::string::String,
     /// description defines the description terms for the validator.
     #[prost(message, optional, tag = "7")]
+    #[serde(default)]
     pub description: ::core::option::Option<Description>,
     /// unbonding_height defines, if unbonding, the height at which this validator has begun unbonding.
     #[prost(int64, tag = "8")]
@@ -255,17 +278,21 @@ pub struct Validator {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub unbonding_height: i64,
     /// unbonding_time defines, if unbonding, the min time for the validator to complete unbonding.
     #[prost(message, optional, tag = "9")]
+    #[serde(default)]
     pub unbonding_time: ::core::option::Option<crate::shim::Timestamp>,
     /// commission defines the commission parameters.
     #[prost(message, optional, tag = "10")]
+    #[serde(default)]
     pub commission: ::core::option::Option<Commission>,
     /// min_self_delegation is the validator's self declared minimum self delegation.
     ///
     /// Since: cosmos-sdk 0.46
     #[prost(string, tag = "11")]
+    #[serde(default)]
     pub min_self_delegation: ::prost::alloc::string::String,
 }
 /// ValAddresses defines a repeated set of validator addresses.
@@ -283,6 +310,7 @@ pub struct Validator {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.ValAddresses")]
 pub struct ValAddresses {
     #[prost(string, repeated, tag = "1")]
+    #[serde(default)]
     pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// DVPair is struct that just has a delegator-validator pair with no other data.
@@ -302,8 +330,10 @@ pub struct ValAddresses {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.DVPair")]
 pub struct DvPair {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
 }
 /// DVPairs defines an array of DVPair objects.
@@ -321,6 +351,7 @@ pub struct DvPair {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.DVPairs")]
 pub struct DvPairs {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub pairs: ::prost::alloc::vec::Vec<DvPair>,
 }
 /// DVVTriplet is struct that just has a delegator-validator-validator triplet
@@ -341,10 +372,13 @@ pub struct DvPairs {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.DVVTriplet")]
 pub struct DvvTriplet {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_src_address: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub validator_dst_address: ::prost::alloc::string::String,
 }
 /// DVVTriplets defines an array of DVVTriplet objects.
@@ -362,6 +396,7 @@ pub struct DvvTriplet {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.DVVTriplets")]
 pub struct DvvTriplets {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub triplets: ::prost::alloc::vec::Vec<DvvTriplet>,
 }
 /// Delegation represents the bond with tokens held by an account. It is
@@ -382,12 +417,15 @@ pub struct DvvTriplets {
 pub struct Delegation {
     /// delegator_address is the bech32-encoded address of the delegator.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     /// validator_address is the bech32-encoded address of the validator.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     /// shares define the delegation shares received.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub shares: ::prost::alloc::string::String,
 }
 /// UnbondingDelegation stores all of a single delegator's unbonding bonds
@@ -407,14 +445,17 @@ pub struct Delegation {
 pub struct UnbondingDelegation {
     /// delegator_address is the bech32-encoded address of the delegator.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     /// validator_address is the bech32-encoded address of the validator.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     /// entries are the unbonding delegation entries.
     ///
     /// unbonding delegation entries
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub entries: ::prost::alloc::vec::Vec<UnbondingDelegationEntry>,
 }
 /// UnbondingDelegationEntry defines an unbonding object with relevant metadata.
@@ -437,15 +478,19 @@ pub struct UnbondingDelegationEntry {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub creation_height: i64,
     /// completion_time is the unix time for unbonding completion.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub completion_time: ::core::option::Option<crate::shim::Timestamp>,
     /// initial_balance defines the tokens initially scheduled to receive at completion.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub initial_balance: ::prost::alloc::string::String,
     /// balance defines the tokens to receive at completion.
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub balance: ::prost::alloc::string::String,
 }
 /// RedelegationEntry defines a redelegation object with relevant metadata.
@@ -468,15 +513,19 @@ pub struct RedelegationEntry {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub creation_height: i64,
     /// completion_time defines the unix time for redelegation completion.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub completion_time: ::core::option::Option<crate::shim::Timestamp>,
     /// initial_balance defines the initial balance when redelegation started.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub initial_balance: ::prost::alloc::string::String,
     /// shares_dst is the amount of destination-validator shares created by redelegation.
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub shares_dst: ::prost::alloc::string::String,
 }
 /// Redelegation contains the list of a particular delegator's redelegating bonds
@@ -496,17 +545,21 @@ pub struct RedelegationEntry {
 pub struct Redelegation {
     /// delegator_address is the bech32-encoded address of the delegator.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     /// validator_src_address is the validator redelegation source operator address.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_src_address: ::prost::alloc::string::String,
     /// validator_dst_address is the validator redelegation destination operator address.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub validator_dst_address: ::prost::alloc::string::String,
     /// entries are the redelegation entries.
     ///
     /// redelegation entries
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub entries: ::prost::alloc::vec::Vec<RedelegationEntry>,
 }
 /// Params defines the parameters for the staking module.
@@ -525,6 +578,7 @@ pub struct Redelegation {
 pub struct Params {
     /// unbonding_time is the time duration of unbonding.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub unbonding_time: ::core::option::Option<crate::shim::Duration>,
     /// max_validators is the maximum number of validators.
     #[prost(uint32, tag = "2")]
@@ -532,6 +586,7 @@ pub struct Params {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_validators: u32,
     /// max_entries is the max entries for either unbonding delegation or redelegation (per pair/trio).
     #[prost(uint32, tag = "3")]
@@ -539,6 +594,7 @@ pub struct Params {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_entries: u32,
     /// historical_entries is the number of historical entries to persist.
     #[prost(uint32, tag = "4")]
@@ -546,12 +602,15 @@ pub struct Params {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub historical_entries: u32,
     /// bond_denom defines the bondable coin denomination.
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub bond_denom: ::prost::alloc::string::String,
     /// min_commission_rate is the chain-wide minimum commission rate that a validator can charge their delegators
     #[prost(string, tag = "6")]
+    #[serde(default)]
     pub min_commission_rate: ::prost::alloc::string::String,
 }
 /// DelegationResponse is equivalent to Delegation except that it contains a
@@ -570,8 +629,10 @@ pub struct Params {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.DelegationResponse")]
 pub struct DelegationResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub delegation: ::core::option::Option<Delegation>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub balance: ::core::option::Option<super::super::base::v1beta1::Coin>,
 }
 /// RedelegationEntryResponse is equivalent to a RedelegationEntry except that it
@@ -591,8 +652,10 @@ pub struct DelegationResponse {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.RedelegationEntryResponse")]
 pub struct RedelegationEntryResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub redelegation_entry: ::core::option::Option<RedelegationEntry>,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub balance: ::prost::alloc::string::String,
 }
 /// RedelegationResponse is equivalent to a Redelegation except that its entries
@@ -612,8 +675,10 @@ pub struct RedelegationEntryResponse {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.RedelegationResponse")]
 pub struct RedelegationResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub redelegation: ::core::option::Option<Redelegation>,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub entries: ::prost::alloc::vec::Vec<RedelegationEntryResponse>,
 }
 /// Pool is used for tracking bonded and not-bonded token supply of the bond
@@ -632,8 +697,10 @@ pub struct RedelegationResponse {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.Pool")]
 pub struct Pool {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub not_bonded_tokens: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub bonded_tokens: ::prost::alloc::string::String,
 }
 /// BondStatus is the status of a validator.
@@ -690,6 +757,7 @@ impl BondStatus {
 pub struct GenesisState {
     /// params defines all the paramaters of related to deposit.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
     /// last_total_power tracks the total amounts of bonded tokens recorded during
     /// the previous end block.
@@ -698,24 +766,31 @@ pub struct GenesisState {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub last_total_power: ::prost::alloc::vec::Vec<u8>,
     /// last_validator_powers is a special index that provides a historical list
     /// of the last-block's bonded validators.
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub last_validator_powers: ::prost::alloc::vec::Vec<LastValidatorPower>,
     /// delegations defines the validator set at genesis.
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub validators: ::prost::alloc::vec::Vec<Validator>,
     /// delegations defines the delegations active at genesis.
     #[prost(message, repeated, tag = "5")]
+    #[serde(default)]
     pub delegations: ::prost::alloc::vec::Vec<Delegation>,
     /// unbonding_delegations defines the unbonding delegations active at genesis.
     #[prost(message, repeated, tag = "6")]
+    #[serde(default)]
     pub unbonding_delegations: ::prost::alloc::vec::Vec<UnbondingDelegation>,
     /// redelegations defines the redelegations active at genesis.
     #[prost(message, repeated, tag = "7")]
+    #[serde(default)]
     pub redelegations: ::prost::alloc::vec::Vec<Redelegation>,
     #[prost(bool, tag = "8")]
+    #[serde(default)]
     pub exported: bool,
 }
 /// LastValidatorPower required for validator set update logic.
@@ -734,6 +809,7 @@ pub struct GenesisState {
 pub struct LastValidatorPower {
     /// address is the address of the validator.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     /// power defines the power of the validator.
     #[prost(int64, tag = "2")]
@@ -741,6 +817,7 @@ pub struct LastValidatorPower {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub power: i64,
 }
 /// QueryValidatorsRequest is request type for Query/Validators RPC method.
@@ -763,9 +840,11 @@ pub struct LastValidatorPower {
 pub struct QueryValidatorsRequest {
     /// status enables to query for validators matching a given status.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub status: ::prost::alloc::string::String,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryValidatorsResponse is response type for the Query/Validators RPC method
@@ -784,9 +863,11 @@ pub struct QueryValidatorsRequest {
 pub struct QueryValidatorsResponse {
     /// validators contains all the queried validators.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub validators: ::prost::alloc::vec::Vec<Validator>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryValidatorRequest is response type for the Query/Validator RPC method
@@ -809,6 +890,7 @@ pub struct QueryValidatorsResponse {
 pub struct QueryValidatorRequest {
     /// validator_addr defines the validator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_addr: ::prost::alloc::string::String,
 }
 /// QueryValidatorResponse is response type for the Query/Validator RPC method
@@ -827,6 +909,7 @@ pub struct QueryValidatorRequest {
 pub struct QueryValidatorResponse {
     /// validator defines the validator info.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub validator: ::core::option::Option<Validator>,
 }
 /// QueryValidatorDelegationsRequest is request type for the
@@ -850,9 +933,11 @@ pub struct QueryValidatorResponse {
 pub struct QueryValidatorDelegationsRequest {
     /// validator_addr defines the validator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_addr: ::prost::alloc::string::String,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryValidatorDelegationsResponse is response type for the
@@ -871,9 +956,11 @@ pub struct QueryValidatorDelegationsRequest {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryValidatorDelegationsResponse")]
 pub struct QueryValidatorDelegationsResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub delegation_responses: ::prost::alloc::vec::Vec<DelegationResponse>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryValidatorUnbondingDelegationsRequest is required type for the
@@ -897,9 +984,11 @@ pub struct QueryValidatorDelegationsResponse {
 pub struct QueryValidatorUnbondingDelegationsRequest {
     /// validator_addr defines the validator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_addr: ::prost::alloc::string::String,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryValidatorUnbondingDelegationsResponse is response type for the
@@ -918,9 +1007,11 @@ pub struct QueryValidatorUnbondingDelegationsRequest {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryValidatorUnbondingDelegationsResponse")]
 pub struct QueryValidatorUnbondingDelegationsResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub unbonding_responses: ::prost::alloc::vec::Vec<UnbondingDelegation>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryDelegationRequest is request type for the Query/Delegation RPC method.
@@ -943,9 +1034,11 @@ pub struct QueryValidatorUnbondingDelegationsResponse {
 pub struct QueryDelegationRequest {
     /// delegator_addr defines the delegator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_addr: ::prost::alloc::string::String,
     /// validator_addr defines the validator address to query for.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_addr: ::prost::alloc::string::String,
 }
 /// QueryDelegationResponse is response type for the Query/Delegation RPC method.
@@ -964,6 +1057,7 @@ pub struct QueryDelegationRequest {
 pub struct QueryDelegationResponse {
     /// delegation_responses defines the delegation info of a delegation.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub delegation_response: ::core::option::Option<DelegationResponse>,
 }
 /// QueryUnbondingDelegationRequest is request type for the
@@ -987,9 +1081,11 @@ pub struct QueryDelegationResponse {
 pub struct QueryUnbondingDelegationRequest {
     /// delegator_addr defines the delegator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_addr: ::prost::alloc::string::String,
     /// validator_addr defines the validator address to query for.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_addr: ::prost::alloc::string::String,
 }
 /// QueryDelegationResponse is response type for the Query/UnbondingDelegation
@@ -1009,6 +1105,7 @@ pub struct QueryUnbondingDelegationRequest {
 pub struct QueryUnbondingDelegationResponse {
     /// unbond defines the unbonding information of a delegation.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub unbond: ::core::option::Option<UnbondingDelegation>,
 }
 /// QueryDelegatorDelegationsRequest is request type for the
@@ -1032,9 +1129,11 @@ pub struct QueryUnbondingDelegationResponse {
 pub struct QueryDelegatorDelegationsRequest {
     /// delegator_addr defines the delegator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_addr: ::prost::alloc::string::String,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryDelegatorDelegationsResponse is response type for the
@@ -1054,9 +1153,11 @@ pub struct QueryDelegatorDelegationsRequest {
 pub struct QueryDelegatorDelegationsResponse {
     /// delegation_responses defines all the delegations' info of a delegator.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub delegation_responses: ::prost::alloc::vec::Vec<DelegationResponse>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryDelegatorUnbondingDelegationsRequest is request type for the
@@ -1080,9 +1181,11 @@ pub struct QueryDelegatorDelegationsResponse {
 pub struct QueryDelegatorUnbondingDelegationsRequest {
     /// delegator_addr defines the delegator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_addr: ::prost::alloc::string::String,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryUnbondingDelegatorDelegationsResponse is response type for the
@@ -1101,9 +1204,11 @@ pub struct QueryDelegatorUnbondingDelegationsRequest {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryDelegatorUnbondingDelegationsResponse")]
 pub struct QueryDelegatorUnbondingDelegationsResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub unbonding_responses: ::prost::alloc::vec::Vec<UnbondingDelegation>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryRedelegationsRequest is request type for the Query/Redelegations RPC
@@ -1127,15 +1232,19 @@ pub struct QueryDelegatorUnbondingDelegationsResponse {
 pub struct QueryRedelegationsRequest {
     /// delegator_addr defines the delegator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_addr: ::prost::alloc::string::String,
     /// src_validator_addr defines the validator address to redelegate from.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub src_validator_addr: ::prost::alloc::string::String,
     /// dst_validator_addr defines the validator address to redelegate to.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub dst_validator_addr: ::prost::alloc::string::String,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryRedelegationsResponse is response type for the Query/Redelegations RPC
@@ -1154,9 +1263,11 @@ pub struct QueryRedelegationsRequest {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.QueryRedelegationsResponse")]
 pub struct QueryRedelegationsResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub redelegation_responses: ::prost::alloc::vec::Vec<RedelegationResponse>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryDelegatorValidatorsRequest is request type for the
@@ -1180,9 +1291,11 @@ pub struct QueryRedelegationsResponse {
 pub struct QueryDelegatorValidatorsRequest {
     /// delegator_addr defines the delegator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_addr: ::prost::alloc::string::String,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryDelegatorValidatorsResponse is response type for the
@@ -1202,9 +1315,11 @@ pub struct QueryDelegatorValidatorsRequest {
 pub struct QueryDelegatorValidatorsResponse {
     /// validators defines the validators' info of a delegator.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub validators: ::prost::alloc::vec::Vec<Validator>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryDelegatorValidatorRequest is request type for the
@@ -1228,9 +1343,11 @@ pub struct QueryDelegatorValidatorsResponse {
 pub struct QueryDelegatorValidatorRequest {
     /// delegator_addr defines the delegator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_addr: ::prost::alloc::string::String,
     /// validator_addr defines the validator address to query for.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_addr: ::prost::alloc::string::String,
 }
 /// QueryDelegatorValidatorResponse response type for the
@@ -1250,6 +1367,7 @@ pub struct QueryDelegatorValidatorRequest {
 pub struct QueryDelegatorValidatorResponse {
     /// validator defines the validator info.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub validator: ::core::option::Option<Validator>,
 }
 /// QueryHistoricalInfoRequest is request type for the Query/HistoricalInfo RPC
@@ -1277,6 +1395,7 @@ pub struct QueryHistoricalInfoRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
 }
 /// QueryHistoricalInfoResponse is response type for the Query/HistoricalInfo RPC
@@ -1296,6 +1415,7 @@ pub struct QueryHistoricalInfoRequest {
 pub struct QueryHistoricalInfoResponse {
     /// hist defines the historical info at the given height.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub hist: ::core::option::Option<HistoricalInfo>,
 }
 /// QueryPoolRequest is request type for the Query/Pool RPC method.
@@ -1332,6 +1452,7 @@ pub struct QueryPoolRequest {}
 pub struct QueryPoolResponse {
     /// pool defines the pool info.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pool: ::core::option::Option<Pool>,
 }
 /// QueryParamsRequest is request type for the Query/Params RPC method.
@@ -1368,6 +1489,7 @@ pub struct QueryParamsRequest {}
 pub struct QueryParamsResponse {
     /// params holds all the parameters of this module.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
 }
 /// MsgCreateValidator defines a SDK message for creating a new validator.
@@ -1385,18 +1507,25 @@ pub struct QueryParamsResponse {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.MsgCreateValidator")]
 pub struct MsgCreateValidator {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub description: ::core::option::Option<Description>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub commission: ::core::option::Option<CommissionRates>,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub min_self_delegation: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "6")]
+    #[serde(default)]
     pub pubkey: ::core::option::Option<crate::shim::Any>,
     #[prost(message, optional, tag = "7")]
+    #[serde(default)]
     pub value: ::core::option::Option<super::super::base::v1beta1::Coin>,
 }
 /// MsgCreateValidatorResponse defines the Msg/CreateValidator response type.
@@ -1428,16 +1557,20 @@ pub struct MsgCreateValidatorResponse {}
 #[proto_message(type_url = "/cosmos.staking.v1beta1.MsgEditValidator")]
 pub struct MsgEditValidator {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub description: ::core::option::Option<Description>,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     /// We pass a reference to the new commission rate and min self delegation as
     /// it's not mandatory to update. If not updated, the deserialized rate will be
     /// zero with no way to distinguish if an update was intended.
     /// REF: #2373
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub commission_rate: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub min_self_delegation: ::prost::alloc::string::String,
 }
 /// MsgEditValidatorResponse defines the Msg/EditValidator response type.
@@ -1470,10 +1603,13 @@ pub struct MsgEditValidatorResponse {}
 #[proto_message(type_url = "/cosmos.staking.v1beta1.MsgDelegate")]
 pub struct MsgDelegate {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub amount: ::core::option::Option<super::super::base::v1beta1::Coin>,
 }
 /// MsgDelegateResponse defines the Msg/Delegate response type.
@@ -1506,12 +1642,16 @@ pub struct MsgDelegateResponse {}
 #[proto_message(type_url = "/cosmos.staking.v1beta1.MsgBeginRedelegate")]
 pub struct MsgBeginRedelegate {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_src_address: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub validator_dst_address: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub amount: ::core::option::Option<super::super::base::v1beta1::Coin>,
 }
 /// MsgBeginRedelegateResponse defines the Msg/BeginRedelegate response type.
@@ -1529,6 +1669,7 @@ pub struct MsgBeginRedelegate {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.MsgBeginRedelegateResponse")]
 pub struct MsgBeginRedelegateResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub completion_time: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// MsgUndelegate defines a SDK message for performing an undelegation from a
@@ -1547,10 +1688,13 @@ pub struct MsgBeginRedelegateResponse {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.MsgUndelegate")]
 pub struct MsgUndelegate {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub amount: ::core::option::Option<super::super::base::v1beta1::Coin>,
 }
 /// MsgUndelegateResponse defines the Msg/Undelegate response type.
@@ -1568,6 +1712,7 @@ pub struct MsgUndelegate {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.MsgUndelegateResponse")]
 pub struct MsgUndelegateResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub completion_time: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// MsgCancelUnbondingDelegation defines the SDK message for performing a cancel unbonding delegation for delegator
@@ -1587,11 +1732,14 @@ pub struct MsgUndelegateResponse {
 #[proto_message(type_url = "/cosmos.staking.v1beta1.MsgCancelUnbondingDelegation")]
 pub struct MsgCancelUnbondingDelegation {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     /// amount is always less than or equal to unbonding delegation entry balance
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub amount: ::core::option::Option<super::super::base::v1beta1::Coin>,
     /// creation_height is the height which the unbonding took place.
     #[prost(int64, tag = "4")]
@@ -1599,6 +1747,7 @@ pub struct MsgCancelUnbondingDelegation {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub creation_height: i64,
 }
 /// MsgCancelUnbondingDelegationResponse

@@ -19,17 +19,21 @@ pub struct ConnectionEnd {
     /// client associated with this connection.
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// IBC version which can be utilised to determine encodings or protocols for
     /// channels or packets utilising this connection.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub versions: ::prost::alloc::vec::Vec<Version>,
     /// current state of the connection end.
     #[prost(enumeration = "State", tag = "3")]
     #[serde(with = "State")]
+    #[serde(default)]
     pub state: i32,
     /// counterparty chain associated with this connection.
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub counterparty: ::core::option::Option<Counterparty>,
     /// delay period that must pass before a consensus state can be used for
     /// packet-verification NOTE: delay period logic is only implemented by some
@@ -39,6 +43,7 @@ pub struct ConnectionEnd {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub delay_period: u64,
 }
 /// IdentifiedConnection defines a connection with additional connection
@@ -59,21 +64,26 @@ pub struct IdentifiedConnection {
     /// connection identifier.
     #[prost(string, tag = "1")]
     #[serde(alias = "ID")]
+    #[serde(default)]
     pub id: ::prost::alloc::string::String,
     /// client associated with this connection.
     #[prost(string, tag = "2")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// IBC version which can be utilised to determine encodings or protocols for
     /// channels or packets utilising this connection
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub versions: ::prost::alloc::vec::Vec<Version>,
     /// current state of the connection end.
     #[prost(enumeration = "State", tag = "4")]
     #[serde(with = "State")]
+    #[serde(default)]
     pub state: i32,
     /// counterparty chain associated with this connection.
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub counterparty: ::core::option::Option<Counterparty>,
     /// delay period associated with this connection.
     #[prost(uint64, tag = "6")]
@@ -81,6 +91,7 @@ pub struct IdentifiedConnection {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub delay_period: u64,
 }
 /// Counterparty defines the counterparty chain associated with a connection end.
@@ -101,14 +112,17 @@ pub struct Counterparty {
     /// connection.
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// identifies the connection end on the counterparty chain associated with a
     /// given connection.
     #[prost(string, tag = "2")]
     #[serde(alias = "connectionID")]
+    #[serde(default)]
     pub connection_id: ::prost::alloc::string::String,
     /// commitment merkle prefix of the counterparty chain.
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub prefix: ::core::option::Option<super::super::commitment::v1::MerklePrefix>,
 }
 /// ClientPaths define all the connection paths for a client state.
@@ -127,6 +141,7 @@ pub struct Counterparty {
 pub struct ClientPaths {
     /// list of connection paths
     #[prost(string, repeated, tag = "1")]
+    #[serde(default)]
     pub paths: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// ConnectionPaths define all the connection paths for a given client state.
@@ -146,9 +161,11 @@ pub struct ConnectionPaths {
     /// client state unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// list of connection paths
     #[prost(string, repeated, tag = "2")]
+    #[serde(default)]
     pub paths: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Version defines the versioning scheme used to negotiate the IBC verison in
@@ -168,9 +185,11 @@ pub struct ConnectionPaths {
 pub struct Version {
     /// unique version identifier
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub identifier: ::prost::alloc::string::String,
     /// list of features compatible with the specified identifier
     #[prost(string, repeated, tag = "2")]
+    #[serde(default)]
     pub features: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Params defines the set of Connection parameters.
@@ -195,6 +214,7 @@ pub struct Params {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_expected_time_per_block: u64,
 }
 /// State defines if a connection is in one of the following states:
@@ -252,8 +272,10 @@ impl State {
 #[proto_message(type_url = "/ibc.core.connection.v1.GenesisState")]
 pub struct GenesisState {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub connections: ::prost::alloc::vec::Vec<IdentifiedConnection>,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub client_connection_paths: ::prost::alloc::vec::Vec<ConnectionPaths>,
     /// the sequence for the next generated connection identifier
     #[prost(uint64, tag = "3")]
@@ -261,8 +283,10 @@ pub struct GenesisState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub next_connection_sequence: u64,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
 }
 /// QueryConnectionRequest is the request type for the Query/Connection RPC
@@ -287,6 +311,7 @@ pub struct QueryConnectionRequest {
     /// connection unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "connectionID")]
+    #[serde(default)]
     pub connection_id: ::prost::alloc::string::String,
 }
 /// QueryConnectionResponse is the response type for the Query/Connection RPC
@@ -307,6 +332,7 @@ pub struct QueryConnectionRequest {
 pub struct QueryConnectionResponse {
     /// connection associated with the request identifier
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub connection: ::core::option::Option<ConnectionEnd>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
@@ -314,9 +340,11 @@ pub struct QueryConnectionResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryConnectionsRequest is the request type for the Query/Connections RPC
@@ -339,6 +367,7 @@ pub struct QueryConnectionResponse {
 )]
 pub struct QueryConnectionsRequest {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageRequest,
     >,
@@ -360,14 +389,17 @@ pub struct QueryConnectionsRequest {
 pub struct QueryConnectionsResponse {
     /// list of stored connections of the chain.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub connections: ::prost::alloc::vec::Vec<IdentifiedConnection>,
     /// pagination response
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageResponse,
     >,
     /// query block height
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryClientConnectionsRequest is the request type for the
@@ -392,6 +424,7 @@ pub struct QueryClientConnectionsRequest {
     /// client identifier associated with a connection
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
 }
 /// QueryClientConnectionsResponse is the response type for the
@@ -411,6 +444,7 @@ pub struct QueryClientConnectionsRequest {
 pub struct QueryClientConnectionsResponse {
     /// slice of all the connection paths associated with a client.
     #[prost(string, repeated, tag = "1")]
+    #[serde(default)]
     pub connection_paths: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
@@ -418,9 +452,11 @@ pub struct QueryClientConnectionsResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was generated
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryConnectionClientStateRequest is the request type for the
@@ -445,6 +481,7 @@ pub struct QueryConnectionClientStateRequest {
     /// connection identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "connectionID")]
+    #[serde(default)]
     pub connection_id: ::prost::alloc::string::String,
 }
 /// QueryConnectionClientStateResponse is the response type for the
@@ -464,6 +501,7 @@ pub struct QueryConnectionClientStateRequest {
 pub struct QueryConnectionClientStateResponse {
     /// client state associated with the channel
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub identified_client_state:
         ::core::option::Option<super::super::client::v1::IdentifiedClientState>,
     /// merkle proof of existence
@@ -472,9 +510,11 @@ pub struct QueryConnectionClientStateResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryConnectionConsensusStateRequest is the request type for the
@@ -499,18 +539,21 @@ pub struct QueryConnectionConsensusStateRequest {
     /// connection identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "connectionID")]
+    #[serde(default)]
     pub connection_id: ::prost::alloc::string::String,
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub revision_number: u64,
     #[prost(uint64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub revision_height: u64,
 }
 /// QueryConnectionConsensusStateResponse is the response type for the
@@ -530,10 +573,12 @@ pub struct QueryConnectionConsensusStateRequest {
 pub struct QueryConnectionConsensusStateResponse {
     /// consensus state associated with the channel
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub consensus_state: ::core::option::Option<crate::shim::Any>,
     /// client ID associated with the consensus state
     #[prost(string, tag = "2")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "3")]
@@ -541,9 +586,11 @@ pub struct QueryConnectionConsensusStateResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryConnectionParamsRequest is the request type for the Query/ConnectionParams RPC method.
@@ -580,6 +627,7 @@ pub struct QueryConnectionParamsRequest {}
 pub struct QueryConnectionParamsResponse {
     /// params defines the parameters of the module.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
 }
 /// MsgConnectionOpenInit defines the msg sent by an account on Chain A to
@@ -599,18 +647,23 @@ pub struct QueryConnectionParamsResponse {
 pub struct MsgConnectionOpenInit {
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub counterparty: ::core::option::Option<Counterparty>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub version: ::core::option::Option<Version>,
     #[prost(uint64, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub delay_period: u64,
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgConnectionOpenInitResponse defines the Msg/ConnectionOpenInit response
@@ -645,25 +698,32 @@ pub struct MsgConnectionOpenInitResponse {}
 pub struct MsgConnectionOpenTry {
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// Deprecated: this field is unused. Crossing hellos are no longer supported in core IBC.
     #[deprecated]
     #[prost(string, tag = "2")]
     #[serde(alias = "previous_connectionID")]
+    #[serde(default)]
     pub previous_connection_id: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub client_state: ::core::option::Option<crate::shim::Any>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub counterparty: ::core::option::Option<Counterparty>,
     #[prost(uint64, tag = "5")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub delay_period: u64,
     #[prost(message, repeated, tag = "6")]
+    #[serde(default)]
     pub counterparty_versions: ::prost::alloc::vec::Vec<Version>,
     #[prost(message, optional, tag = "7")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     /// proof of the initialization the connection on Chain A: `UNITIALIZED ->
     /// INIT`
@@ -672,6 +732,7 @@ pub struct MsgConnectionOpenTry {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_init: ::prost::alloc::vec::Vec<u8>,
     /// proof of client state included in message
     #[prost(bytes = "vec", tag = "9")]
@@ -679,6 +740,7 @@ pub struct MsgConnectionOpenTry {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_client: ::prost::alloc::vec::Vec<u8>,
     /// proof of client consensus state
     #[prost(bytes = "vec", tag = "10")]
@@ -686,10 +748,13 @@ pub struct MsgConnectionOpenTry {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_consensus: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "11")]
+    #[serde(default)]
     pub consensus_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(string, tag = "12")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgConnectionOpenTryResponse defines the Msg/ConnectionOpenTry response type.
@@ -723,15 +788,20 @@ pub struct MsgConnectionOpenTryResponse {}
 pub struct MsgConnectionOpenAck {
     #[prost(string, tag = "1")]
     #[serde(alias = "connectionID")]
+    #[serde(default)]
     pub connection_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "counterparty_connectionID")]
+    #[serde(default)]
     pub counterparty_connection_id: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub version: ::core::option::Option<Version>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub client_state: ::core::option::Option<crate::shim::Any>,
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     /// proof of the initialization the connection on Chain B: `UNITIALIZED ->
     /// TRYOPEN`
@@ -740,6 +810,7 @@ pub struct MsgConnectionOpenAck {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_try: ::prost::alloc::vec::Vec<u8>,
     /// proof of client state included in message
     #[prost(bytes = "vec", tag = "7")]
@@ -747,6 +818,7 @@ pub struct MsgConnectionOpenAck {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_client: ::prost::alloc::vec::Vec<u8>,
     /// proof of client consensus state
     #[prost(bytes = "vec", tag = "8")]
@@ -754,10 +826,13 @@ pub struct MsgConnectionOpenAck {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_consensus: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "9")]
+    #[serde(default)]
     pub consensus_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(string, tag = "10")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgConnectionOpenAckResponse defines the Msg/ConnectionOpenAck response type.
@@ -791,6 +866,7 @@ pub struct MsgConnectionOpenAckResponse {}
 pub struct MsgConnectionOpenConfirm {
     #[prost(string, tag = "1")]
     #[serde(alias = "connectionID")]
+    #[serde(default)]
     pub connection_id: ::prost::alloc::string::String,
     /// proof for the change of the connection state on Chain A: `INIT -> OPEN`
     #[prost(bytes = "vec", tag = "2")]
@@ -798,10 +874,13 @@ pub struct MsgConnectionOpenConfirm {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_ack: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgConnectionOpenConfirmResponse defines the Msg/ConnectionOpenConfirm

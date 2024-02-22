@@ -21,7 +21,9 @@ pub struct LegacyAminoPubKey {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub threshold: u32,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub public_keys: ::prost::alloc::vec::Vec<crate::shim::Any>,
 }

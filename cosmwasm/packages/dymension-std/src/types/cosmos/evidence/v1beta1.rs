@@ -19,16 +19,20 @@ pub struct Equivocation {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub time: ::core::option::Option<crate::shim::Timestamp>,
     #[prost(int64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub power: i64,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub consensus_address: ::prost::alloc::string::String,
 }
 /// GenesisState defines the evidence module's genesis state.
@@ -47,6 +51,7 @@ pub struct Equivocation {
 pub struct GenesisState {
     /// evidence defines all the evidence at genesis.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub evidence: ::prost::alloc::vec::Vec<crate::shim::Any>,
 }
 /// QueryEvidenceRequest is the request type for the Query/Evidence RPC method.
@@ -73,6 +78,7 @@ pub struct QueryEvidenceRequest {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub evidence_hash: ::prost::alloc::vec::Vec<u8>,
 }
 /// QueryEvidenceResponse is the response type for the Query/Evidence RPC method.
@@ -91,6 +97,7 @@ pub struct QueryEvidenceRequest {
 pub struct QueryEvidenceResponse {
     /// evidence returns the requested evidence.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub evidence: ::core::option::Option<crate::shim::Any>,
 }
 /// QueryEvidenceRequest is the request type for the Query/AllEvidence RPC
@@ -114,6 +121,7 @@ pub struct QueryEvidenceResponse {
 pub struct QueryAllEvidenceRequest {
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryAllEvidenceResponse is the response type for the Query/AllEvidence RPC
@@ -133,9 +141,11 @@ pub struct QueryAllEvidenceRequest {
 pub struct QueryAllEvidenceResponse {
     /// evidence returns all evidences.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub evidence: ::prost::alloc::vec::Vec<crate::shim::Any>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// MsgSubmitEvidence represents a message that supports submitting arbitrary
@@ -154,8 +164,10 @@ pub struct QueryAllEvidenceResponse {
 #[proto_message(type_url = "/cosmos.evidence.v1beta1.MsgSubmitEvidence")]
 pub struct MsgSubmitEvidence {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub submitter: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub evidence: ::core::option::Option<crate::shim::Any>,
 }
 /// MsgSubmitEvidenceResponse defines the Msg/SubmitEvidence response type.
@@ -178,6 +190,7 @@ pub struct MsgSubmitEvidenceResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub hash: ::prost::alloc::vec::Vec<u8>,
 }
 pub struct EvidenceQuerier<'a, Q: cosmwasm_std::CustomQuery> {

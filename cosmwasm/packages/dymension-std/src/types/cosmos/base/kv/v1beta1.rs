@@ -14,6 +14,7 @@ use dymension_std_derive::CosmwasmExt;
 #[proto_message(type_url = "/cosmos.base.kv.v1beta1.Pairs")]
 pub struct Pairs {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub pairs: ::prost::alloc::vec::Vec<Pair>,
 }
 /// Pair defines a key/value bytes tuple.
@@ -35,11 +36,13 @@ pub struct Pair {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub key: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub value: ::prost::alloc::vec::Vec<u8>,
 }

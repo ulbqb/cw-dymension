@@ -15,15 +15,18 @@ use dymension_std_derive::CosmwasmExt;
 pub struct Tx {
     /// body is the processable content of the transaction
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub body: ::core::option::Option<TxBody>,
     /// auth_info is the authorization related content of the transaction,
     /// specifically signers, signer modes and fee
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub auth_info: ::core::option::Option<AuthInfo>,
     /// signatures is a list of signatures that matches the length and order of
     /// AuthInfo's signer_infos to allow connecting signature meta information like
     /// public key and signing mode by position.
     #[prost(bytes = "vec", repeated, tag = "3")]
+    #[serde(default)]
     pub signatures: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 /// TxRaw is a variant of Tx that pins the signer's exact binary representation
@@ -51,6 +54,7 @@ pub struct TxRaw {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub body_bytes: ::prost::alloc::vec::Vec<u8>,
     /// auth_info_bytes is a protobuf serialization of an AuthInfo that matches the
     /// representation in SignDoc.
@@ -59,11 +63,13 @@ pub struct TxRaw {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub auth_info_bytes: ::prost::alloc::vec::Vec<u8>,
     /// signatures is a list of signatures that matches the length and order of
     /// AuthInfo's signer_infos to allow connecting signature meta information like
     /// public key and signing mode by position.
     #[prost(bytes = "vec", repeated, tag = "3")]
+    #[serde(default)]
     pub signatures: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 /// SignDoc is the type used for generating sign bytes for SIGN_MODE_DIRECT.
@@ -87,6 +93,7 @@ pub struct SignDoc {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub body_bytes: ::prost::alloc::vec::Vec<u8>,
     /// auth_info_bytes is a protobuf serialization of an AuthInfo that matches the
     /// representation in TxRaw.
@@ -95,12 +102,14 @@ pub struct SignDoc {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub auth_info_bytes: ::prost::alloc::vec::Vec<u8>,
     /// chain_id is the unique identifier of the chain this transaction targets.
     /// It prevents signed transactions from being used on another chain by an
     /// attacker
     #[prost(string, tag = "3")]
     #[serde(alias = "chainID")]
+    #[serde(default)]
     pub chain_id: ::prost::alloc::string::String,
     /// account_number is the account number of the account in state
     #[prost(uint64, tag = "4")]
@@ -108,6 +117,7 @@ pub struct SignDoc {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub account_number: u64,
 }
 /// SignDocDirectAux is the type used for generating sign bytes for
@@ -134,15 +144,18 @@ pub struct SignDocDirectAux {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub body_bytes: ::prost::alloc::vec::Vec<u8>,
     /// public_key is the public key of the signing account.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub public_key: ::core::option::Option<crate::shim::Any>,
     /// chain_id is the identifier of the chain this transaction targets.
     /// It prevents signed transactions from being used on another chain by an
     /// attacker.
     #[prost(string, tag = "3")]
     #[serde(alias = "chainID")]
+    #[serde(default)]
     pub chain_id: ::prost::alloc::string::String,
     /// account_number is the account number of the account in state.
     #[prost(uint64, tag = "4")]
@@ -150,6 +163,7 @@ pub struct SignDocDirectAux {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub account_number: u64,
     /// sequence is the sequence number of the signing account.
     #[prost(uint64, tag = "5")]
@@ -157,6 +171,7 @@ pub struct SignDocDirectAux {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
     /// Tip is the optional tip used for transactions fees paid in another denom.
     /// It should be left empty if the signer is not the tipper for this
@@ -165,6 +180,7 @@ pub struct SignDocDirectAux {
     /// This field is ignored if the chain didn't enable tips, i.e. didn't add the
     /// `TipDecorator` in its posthandler.
     #[prost(message, optional, tag = "6")]
+    #[serde(default)]
     pub tip: ::core::option::Option<Tip>,
 }
 /// TxBody is the body of a transaction that all signers sign over.
@@ -189,11 +205,13 @@ pub struct TxBody {
     /// is referred to as the primary signer and pays the fee for the whole
     /// transaction.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub messages: ::prost::alloc::vec::Vec<crate::shim::Any>,
     /// memo is any arbitrary note/comment to be added to the transaction.
     /// WARNING: in clients, any publicly exposed text should not be called memo,
     /// but should be called `note` instead (see <https://github.com/cosmos/cosmos-sdk/issues/9122>).
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub memo: ::prost::alloc::string::String,
     /// timeout is the block height after which this transaction will not
     /// be processed by the chain
@@ -202,16 +220,19 @@ pub struct TxBody {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub timeout_height: u64,
     /// extension_options are arbitrary options that can be added by chains
     /// when the default options are not sufficient. If any of these are present
     /// and can't be handled, the transaction will be rejected
     #[prost(message, repeated, tag = "1023")]
+    #[serde(default)]
     pub extension_options: ::prost::alloc::vec::Vec<crate::shim::Any>,
     /// extension_options are arbitrary options that can be added by chains
     /// when the default options are not sufficient. If any of these are present
     /// and can't be handled, they will be ignored
     #[prost(message, repeated, tag = "2047")]
+    #[serde(default)]
     pub non_critical_extension_options: ::prost::alloc::vec::Vec<crate::shim::Any>,
 }
 /// AuthInfo describes the fee and signer modes that are used to sign a
@@ -234,12 +255,14 @@ pub struct AuthInfo {
     /// messages. The first element is the primary signer and the one which pays
     /// the fee.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub signer_infos: ::prost::alloc::vec::Vec<SignerInfo>,
     /// Fee is the fee and gas limit for the transaction. The first signer is the
     /// primary signer and the one which pays the fee. The fee can be calculated
     /// based on the cost of evaluating the body and doing signature verification
     /// of the signers. This can be estimated via simulation.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub fee: ::core::option::Option<Fee>,
     /// Tip is the optional tip used for transactions fees paid in another denom.
     ///
@@ -248,6 +271,7 @@ pub struct AuthInfo {
     ///
     /// Since: cosmos-sdk 0.46
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub tip: ::core::option::Option<Tip>,
 }
 /// SignerInfo describes the public key and signing mode of a single top-level
@@ -269,10 +293,12 @@ pub struct SignerInfo {
     /// that already exist in state. If unset, the verifier can use the required \
     /// signer address for this position and lookup the public key.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub public_key: ::core::option::Option<crate::shim::Any>,
     /// mode_info describes the signing mode of the signer and is a nested
     /// structure to support nested multisig pubkey's
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub mode_info: ::core::option::Option<ModeInfo>,
     /// sequence is the sequence of the account, which describes the
     /// number of committed transactions signed by a given address. It is used to
@@ -282,6 +308,7 @@ pub struct SignerInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
 }
 /// ModeInfo describes the signing mode of a single or nested multisig signer.
@@ -301,6 +328,7 @@ pub struct ModeInfo {
     /// sum is the oneof that specifies whether this represents a single or nested
     /// multisig signer
     #[prost(oneof = "mode_info::Sum", tags = "1, 2")]
+    #[serde(default)]
     pub sum: ::core::option::Option<mode_info::Sum>,
 }
 /// Nested message and enum types in `ModeInfo`.
@@ -325,6 +353,7 @@ pub mod mode_info {
         /// mode is the signing mode of the single signer
         #[prost(enumeration = "super::super::signing::v1beta1::SignMode", tag = "1")]
         #[serde(with = "super::super::signing::v1beta1::SignMode")]
+        #[serde(default)]
         pub mode: i32,
     }
     /// Multi is the mode info for a multisig public key
@@ -343,11 +372,13 @@ pub mod mode_info {
     pub struct Multi {
         /// bitarray specifies which keys within the multisig are signing
         #[prost(message, optional, tag = "1")]
+        #[serde(default)]
         pub bitarray:
             ::core::option::Option<super::super::super::crypto::multisig::v1beta1::CompactBitArray>,
         /// mode_infos is the corresponding modes of the signers of the multisig
         /// which could include nested multisig public keys
         #[prost(message, repeated, tag = "2")]
+        #[serde(default)]
         pub mode_infos: ::prost::alloc::vec::Vec<super::ModeInfo>,
     }
     /// sum is the oneof that specifies whether this represents a single or nested
@@ -389,6 +420,7 @@ pub mod mode_info {
 pub struct Fee {
     /// amount is the amount of coins to be paid as a fee
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
     /// gas_limit is the maximum gas that can be used in transaction processing
     /// before an out of gas error occurs
@@ -397,16 +429,19 @@ pub struct Fee {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub gas_limit: u64,
     /// if unset, the first signer is responsible for paying the fees. If set, the specified account must pay the fees.
     /// the payer must be a tx signer (and thus have signed this field in AuthInfo).
     /// setting this field does *not* change the ordering of required signers for the transaction.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub payer: ::prost::alloc::string::String,
     /// if set, the fee payer (either the first signer or the value of the payer field) requests that a fee grant be used
     /// to pay fees instead of the fee payer's own balance. If an appropriate fee grant does not exist or the chain does
     /// not support fee grants, this will fail
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub granter: ::prost::alloc::string::String,
 }
 /// Tip is the tip used for meta-transactions.
@@ -427,9 +462,11 @@ pub struct Fee {
 pub struct Tip {
     /// amount is the amount of the tip
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
     /// tipper is the address of the account paying for the tip
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub tipper: ::prost::alloc::string::String,
 }
 /// AuxSignerData is the intermediary format that an auxiliary signer (e.g. a
@@ -455,15 +492,18 @@ pub struct AuxSignerData {
     /// AuxSignerData across different chains, the bech32 prefix of the target
     /// chain (where the final transaction is broadcasted) should be used.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     /// sign_doc is the SIGN_MODE_DIRECT_AUX sign doc that the auxiliary signer
     /// signs. Note: we use the same sign doc even if we're signing with
     /// LEGACY_AMINO_JSON.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub sign_doc: ::core::option::Option<SignDocDirectAux>,
     /// mode is the signing mode of the single signer.
     #[prost(enumeration = "super::signing::v1beta1::SignMode", tag = "3")]
     #[serde(with = "super::signing::v1beta1::SignMode")]
+    #[serde(default)]
     pub mode: i32,
     /// sig is the signature of the sign doc.
     #[prost(bytes = "vec", tag = "4")]
@@ -471,6 +511,7 @@ pub struct AuxSignerData {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub sig: ::prost::alloc::vec::Vec<u8>,
 }
 /// GetTxsEventRequest is the request type for the Service.TxsByEvents
@@ -490,14 +531,17 @@ pub struct AuxSignerData {
 pub struct GetTxsEventRequest {
     /// events is the list of transaction event type.
     #[prost(string, repeated, tag = "1")]
+    #[serde(default)]
     pub events: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// pagination defines a pagination for the request.
     /// Deprecated post v0.46.x: use page and limit instead.
     #[deprecated]
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
     #[prost(enumeration = "OrderBy", tag = "3")]
     #[serde(with = "OrderBy")]
+    #[serde(default)]
     pub order_by: i32,
     /// page is the page number to query, starts at 1. If not provided, will default to first page.
     #[prost(uint64, tag = "4")]
@@ -505,6 +549,7 @@ pub struct GetTxsEventRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub page: u64,
     /// limit is the total number of results to be returned in the result page.
     /// If left empty it will default to a value to be set by each app.
@@ -513,6 +558,7 @@ pub struct GetTxsEventRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub limit: u64,
 }
 /// GetTxsEventResponse is the response type for the Service.TxsByEvents
@@ -532,14 +578,17 @@ pub struct GetTxsEventRequest {
 pub struct GetTxsEventResponse {
     /// txs is the list of queried transactions.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub txs: ::prost::alloc::vec::Vec<Tx>,
     /// tx_responses is the list of queried TxResponses.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub tx_responses: ::prost::alloc::vec::Vec<super::super::base::abci::v1beta1::TxResponse>,
     /// pagination defines a pagination for the response.
     /// Deprecated post v0.46.x: use total instead.
     #[deprecated]
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
     /// total is total number of results available
     #[prost(uint64, tag = "4")]
@@ -547,6 +596,7 @@ pub struct GetTxsEventResponse {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub total: u64,
 }
 /// BroadcastTxRequest is the request type for the Service.BroadcastTxRequest
@@ -570,9 +620,11 @@ pub struct BroadcastTxRequest {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub tx_bytes: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "BroadcastMode", tag = "2")]
     #[serde(with = "BroadcastMode")]
+    #[serde(default)]
     pub mode: i32,
 }
 /// BroadcastTxResponse is the response type for the
@@ -592,6 +644,7 @@ pub struct BroadcastTxRequest {
 pub struct BroadcastTxResponse {
     /// tx_response is the queried TxResponses.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub tx_response: ::core::option::Option<super::super::base::abci::v1beta1::TxResponse>,
 }
 /// SimulateRequest is the request type for the Service.Simulate
@@ -613,6 +666,7 @@ pub struct SimulateRequest {
     /// Deprecated. Send raw tx bytes instead.
     #[deprecated]
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub tx: ::core::option::Option<Tx>,
     /// tx_bytes is the raw transaction.
     ///
@@ -622,6 +676,7 @@ pub struct SimulateRequest {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub tx_bytes: ::prost::alloc::vec::Vec<u8>,
 }
 /// SimulateResponse is the response type for the
@@ -641,9 +696,11 @@ pub struct SimulateRequest {
 pub struct SimulateResponse {
     /// gas_info is the information about gas used in the simulation.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub gas_info: ::core::option::Option<super::super::base::abci::v1beta1::GasInfo>,
     /// result is the result of the simulation.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub result: ::core::option::Option<super::super::base::abci::v1beta1::Result>,
 }
 /// GetTxRequest is the request type for the Service.GetTx
@@ -663,6 +720,7 @@ pub struct SimulateResponse {
 pub struct GetTxRequest {
     /// hash is the tx hash to query, encoded as a hex string.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub hash: ::prost::alloc::string::String,
 }
 /// GetTxResponse is the response type for the Service.GetTx method.
@@ -681,9 +739,11 @@ pub struct GetTxRequest {
 pub struct GetTxResponse {
     /// tx is the queried transaction.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub tx: ::core::option::Option<Tx>,
     /// tx_response is the queried TxResponses.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub tx_response: ::core::option::Option<super::super::base::abci::v1beta1::TxResponse>,
 }
 /// GetBlockWithTxsRequest is the request type for the Service.GetBlockWithTxs
@@ -709,9 +769,11 @@ pub struct GetBlockWithTxsRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     /// pagination defines a pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// GetBlockWithTxsResponse is the response type for the Service.GetBlockWithTxs method.
@@ -732,14 +794,18 @@ pub struct GetBlockWithTxsRequest {
 pub struct GetBlockWithTxsResponse {
     /// txs are the transactions in the block.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub txs: ::prost::alloc::vec::Vec<Tx>,
     #[prost(message, optional, tag = "2")]
     #[serde(alias = "blockID")]
+    #[serde(default)]
     pub block_id: ::core::option::Option<super::super::super::tendermint::types::BlockId>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub block: ::core::option::Option<super::super::super::tendermint::types::Block>,
     /// pagination defines a pagination for the response.
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// OrderBy defines the sorting order

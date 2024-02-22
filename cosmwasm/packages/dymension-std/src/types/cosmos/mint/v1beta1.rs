@@ -15,9 +15,11 @@ use dymension_std_derive::CosmwasmExt;
 pub struct Minter {
     /// current annual inflation rate
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub inflation: ::prost::alloc::string::String,
     /// current annual expected provisions
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub annual_provisions: ::prost::alloc::string::String,
 }
 /// Params holds parameters for the mint module.
@@ -36,18 +38,23 @@ pub struct Minter {
 pub struct Params {
     /// type of coin to mint
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub mint_denom: ::prost::alloc::string::String,
     /// maximum annual change in inflation rate
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub inflation_rate_change: ::prost::alloc::string::String,
     /// maximum inflation rate
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub inflation_max: ::prost::alloc::string::String,
     /// minimum inflation rate
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub inflation_min: ::prost::alloc::string::String,
     /// goal of percent bonded atoms
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub goal_bonded: ::prost::alloc::string::String,
     /// expected blocks per year
     #[prost(uint64, tag = "6")]
@@ -55,6 +62,7 @@ pub struct Params {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub blocks_per_year: u64,
 }
 /// GenesisState defines the mint module's genesis state.
@@ -73,9 +81,11 @@ pub struct Params {
 pub struct GenesisState {
     /// minter is a space for holding current inflation information.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub minter: ::core::option::Option<Minter>,
     /// params defines all the paramaters of the module.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
@@ -112,6 +122,7 @@ pub struct QueryParamsRequest {}
 pub struct QueryParamsResponse {
     /// params defines the parameters of the module.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
 }
 /// QueryInflationRequest is the request type for the Query/Inflation RPC method.
@@ -153,6 +164,7 @@ pub struct QueryInflationResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub inflation: ::prost::alloc::vec::Vec<u8>,
 }
 /// QueryAnnualProvisionsRequest is the request type for the
@@ -195,6 +207,7 @@ pub struct QueryAnnualProvisionsResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub annual_provisions: ::prost::alloc::vec::Vec<u8>,
 }
 pub struct MintQuerier<'a, Q: cosmwasm_std::CustomQuery> {

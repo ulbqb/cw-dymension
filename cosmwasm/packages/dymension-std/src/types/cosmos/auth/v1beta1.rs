@@ -16,20 +16,24 @@ use dymension_std_derive::CosmwasmExt;
 #[proto_message(type_url = "/cosmos.auth.v1beta1.BaseAccount")]
 pub struct BaseAccount {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pub_key: ::core::option::Option<crate::shim::Any>,
     #[prost(uint64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub account_number: u64,
     #[prost(uint64, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
 }
 /// ModuleAccount defines an account for modules that holds coins on a pool.
@@ -47,10 +51,13 @@ pub struct BaseAccount {
 #[proto_message(type_url = "/cosmos.auth.v1beta1.ModuleAccount")]
 pub struct ModuleAccount {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub base_account: ::core::option::Option<BaseAccount>,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub name: ::prost::alloc::string::String,
     #[prost(string, repeated, tag = "3")]
+    #[serde(default)]
     pub permissions: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Params defines the parameters for the auth module.
@@ -72,30 +79,35 @@ pub struct Params {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_memo_characters: u64,
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub tx_sig_limit: u64,
     #[prost(uint64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub tx_size_cost_per_byte: u64,
     #[prost(uint64, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sig_verify_cost_ed25519: u64,
     #[prost(uint64, tag = "5")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sig_verify_cost_secp256k1: u64,
 }
 /// GenesisState defines the auth module's genesis state.
@@ -114,9 +126,11 @@ pub struct Params {
 pub struct GenesisState {
     /// params defines all the paramaters of the module.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
     /// accounts are the accounts present at genesis.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub accounts: ::prost::alloc::vec::Vec<crate::shim::Any>,
 }
 /// QueryAccountsRequest is the request type for the Query/Accounts RPC method.
@@ -141,6 +155,7 @@ pub struct GenesisState {
 pub struct QueryAccountsRequest {
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryAccountsResponse is the response type for the Query/Accounts RPC method.
@@ -161,9 +176,11 @@ pub struct QueryAccountsRequest {
 pub struct QueryAccountsResponse {
     /// accounts are the existing accounts
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub accounts: ::prost::alloc::vec::Vec<crate::shim::Any>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryAccountRequest is the request type for the Query/Account RPC method.
@@ -186,6 +203,7 @@ pub struct QueryAccountsResponse {
 pub struct QueryAccountRequest {
     /// address defines the address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
 }
 /// QueryAccountResponse is the response type for the Query/Account RPC method.
@@ -204,6 +222,7 @@ pub struct QueryAccountRequest {
 pub struct QueryAccountResponse {
     /// account defines the account of the corresponding address.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub account: ::core::option::Option<crate::shim::Any>,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
@@ -240,6 +259,7 @@ pub struct QueryParamsRequest {}
 pub struct QueryParamsResponse {
     /// params defines the parameters of the module.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
 }
 /// QueryModuleAccountsRequest is the request type for the Query/ModuleAccounts RPC method.
@@ -279,6 +299,7 @@ pub struct QueryModuleAccountsRequest {}
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryModuleAccountsResponse")]
 pub struct QueryModuleAccountsResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub accounts: ::prost::alloc::vec::Vec<crate::shim::Any>,
 }
 /// QueryModuleAccountByNameRequest is the request type for the Query/ModuleAccountByName RPC method.
@@ -300,6 +321,7 @@ pub struct QueryModuleAccountsResponse {
 )]
 pub struct QueryModuleAccountByNameRequest {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub name: ::prost::alloc::string::String,
 }
 /// QueryModuleAccountByNameResponse is the response type for the Query/ModuleAccountByName RPC method.
@@ -317,6 +339,7 @@ pub struct QueryModuleAccountByNameRequest {
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryModuleAccountByNameResponse")]
 pub struct QueryModuleAccountByNameResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub account: ::core::option::Option<crate::shim::Any>,
 }
 /// Bech32PrefixRequest is the request type for Bech32Prefix rpc method.
@@ -356,6 +379,7 @@ pub struct Bech32PrefixRequest {}
 #[proto_message(type_url = "/cosmos.auth.v1beta1.Bech32PrefixResponse")]
 pub struct Bech32PrefixResponse {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub bech32_prefix: ::prost::alloc::string::String,
 }
 /// AddressBytesToStringRequest is the request type for AddressString rpc method.
@@ -383,6 +407,7 @@ pub struct AddressBytesToStringRequest {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub address_bytes: ::prost::alloc::vec::Vec<u8>,
 }
 /// AddressBytesToStringResponse is the response type for AddressString rpc method.
@@ -402,6 +427,7 @@ pub struct AddressBytesToStringRequest {
 #[proto_message(type_url = "/cosmos.auth.v1beta1.AddressBytesToStringResponse")]
 pub struct AddressBytesToStringResponse {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address_string: ::prost::alloc::string::String,
 }
 /// AddressStringToBytesRequest is the request type for AccountBytes rpc method.
@@ -425,6 +451,7 @@ pub struct AddressBytesToStringResponse {
 )]
 pub struct AddressStringToBytesRequest {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address_string: ::prost::alloc::string::String,
 }
 /// AddressStringToBytesResponse is the response type for AddressBytes rpc method.
@@ -448,6 +475,7 @@ pub struct AddressStringToBytesResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub address_bytes: ::prost::alloc::vec::Vec<u8>,
 }
 /// QueryAccountAddressByIDRequest is the request type for AccountAddressByID rpc method
@@ -479,6 +507,7 @@ pub struct QueryAccountAddressByIdRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub id: i64,
 }
 /// QueryAccountAddressByIDResponse is the response type for AccountAddressByID rpc method
@@ -498,6 +527,7 @@ pub struct QueryAccountAddressByIdRequest {
 #[proto_message(type_url = "/cosmos.auth.v1beta1.QueryAccountAddressByIDResponse")]
 pub struct QueryAccountAddressByIdResponse {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub account_address: ::prost::alloc::string::String,
 }
 pub struct AuthQuerier<'a, Q: cosmwasm_std::CustomQuery> {

@@ -16,6 +16,7 @@ use dymension_std_derive::CosmwasmExt;
 pub struct Params {
     /// controller_enabled enables or disables the controller submodule.
     #[prost(bool, tag = "1")]
+    #[serde(default)]
     pub controller_enabled: bool,
 }
 /// QueryInterchainAccountRequest is the request type for the Query/InterchainAccount RPC method.
@@ -39,9 +40,11 @@ pub struct Params {
 )]
 pub struct QueryInterchainAccountRequest {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub owner: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "connectionID")]
+    #[serde(default)]
     pub connection_id: ::prost::alloc::string::String,
 }
 /// QueryInterchainAccountResponse the response type for the Query/InterchainAccount RPC method.
@@ -61,6 +64,7 @@ pub struct QueryInterchainAccountRequest {
 )]
 pub struct QueryInterchainAccountResponse {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
@@ -101,6 +105,7 @@ pub struct QueryParamsRequest {}
 pub struct QueryParamsResponse {
     /// params defines the parameters of the module.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
 }
 /// MsgRegisterInterchainAccount defines the payload for Msg/MsgRegisterInterchainAccount
@@ -120,11 +125,14 @@ pub struct QueryParamsResponse {
 )]
 pub struct MsgRegisterInterchainAccount {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub owner: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "connectionID")]
+    #[serde(default)]
     pub connection_id: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub version: ::prost::alloc::string::String,
 }
 /// MsgRegisterInterchainAccountResponse defines the response for Msg/MsgRegisterInterchainAccountResponse
@@ -145,6 +153,7 @@ pub struct MsgRegisterInterchainAccount {
 pub struct MsgRegisterInterchainAccountResponse {
     #[prost(string, tag = "1")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
 }
 /// MsgSendTx defines the payload for Msg/SendTx
@@ -162,11 +171,14 @@ pub struct MsgRegisterInterchainAccountResponse {
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.controller.v1.MsgSendTx")]
 pub struct MsgSendTx {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub owner: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "connectionID")]
+    #[serde(default)]
     pub connection_id: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub packet_data: ::core::option::Option<super::super::v1::InterchainAccountPacketData>,
     /// Relative timeout timestamp provided will be added to the current block time during transaction execution.
     /// The timeout timestamp must be non-zero.
@@ -175,6 +187,7 @@ pub struct MsgSendTx {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub relative_timeout: u64,
 }
 /// MsgSendTxResponse defines the response for MsgSendTx
@@ -196,6 +209,7 @@ pub struct MsgSendTxResponse {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
 }
 pub struct ControllerQuerier<'a, Q: cosmwasm_std::CustomQuery> {

@@ -13,8 +13,10 @@ use dymension_std_derive::CosmwasmExt;
 #[proto_message(type_url = "/dymensionxyz.dymension.streamer.DistrInfo")]
 pub struct DistrInfo {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub total_weight: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub records: ::prost::alloc::vec::Vec<DistrRecord>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -36,8 +38,10 @@ pub struct DistrRecord {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub gauge_id: u64,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub weight: ::prost::alloc::string::String,
 }
 /// Params holds parameters for the streamer module
@@ -77,21 +81,26 @@ pub struct Stream {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub id: u64,
     /// distribute_to is the distr_info.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub distribute_to: ::core::option::Option<DistrInfo>,
     /// coins is the total amount of coins that have been in the stream
     /// Can distribute multiple coin denoms
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub coins: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
     /// start_time is the distribution start time
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub start_time: ::core::option::Option<crate::shim::Timestamp>,
     /// distr_epoch_identifier is what epoch type di-stribution will be triggered by
     /// (day, week, etc.)
     #[prost(string, tag = "5")]
     #[serde(alias = "distr_epochIDentifier")]
+    #[serde(default)]
     pub distr_epoch_identifier: ::prost::alloc::string::String,
     /// num_epochs_paid_over is the number of total epochs distribution will be
     /// completed over
@@ -100,6 +109,7 @@ pub struct Stream {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub num_epochs_paid_over: u64,
     /// filled_epochs is the number of epochs distribution has been completed on
     /// already
@@ -108,9 +118,11 @@ pub struct Stream {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub filled_epochs: u64,
     /// distributed_coins are coins that have been distributed already
     #[prost(message, repeated, tag = "8")]
+    #[serde(default)]
     pub distributed_coins:
         ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
 }
@@ -131,9 +143,11 @@ pub struct Stream {
 pub struct GenesisState {
     /// params are all the parameters of the module
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
     /// streams are all streams that should exist at genesis
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub streams: ::prost::alloc::vec::Vec<Stream>,
     /// last_stream_id is what the stream number will increment from when creating
     /// the next stream after genesis
@@ -143,6 +157,7 @@ pub struct GenesisState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub last_stream_id: u64,
 }
 /// ReplaceStreamDistributionProposal is a gov Content type for updating a stream
@@ -164,8 +179,10 @@ pub struct GenesisState {
 #[proto_message(type_url = "/dymensionxyz.dymension.streamer.ReplaceStreamDistributionProposal")]
 pub struct ReplaceStreamDistributionProposal {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub title: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
     #[serde(alias = "streamID")]
@@ -173,8 +190,10 @@ pub struct ReplaceStreamDistributionProposal {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub stream_id: u64,
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub records: ::prost::alloc::vec::Vec<DistrRecord>,
 }
 /// For example: if the existing DistrRecords were:
@@ -198,8 +217,10 @@ pub struct ReplaceStreamDistributionProposal {
 #[proto_message(type_url = "/dymensionxyz.dymension.streamer.UpdateStreamDistributionProposal")]
 pub struct UpdateStreamDistributionProposal {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub title: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
     #[serde(alias = "streamID")]
@@ -207,8 +228,10 @@ pub struct UpdateStreamDistributionProposal {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub stream_id: u64,
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub records: ::prost::alloc::vec::Vec<DistrRecord>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -225,19 +248,25 @@ pub struct UpdateStreamDistributionProposal {
 #[proto_message(type_url = "/dymensionxyz.dymension.streamer.CreateStreamProposal")]
 pub struct CreateStreamProposal {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub title: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub distribute_to_records: ::prost::alloc::vec::Vec<DistrRecord>,
     /// coins are coin(s) to be distributed by the stream
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub coins: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
     /// start_time is the distribution start time
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub start_time: ::core::option::Option<crate::shim::Timestamp>,
     #[prost(string, tag = "6")]
     #[serde(alias = "distr_epochIDentifier")]
+    #[serde(default)]
     pub distr_epoch_identifier: ::prost::alloc::string::String,
     /// num_epochs_paid_over is the number of epochs distribution will be completed
     /// over
@@ -246,6 +275,7 @@ pub struct CreateStreamProposal {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub num_epochs_paid_over: u64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -262,8 +292,10 @@ pub struct CreateStreamProposal {
 #[proto_message(type_url = "/dymensionxyz.dymension.streamer.TerminateStreamProposal")]
 pub struct TerminateStreamProposal {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub title: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
     #[prost(uint64, tag = "4")]
     #[serde(alias = "streamID")]
@@ -271,6 +303,7 @@ pub struct TerminateStreamProposal {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub stream_id: u64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -305,6 +338,7 @@ pub struct ModuleToDistributeCoinsRequest {}
 pub struct ModuleToDistributeCoinsResponse {
     /// Coins that have yet to be distributed
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub coins: ::prost::alloc::vec::Vec<super::super::super::cosmos::base::v1beta1::Coin>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -331,6 +365,7 @@ pub struct StreamByIdRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub id: u64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -348,6 +383,7 @@ pub struct StreamByIdRequest {
 pub struct StreamByIdResponse {
     /// Stream that corresponds to provided gague ID
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub stream: ::core::option::Option<Stream>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -369,6 +405,7 @@ pub struct StreamByIdResponse {
 pub struct StreamsRequest {
     /// Pagination defines pagination for the request
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
@@ -387,9 +424,11 @@ pub struct StreamsRequest {
 pub struct StreamsResponse {
     /// Upcoming and active streams
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<Stream>,
     /// Pagination defines pagination for the response
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
@@ -412,6 +451,7 @@ pub struct StreamsResponse {
 pub struct ActiveStreamsRequest {
     /// Pagination defines pagination for the request
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
@@ -430,9 +470,11 @@ pub struct ActiveStreamsRequest {
 pub struct ActiveStreamsResponse {
     /// Active gagues only
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<Stream>,
     /// Pagination defines pagination for the response
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
@@ -455,6 +497,7 @@ pub struct ActiveStreamsResponse {
 pub struct UpcomingStreamsRequest {
     /// Pagination defines pagination for the request
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
@@ -473,9 +516,11 @@ pub struct UpcomingStreamsRequest {
 pub struct UpcomingStreamsResponse {
     /// Streams whose distribution is upcoming
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<Stream>,
     /// Pagination defines pagination for the response
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }

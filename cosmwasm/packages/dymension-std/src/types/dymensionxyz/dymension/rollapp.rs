@@ -16,6 +16,7 @@ use dymension_std_derive::CosmwasmExt;
 pub struct DenomUnit {
     /// denom represents the string name of the given denom unit (e.g uatom).
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub denom: ::prost::alloc::string::String,
     /// exponent represents power of 10 exponent that one must
     /// raise the base_denom to in order to equal the given DenomUnit's denom
@@ -27,9 +28,11 @@ pub struct DenomUnit {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub exponent: u32,
     /// aliases is a list of string aliases for the given denom
     #[prost(string, repeated, tag = "3")]
+    #[serde(default)]
     pub aliases: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Metadata represents a struct that describes
@@ -48,38 +51,46 @@ pub struct DenomUnit {
 #[proto_message(type_url = "/dymensionxyz.dymension.rollapp.TokenMetadata")]
 pub struct TokenMetadata {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
     /// denom_units represents the list of DenomUnit's for a given coin
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub denom_units: ::prost::alloc::vec::Vec<DenomUnit>,
     /// base represents the base denom (should be the DenomUnit with exponent = 0).
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub base: ::prost::alloc::string::String,
     /// display indicates the suggested denom that should be
     /// displayed in clients.
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub display: ::prost::alloc::string::String,
     /// name defines the name of the token (eg: Cosmos Atom)
     ///
     /// Since: cosmos-sdk 0.43
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub name: ::prost::alloc::string::String,
     /// symbol is the token symbol usually shown on exchanges (eg: ATOM). This can
     /// be the same as the display.
     ///
     /// Since: cosmos-sdk 0.43
     #[prost(string, tag = "6")]
+    #[serde(default)]
     pub symbol: ::prost::alloc::string::String,
     /// URI to a document (on or off-chain) that contains additional information. Optional.
     ///
     /// Since: cosmos-sdk 0.46
     #[prost(string, tag = "7")]
+    #[serde(default)]
     pub uri: ::prost::alloc::string::String,
     /// URIHash is a sha256 hash of a document pointed by URI. It's used to verify that
     /// the document didn't change. Optional.
     ///
     /// Since: cosmos-sdk 0.46
     #[prost(string, tag = "8")]
+    #[serde(default)]
     pub uri_hash: ::prost::alloc::string::String,
 }
 /// BlockDescriptor defines a single rollapp chain block description.
@@ -102,6 +113,7 @@ pub struct BlockDescriptor {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: u64,
     /// stateRoot is a 32 byte array of the hash of the block (state root of the block)
     #[prost(bytes = "vec", tag = "2")]
@@ -109,6 +121,7 @@ pub struct BlockDescriptor {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub state_root: ::prost::alloc::vec::Vec<u8>,
     /// intermediateStatesRoot is a 32 byte array representing
     /// the root of a Merkle tree built from the ISRs of the block (Intermediate State Roots)
@@ -117,6 +130,7 @@ pub struct BlockDescriptor {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub intermediate_states_root: ::prost::alloc::vec::Vec<u8>,
 }
 /// BlockDescriptors defines list of BlockDescriptor.
@@ -134,6 +148,7 @@ pub struct BlockDescriptor {
 #[proto_message(type_url = "/dymensionxyz.dymension.rollapp.BlockDescriptors")]
 pub struct BlockDescriptors {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub bd: ::prost::alloc::vec::Vec<BlockDescriptor>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -152,6 +167,7 @@ pub struct DeployerParams {
     /// address is a bech32-encoded address of the
     /// accounts that are allowed to create a rollapp.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     /// max_rollapps is the maximum number of rollapps that address allowed to deploy
     #[prost(uint64, tag = "2")]
@@ -159,6 +175,7 @@ pub struct DeployerParams {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_rollapps: u64,
 }
 /// Params defines the parameters for the module.
@@ -183,13 +200,16 @@ pub struct Params {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub dispute_period_in_blocks: u64,
     /// deployer_whitelist is a list of the
     /// accounts that are allowed to create a rollapp and maximum number of rollapps.
     /// In the case of an empty list, there are no restrictions
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub deployer_whitelist: ::prost::alloc::vec::Vec<DeployerParams>,
     #[prost(bool, tag = "3")]
+    #[serde(default)]
     pub rollapps_enabled: bool,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -248,6 +268,7 @@ pub struct StateInfoIndex {
     /// The rollappId follows the same standard as cosmos chain_id
     #[prost(string, tag = "1")]
     #[serde(alias = "rollappID")]
+    #[serde(default)]
     pub rollapp_id: ::prost::alloc::string::String,
     /// index is a sequential increasing number, updating on each
     /// state update used for indexing to a specific state info, the first index is 1
@@ -256,6 +277,7 @@ pub struct StateInfoIndex {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub index: u64,
 }
 /// StateInfo defines a rollapps' state.
@@ -275,9 +297,11 @@ pub struct StateInfo {
     /// stateInfoIndex defines what rollapp the state belongs to
     /// and in which index it can be referenced
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub state_info_index: ::core::option::Option<StateInfoIndex>,
     /// sequencer is the bech32-encoded address of the sequencer sent the update
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub sequencer: ::prost::alloc::string::String,
     /// startHeight is the block height of the first block in the batch
     #[prost(uint64, tag = "3")]
@@ -285,6 +309,7 @@ pub struct StateInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub start_height: u64,
     /// numBlocks is the number of blocks included in this batch update
     #[prost(uint64, tag = "4")]
@@ -292,9 +317,11 @@ pub struct StateInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub num_blocks: u64,
     /// DAPath is the description of the location on the DA layer
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub da_path: ::prost::alloc::string::String,
     /// version is the version of the rollapp
     #[prost(uint64, tag = "6")]
@@ -302,6 +329,7 @@ pub struct StateInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub version: u64,
     /// creationHeight is the height at which the UpdateState took place
     #[prost(uint64, tag = "7")]
@@ -309,14 +337,17 @@ pub struct StateInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub creation_height: u64,
     /// status is the status of the state update
     #[prost(enumeration = "StateStatus", tag = "8")]
     #[serde(with = "StateStatus")]
+    #[serde(default)]
     pub status: i32,
     /// BDs is a list of block description objects (one per block)
     /// the list must be ordered by height, starting from startHeight to startHeight+numBlocks-1
     #[prost(message, optional, tag = "9")]
+    #[serde(default)]
     pub b_ds: ::core::option::Option<BlockDescriptors>,
 }
 /// StateInfoSummary is a compact representation of StateInfo
@@ -336,10 +367,12 @@ pub struct StateInfoSummary {
     /// stateInfoIndex defines what rollapp the state belongs to
     /// and in which index it can be referenced
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub state_info_index: ::core::option::Option<StateInfoIndex>,
     /// status is the status of the state update
     #[prost(enumeration = "StateStatus", tag = "2")]
     #[serde(with = "StateStatus")]
+    #[serde(default)]
     pub status: i32,
     /// creationHeight is the height at which the UpdateState took place
     #[prost(uint64, tag = "3")]
@@ -347,6 +380,7 @@ pub struct StateInfoSummary {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub creation_height: u64,
 }
 /// BlockHeightToFinalizationQueue defines a map from block height to list of states to finalized
@@ -369,10 +403,12 @@ pub struct BlockHeightToFinalizationQueue {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub finalization_height: u64,
     /// finalizationQueue is a list of states that are waiting to be finalized
     /// when the block height becomes finalizationHeight
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub finalization_queue: ::prost::alloc::vec::Vec<StateInfoIndex>,
 }
 /// Rollapp defines a rollapp object. First the RollApp is created and then
@@ -394,9 +430,11 @@ pub struct Rollapp {
     /// The rollappId follows the same standard as cosmos chain_id.
     #[prost(string, tag = "1")]
     #[serde(alias = "rollappID")]
+    #[serde(default)]
     pub rollapp_id: ::prost::alloc::string::String,
     /// creator is the bech32-encoded address of the rollapp creator.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub creator: ::prost::alloc::string::String,
     /// version is the software and configuration version.
     /// starts from 1 and increases by one on every MsgUpdateState
@@ -405,14 +443,17 @@ pub struct Rollapp {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub version: u64,
     /// codeStamp is a generated hash for unique identification of the rollapp code.
     #[deprecated]
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub code_stamp: ::prost::alloc::string::String,
     /// genesisPath is the description of the genesis file location on the DA.
     #[deprecated]
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub genesis_path: ::prost::alloc::string::String,
     /// maxWithholdingBlocks is the maximum number of blocks for
     /// an active sequencer to send a state update (MsgUpdateState).
@@ -422,6 +463,7 @@ pub struct Rollapp {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_withholding_blocks: u64,
     /// maxSequencers is the maximum number of sequencers.
     #[prost(uint64, tag = "7")]
@@ -429,13 +471,16 @@ pub struct Rollapp {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_sequencers: u64,
     /// permissionedAddresses is a bech32-encoded address list of the sequencers that are allowed to serve this rollappId.
     /// In the case of an empty list, the rollapp is considered permissionless.
     #[prost(string, repeated, tag = "8")]
+    #[serde(default)]
     pub permissioned_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// tokenMetadata is a list of TokenMetadata that are registered on this rollapp
     #[prost(message, repeated, tag = "9")]
+    #[serde(default)]
     pub token_metadata: ::prost::alloc::vec::Vec<TokenMetadata>,
 }
 /// Rollapp summary is a compact representation of Rollapp
@@ -456,12 +501,15 @@ pub struct RollappSummary {
     /// The rollappId follows the same standard as cosmos chain_id.
     #[prost(string, tag = "1")]
     #[serde(alias = "rollappID")]
+    #[serde(default)]
     pub rollapp_id: ::prost::alloc::string::String,
     /// Defines the index of the last rollapp UpdateState.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub latest_state_index: ::core::option::Option<StateInfoIndex>,
     /// Defines the index of the last rollapp UpdateState that was finalized.
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub latest_finalized_state_index: ::core::option::Option<StateInfoIndex>,
 }
 /// GenesisState defines the rollapp module's genesis state.
@@ -479,17 +527,23 @@ pub struct RollappSummary {
 #[proto_message(type_url = "/dymensionxyz.dymension.rollapp.GenesisState")]
 pub struct GenesisState {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub rollapp_list: ::prost::alloc::vec::Vec<Rollapp>,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub state_info_list: ::prost::alloc::vec::Vec<StateInfo>,
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub latest_state_info_index_list: ::prost::alloc::vec::Vec<StateInfoIndex>,
     #[prost(message, repeated, tag = "5")]
+    #[serde(default)]
     pub latest_finalized_state_index_list: ::prost::alloc::vec::Vec<StateInfoIndex>,
     /// this line is used by starport scaffolding # genesis/proto/state
     #[prost(message, repeated, tag = "6")]
+    #[serde(default)]
     pub block_height_to_finalization_queue_list:
         ::prost::alloc::vec::Vec<BlockHeightToFinalizationQueue>,
 }
@@ -527,6 +581,7 @@ pub struct QueryParamsRequest {}
 pub struct QueryParamsResponse {
     /// params holds all the parameters of this module.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -548,6 +603,7 @@ pub struct QueryParamsResponse {
 pub struct QueryGetRollappRequest {
     #[prost(string, tag = "1")]
     #[serde(alias = "rollappID")]
+    #[serde(default)]
     pub rollapp_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -572,6 +628,7 @@ pub struct QueryGetRollappByEip155Request {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub eip155: u64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -593,8 +650,10 @@ pub struct QueryGetRollappByEip155Request {
 pub struct QueryGetLatestStateIndexRequest {
     #[prost(string, tag = "1")]
     #[serde(alias = "rollappID")]
+    #[serde(default)]
     pub rollapp_id: ::prost::alloc::string::String,
     #[prost(bool, tag = "2")]
+    #[serde(default)]
     pub finalized: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -611,6 +670,7 @@ pub struct QueryGetLatestStateIndexRequest {
 #[proto_message(type_url = "/dymensionxyz.dymension.rollapp.QueryGetLatestStateIndexResponse")]
 pub struct QueryGetLatestStateIndexResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub state_index: ::core::option::Option<StateInfoIndex>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -627,12 +687,15 @@ pub struct QueryGetLatestStateIndexResponse {
 #[proto_message(type_url = "/dymensionxyz.dymension.rollapp.QueryGetRollappResponse")]
 pub struct QueryGetRollappResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub rollapp: ::core::option::Option<Rollapp>,
     /// Defines the index of the last rollapp UpdateState.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub latest_state_index: ::core::option::Option<StateInfoIndex>,
     /// Defines the index of the last rollapp UpdateState that was finalized.
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub latest_finalized_state_index: ::core::option::Option<StateInfoIndex>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -653,6 +716,7 @@ pub struct QueryGetRollappResponse {
 )]
 pub struct QueryAllRollappRequest {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
@@ -670,8 +734,10 @@ pub struct QueryAllRollappRequest {
 #[proto_message(type_url = "/dymensionxyz.dymension.rollapp.QueryAllRollappResponse")]
 pub struct QueryAllRollappResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub rollapp: ::prost::alloc::vec::Vec<RollappSummary>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
@@ -694,20 +760,24 @@ pub struct QueryAllRollappResponse {
 pub struct QueryGetStateInfoRequest {
     #[prost(string, tag = "1")]
     #[serde(alias = "rollappID")]
+    #[serde(default)]
     pub rollapp_id: ::prost::alloc::string::String,
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub index: u64,
     #[prost(uint64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: u64,
     #[prost(bool, tag = "4")]
+    #[serde(default)]
     pub finalized: bool,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -724,6 +794,7 @@ pub struct QueryGetStateInfoRequest {
 #[proto_message(type_url = "/dymensionxyz.dymension.rollapp.QueryGetStateInfoResponse")]
 pub struct QueryGetStateInfoResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub state_info: ::core::option::Option<StateInfo>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -745,8 +816,10 @@ pub struct QueryGetStateInfoResponse {
 pub struct QueryAllStateInfoRequest {
     #[prost(string, tag = "1")]
     #[serde(alias = "rollappID")]
+    #[serde(default)]
     pub rollapp_id: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
@@ -764,8 +837,10 @@ pub struct QueryAllStateInfoRequest {
 #[proto_message(type_url = "/dymensionxyz.dymension.rollapp.QueryAllStateInfoResponse")]
 pub struct QueryAllStateInfoResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub state_info: ::prost::alloc::vec::Vec<StateInfoSummary>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
@@ -785,6 +860,7 @@ pub struct QueryAllStateInfoResponse {
 pub struct MsgCreateRollapp {
     /// creator is the bech32-encoded address of the rollapp creator
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub creator: ::prost::alloc::string::String,
     /// rollappId is the unique identifier of the rollapp chain.
     /// The rollappId follows the same standard as cosmos chain_id
@@ -792,14 +868,17 @@ pub struct MsgCreateRollapp {
     /// [(gogoproto.customname) = "ChainID"];
     #[prost(string, tag = "2")]
     #[serde(alias = "rollappID")]
+    #[serde(default)]
     pub rollapp_id: ::prost::alloc::string::String,
     /// codeStamp is the description of the genesis file location on the DA
     #[deprecated]
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub code_stamp: ::prost::alloc::string::String,
     /// genesisPath is the description of the genesis file location on the DA
     #[deprecated]
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub genesis_path: ::prost::alloc::string::String,
     /// maxWithholdingBlocks is the maximum number of blocks for
     /// an active sequencer to send a state update (MsgUpdateState)
@@ -809,6 +888,7 @@ pub struct MsgCreateRollapp {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_withholding_blocks: u64,
     /// maxSequencers is the maximum number of sequencers
     #[prost(uint64, tag = "6")]
@@ -816,14 +896,17 @@ pub struct MsgCreateRollapp {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_sequencers: u64,
     /// permissionedAddresses is a bech32-encoded address list of the
     /// sequencers that are allowed to serve this rollappId.
     /// In the case of an empty list, the rollapp is considered permissionless
     #[prost(string, repeated, tag = "7")]
+    #[serde(default)]
     pub permissioned_addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// metadata provides the client information for all the registered tokens.
     #[prost(message, repeated, tag = "8")]
+    #[serde(default)]
     pub metadatas: ::prost::alloc::vec::Vec<TokenMetadata>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -857,11 +940,13 @@ pub struct MsgCreateRollappResponse {}
 pub struct MsgUpdateState {
     /// creator is the bech32-encoded address of the sequencer sending the update
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub creator: ::prost::alloc::string::String,
     /// rollappId is the rollapp that the sequencer belongs to and asking to update
     /// The rollappId follows the same standard as cosmos chain_id
     #[prost(string, tag = "2")]
     #[serde(alias = "rollappID")]
+    #[serde(default)]
     pub rollapp_id: ::prost::alloc::string::String,
     /// startHeight is the block height of the first block in the batch
     #[prost(uint64, tag = "3")]
@@ -869,6 +954,7 @@ pub struct MsgUpdateState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub start_height: u64,
     /// numBlocks is the number of blocks included in this batch update
     #[prost(uint64, tag = "4")]
@@ -876,9 +962,11 @@ pub struct MsgUpdateState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub num_blocks: u64,
     /// DAPath is the description of the location on the DA layer
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub da_path: ::prost::alloc::string::String,
     /// version is the version of the rollapp
     #[prost(uint64, tag = "6")]
@@ -886,10 +974,12 @@ pub struct MsgUpdateState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub version: u64,
     /// BDs is a list of block description objects (one per block)
     /// the list must be ordered by height, starting from startHeight to startHeight+numBlocks-1
     #[prost(message, optional, tag = "7")]
+    #[serde(default)]
     pub b_ds: ::core::option::Option<BlockDescriptors>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]

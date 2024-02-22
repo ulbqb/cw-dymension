@@ -15,6 +15,7 @@ use dymension_std_derive::CosmwasmExt;
 pub struct SignatureDescriptors {
     /// signatures are the signature descriptors
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub signatures: ::prost::alloc::vec::Vec<SignatureDescriptor>,
 }
 /// SignatureDescriptor is a convenience type which represents the full data for
@@ -36,8 +37,10 @@ pub struct SignatureDescriptors {
 pub struct SignatureDescriptor {
     /// public_key is the public key of the signer
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub public_key: ::core::option::Option<crate::shim::Any>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub data: ::core::option::Option<signature_descriptor::Data>,
     /// sequence is the sequence of the account, which describes the
     /// number of committed transactions signed by a given address. It is used to prevent
@@ -47,6 +50,7 @@ pub struct SignatureDescriptor {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
 }
 /// Nested message and enum types in `SignatureDescriptor`.
@@ -68,6 +72,7 @@ pub mod signature_descriptor {
     pub struct Data {
         /// sum is the oneof that specifies whether this represents single or multi-signature data
         #[prost(oneof = "data::Sum", tags = "1, 2")]
+        #[serde(default)]
         pub sum: ::core::option::Option<data::Sum>,
     }
     /// Nested message and enum types in `Data`.
@@ -90,6 +95,7 @@ pub mod signature_descriptor {
             /// mode is the signing mode of the single signer
             #[prost(enumeration = "super::super::SignMode", tag = "1")]
             #[serde(with = "super::super::SignMode")]
+            #[serde(default)]
             pub mode: i32,
             /// signature is the raw signature bytes
             #[prost(bytes = "vec", tag = "2")]
@@ -97,6 +103,7 @@ pub mod signature_descriptor {
                 serialize_with = "crate::serde::as_base64_encoded_string::serialize",
                 deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
             )]
+            #[serde(default)]
             pub signature: ::prost::alloc::vec::Vec<u8>,
         }
         /// Multi is the signature data for a multisig public key
@@ -115,11 +122,13 @@ pub mod signature_descriptor {
         pub struct Multi {
             /// bitarray specifies which keys within the multisig are signing
             #[prost(message, optional, tag = "1")]
+            #[serde(default)]
             pub bitarray: ::core::option::Option<
                 super::super::super::super::super::crypto::multisig::v1beta1::CompactBitArray,
             >,
             /// signatures is the signatures of the multi-signature
             #[prost(message, repeated, tag = "2")]
+            #[serde(default)]
             pub signatures: ::prost::alloc::vec::Vec<super::Data>,
         }
         /// sum is the oneof that specifies whether this represents single or multi-signature data

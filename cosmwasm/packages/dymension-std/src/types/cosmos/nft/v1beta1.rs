@@ -15,13 +15,17 @@ use dymension_std_derive::CosmwasmExt;
 pub struct EventSend {
     #[prost(string, tag = "1")]
     #[serde(alias = "classID")]
+    #[serde(default)]
     pub class_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "ID")]
+    #[serde(default)]
     pub id: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub sender: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub receiver: ::prost::alloc::string::String,
 }
 /// EventMint is emitted on Mint
@@ -40,11 +44,14 @@ pub struct EventSend {
 pub struct EventMint {
     #[prost(string, tag = "1")]
     #[serde(alias = "classID")]
+    #[serde(default)]
     pub class_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "ID")]
+    #[serde(default)]
     pub id: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub owner: ::prost::alloc::string::String,
 }
 /// EventBurn is emitted on Burn
@@ -63,11 +70,14 @@ pub struct EventMint {
 pub struct EventBurn {
     #[prost(string, tag = "1")]
     #[serde(alias = "classID")]
+    #[serde(default)]
     pub class_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "ID")]
+    #[serde(default)]
     pub id: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub owner: ::prost::alloc::string::String,
 }
 /// Class defines the class of the nft type.
@@ -87,24 +97,31 @@ pub struct Class {
     /// id defines the unique identifier of the NFT classification, similar to the contract address of ERC721
     #[prost(string, tag = "1")]
     #[serde(alias = "ID")]
+    #[serde(default)]
     pub id: ::prost::alloc::string::String,
     /// name defines the human-readable name of the NFT classification. Optional
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub name: ::prost::alloc::string::String,
     /// symbol is an abbreviated name for nft classification. Optional
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub symbol: ::prost::alloc::string::String,
     /// description is a brief description of nft classification. Optional
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
     /// uri for the class metadata stored off chain. It can define schema for Class and NFT `Data` attributes. Optional
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub uri: ::prost::alloc::string::String,
     /// uri_hash is a hash of the document pointed by uri. Optional
     #[prost(string, tag = "6")]
+    #[serde(default)]
     pub uri_hash: ::prost::alloc::string::String,
     /// data is the app specific metadata of the NFT class. Optional
     #[prost(message, optional, tag = "7")]
+    #[serde(default)]
     pub data: ::core::option::Option<crate::shim::Any>,
 }
 /// NFT defines the NFT.
@@ -124,19 +141,24 @@ pub struct Nft {
     /// class_id associated with the NFT, similar to the contract address of ERC721
     #[prost(string, tag = "1")]
     #[serde(alias = "classID")]
+    #[serde(default)]
     pub class_id: ::prost::alloc::string::String,
     /// id is a unique identifier of the NFT
     #[prost(string, tag = "2")]
     #[serde(alias = "ID")]
+    #[serde(default)]
     pub id: ::prost::alloc::string::String,
     /// uri for the NFT metadata stored off chain
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub uri: ::prost::alloc::string::String,
     /// uri_hash is a hash of the document pointed by uri
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub uri_hash: ::prost::alloc::string::String,
     /// data is an app specific data of the NFT. Optional
     #[prost(message, optional, tag = "10")]
+    #[serde(default)]
     pub data: ::core::option::Option<crate::shim::Any>,
 }
 /// GenesisState defines the nft module's genesis state.
@@ -155,8 +177,10 @@ pub struct Nft {
 pub struct GenesisState {
     /// class defines the class of the nft type.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub classes: ::prost::alloc::vec::Vec<Class>,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub entries: ::prost::alloc::vec::Vec<Entry>,
 }
 /// Entry Defines all nft owned by a person
@@ -175,9 +199,11 @@ pub struct GenesisState {
 pub struct Entry {
     /// owner is the owner address of the following nft
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub owner: ::prost::alloc::string::String,
     /// nfts is a group of nfts of the same owner
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub nfts: ::prost::alloc::vec::Vec<Nft>,
 }
 /// QueryBalanceRequest is the request type for the Query/Balance RPC method
@@ -200,8 +226,10 @@ pub struct Entry {
 pub struct QueryBalanceRequest {
     #[prost(string, tag = "1")]
     #[serde(alias = "classID")]
+    #[serde(default)]
     pub class_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub owner: ::prost::alloc::string::String,
 }
 /// QueryBalanceResponse is the response type for the Query/Balance RPC method
@@ -223,6 +251,7 @@ pub struct QueryBalanceResponse {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub amount: u64,
 }
 /// QueryOwnerRequest is the request type for the Query/Owner RPC method
@@ -245,9 +274,11 @@ pub struct QueryBalanceResponse {
 pub struct QueryOwnerRequest {
     #[prost(string, tag = "1")]
     #[serde(alias = "classID")]
+    #[serde(default)]
     pub class_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "ID")]
+    #[serde(default)]
     pub id: ::prost::alloc::string::String,
 }
 /// QueryOwnerResponse is the response type for the Query/Owner RPC method
@@ -265,6 +296,7 @@ pub struct QueryOwnerRequest {
 #[proto_message(type_url = "/cosmos.nft.v1beta1.QueryOwnerResponse")]
 pub struct QueryOwnerResponse {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub owner: ::prost::alloc::string::String,
 }
 /// QuerySupplyRequest is the request type for the Query/Supply RPC method
@@ -287,6 +319,7 @@ pub struct QueryOwnerResponse {
 pub struct QuerySupplyRequest {
     #[prost(string, tag = "1")]
     #[serde(alias = "classID")]
+    #[serde(default)]
     pub class_id: ::prost::alloc::string::String,
 }
 /// QuerySupplyResponse is the response type for the Query/Supply RPC method
@@ -308,6 +341,7 @@ pub struct QuerySupplyResponse {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub amount: u64,
 }
 /// QueryNFTstRequest is the request type for the Query/NFTs RPC method
@@ -330,10 +364,13 @@ pub struct QuerySupplyResponse {
 pub struct QueryNfTsRequest {
     #[prost(string, tag = "1")]
     #[serde(alias = "classID")]
+    #[serde(default)]
     pub class_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub owner: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryNFTsResponse is the response type for the Query/NFTs RPC methods
@@ -351,8 +388,10 @@ pub struct QueryNfTsRequest {
 #[proto_message(type_url = "/cosmos.nft.v1beta1.QueryNFTsResponse")]
 pub struct QueryNfTsResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub nfts: ::prost::alloc::vec::Vec<Nft>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryNFTRequest is the request type for the Query/NFT RPC method
@@ -372,9 +411,11 @@ pub struct QueryNfTsResponse {
 pub struct QueryNftRequest {
     #[prost(string, tag = "1")]
     #[serde(alias = "classID")]
+    #[serde(default)]
     pub class_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "ID")]
+    #[serde(default)]
     pub id: ::prost::alloc::string::String,
 }
 /// QueryNFTResponse is the response type for the Query/NFT RPC method
@@ -392,6 +433,7 @@ pub struct QueryNftRequest {
 #[proto_message(type_url = "/cosmos.nft.v1beta1.QueryNFTResponse")]
 pub struct QueryNftResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub nft: ::core::option::Option<Nft>,
 }
 /// QueryClassRequest is the request type for the Query/Class RPC method
@@ -414,6 +456,7 @@ pub struct QueryNftResponse {
 pub struct QueryClassRequest {
     #[prost(string, tag = "1")]
     #[serde(alias = "classID")]
+    #[serde(default)]
     pub class_id: ::prost::alloc::string::String,
 }
 /// QueryClassResponse is the response type for the Query/Class RPC method
@@ -431,6 +474,7 @@ pub struct QueryClassRequest {
 #[proto_message(type_url = "/cosmos.nft.v1beta1.QueryClassResponse")]
 pub struct QueryClassResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub class: ::core::option::Option<Class>,
 }
 /// QueryClassesRequest is the request type for the Query/Classes RPC method
@@ -453,6 +497,7 @@ pub struct QueryClassResponse {
 pub struct QueryClassesRequest {
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryClassesResponse is the response type for the Query/Classes RPC method
@@ -470,8 +515,10 @@ pub struct QueryClassesRequest {
 #[proto_message(type_url = "/cosmos.nft.v1beta1.QueryClassesResponse")]
 pub struct QueryClassesResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub classes: ::prost::alloc::vec::Vec<Class>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// MsgSend represents a message to send a nft from one account to another account.
@@ -491,16 +538,20 @@ pub struct MsgSend {
     /// class_id defines the unique identifier of the nft classification, similar to the contract address of ERC721
     #[prost(string, tag = "1")]
     #[serde(alias = "classID")]
+    #[serde(default)]
     pub class_id: ::prost::alloc::string::String,
     /// id defines the unique identification of nft
     #[prost(string, tag = "2")]
     #[serde(alias = "ID")]
+    #[serde(default)]
     pub id: ::prost::alloc::string::String,
     /// sender is the address of the owner of nft
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub sender: ::prost::alloc::string::String,
     /// receiver is the receiver address of nft
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub receiver: ::prost::alloc::string::String,
 }
 /// MsgSendResponse defines the Msg/Send response type.

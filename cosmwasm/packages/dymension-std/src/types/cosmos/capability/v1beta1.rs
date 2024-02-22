@@ -19,6 +19,7 @@ pub struct Capability {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub index: u64,
 }
 /// Owner defines a single capability owner. An owner is defined by the name of
@@ -37,8 +38,10 @@ pub struct Capability {
 #[proto_message(type_url = "/cosmos.capability.v1beta1.Owner")]
 pub struct Owner {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub module: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub name: ::prost::alloc::string::String,
 }
 /// CapabilityOwners defines a set of owners of a single Capability. The set of
@@ -57,6 +60,7 @@ pub struct Owner {
 #[proto_message(type_url = "/cosmos.capability.v1beta1.CapabilityOwners")]
 pub struct CapabilityOwners {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub owners: ::prost::alloc::vec::Vec<Owner>,
 }
 /// GenesisOwners defines the capability owners with their corresponding index.
@@ -79,9 +83,11 @@ pub struct GenesisOwners {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub index: u64,
     /// index_owners are the owners at the given index.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub index_owners: ::core::option::Option<CapabilityOwners>,
 }
 /// GenesisState defines the capability module's genesis state.
@@ -104,9 +110,11 @@ pub struct GenesisState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub index: u64,
     /// owners represents a map from index to owners of the capability index
     /// index key is string to allow amino marshalling.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub owners: ::prost::alloc::vec::Vec<GenesisOwners>,
 }

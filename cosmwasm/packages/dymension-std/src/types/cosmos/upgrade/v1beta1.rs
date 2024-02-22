@@ -21,12 +21,14 @@ pub struct Plan {
     /// assumed that the software is out-of-date when the upgrade Time or Height is
     /// reached and the software will exit.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub name: ::prost::alloc::string::String,
     /// Deprecated: Time based upgrades have been deprecated. Time based upgrade logic
     /// has been removed from the SDK.
     /// If this field is not empty, an error will be thrown.
     #[deprecated]
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub time: ::core::option::Option<crate::shim::Timestamp>,
     /// The height at which the upgrade must be performed.
     /// Only used if Time is not set.
@@ -35,16 +37,19 @@ pub struct Plan {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     /// Any application specific upgrade info to be included on-chain
     /// such as a git commit that validators could automatically upgrade to
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub info: ::prost::alloc::string::String,
     /// Deprecated: UpgradedClientState field has been deprecated. IBC upgrade logic has been
     /// moved to the IBC module in the sub module 02-client.
     /// If this field is not empty, an error will be thrown.
     #[deprecated]
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub upgraded_client_state: ::core::option::Option<crate::shim::Any>,
 }
 /// SoftwareUpgradeProposal is a gov Content type for initiating a software
@@ -66,10 +71,13 @@ pub struct Plan {
 #[deprecated]
 pub struct SoftwareUpgradeProposal {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub title: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub plan: ::core::option::Option<Plan>,
 }
 /// CancelSoftwareUpgradeProposal is a gov Content type for cancelling a software
@@ -91,8 +99,10 @@ pub struct SoftwareUpgradeProposal {
 #[deprecated]
 pub struct CancelSoftwareUpgradeProposal {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub title: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
 }
 /// ModuleVersion specifies a module and its consensus version.
@@ -113,6 +123,7 @@ pub struct CancelSoftwareUpgradeProposal {
 pub struct ModuleVersion {
     /// name of the app module
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub name: ::prost::alloc::string::String,
     /// consensus version of the app module
     #[prost(uint64, tag = "2")]
@@ -120,6 +131,7 @@ pub struct ModuleVersion {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub version: u64,
 }
 /// QueryCurrentPlanRequest is the request type for the Query/CurrentPlan RPC
@@ -158,6 +170,7 @@ pub struct QueryCurrentPlanRequest {}
 pub struct QueryCurrentPlanResponse {
     /// plan is the current upgrade plan.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub plan: ::core::option::Option<Plan>,
 }
 /// QueryCurrentPlanRequest is the request type for the Query/AppliedPlan RPC
@@ -181,6 +194,7 @@ pub struct QueryCurrentPlanResponse {
 pub struct QueryAppliedPlanRequest {
     /// name is the name of the applied plan to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub name: ::prost::alloc::string::String,
 }
 /// QueryAppliedPlanResponse is the response type for the Query/AppliedPlan RPC
@@ -204,6 +218,7 @@ pub struct QueryAppliedPlanResponse {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
 }
 /// QueryUpgradedConsensusStateRequest is the request type for the Query/UpgradedConsensusState
@@ -233,6 +248,7 @@ pub struct QueryUpgradedConsensusStateRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub last_height: i64,
 }
 /// QueryUpgradedConsensusStateResponse is the response type for the Query/UpgradedConsensusState
@@ -257,6 +273,7 @@ pub struct QueryUpgradedConsensusStateResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub upgraded_consensus_state: ::prost::alloc::vec::Vec<u8>,
 }
 /// QueryModuleVersionsRequest is the request type for the Query/ModuleVersions
@@ -284,6 +301,7 @@ pub struct QueryModuleVersionsRequest {
     /// consensus version from state. Leaving this empty will
     /// fetch the full list of module versions from state
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub module_name: ::prost::alloc::string::String,
 }
 /// QueryModuleVersionsResponse is the response type for the Query/ModuleVersions
@@ -305,6 +323,7 @@ pub struct QueryModuleVersionsRequest {
 pub struct QueryModuleVersionsResponse {
     /// module_versions is a list of module names with their consensus versions.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub module_versions: ::prost::alloc::vec::Vec<ModuleVersion>,
 }
 /// QueryAuthorityRequest is the request type for Query/Authority
@@ -344,6 +363,7 @@ pub struct QueryAuthorityRequest {}
 #[proto_message(type_url = "/cosmos.upgrade.v1beta1.QueryAuthorityResponse")]
 pub struct QueryAuthorityResponse {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
 }
 /// MsgSoftwareUpgrade is the Msg/SoftwareUpgrade request type.
@@ -364,9 +384,11 @@ pub struct QueryAuthorityResponse {
 pub struct MsgSoftwareUpgrade {
     /// authority is the address of the governance account.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub authority: ::prost::alloc::string::String,
     /// plan is the upgrade plan.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub plan: ::core::option::Option<Plan>,
 }
 /// MsgSoftwareUpgradeResponse is the Msg/SoftwareUpgrade response type.
@@ -403,6 +425,7 @@ pub struct MsgSoftwareUpgradeResponse {}
 pub struct MsgCancelUpgrade {
     /// authority is the address of the governance account.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub authority: ::prost::alloc::string::String,
 }
 /// MsgCancelUpgradeResponse is the Msg/CancelUpgrade response type.

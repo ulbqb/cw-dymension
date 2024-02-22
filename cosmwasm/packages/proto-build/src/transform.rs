@@ -142,8 +142,9 @@ fn transform_items(
                 let s = transformers::allow_serde_vec_u8_as_base64_encoded_string(s);
                 let s = transformers::allow_serde_int_as_str(s);
                 let s = transformers::allow_serde_vec_int_as_vec_str(s);
+                let s = transformers::allow_serde_enum_as_str(s);
 
-                transformers::allow_serde_enum_as_str(s)
+                transformers::allow_serde_default(s)
             }),
 
             Item::Enum(e) => Item::Enum({

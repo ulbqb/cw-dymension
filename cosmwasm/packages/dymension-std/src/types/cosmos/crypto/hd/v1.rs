@@ -19,6 +19,7 @@ pub struct Bip44Params {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub purpose: u32,
     /// coin_type is a constant that improves privacy
     #[prost(uint32, tag = "2")]
@@ -26,6 +27,7 @@ pub struct Bip44Params {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub coin_type: u32,
     /// account splits the key space into independent user identities
     #[prost(uint32, tag = "3")]
@@ -33,10 +35,12 @@ pub struct Bip44Params {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub account: u32,
     /// change is a constant used for public derivation. Constant 0 is used for external chain and constant 1 for internal
     /// chain.
     #[prost(bool, tag = "4")]
+    #[serde(default)]
     pub change: bool,
     /// address_index is used as child index in BIP32 derivation
     #[prost(uint32, tag = "5")]
@@ -44,5 +48,6 @@ pub struct Bip44Params {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub address_index: u32,
 }

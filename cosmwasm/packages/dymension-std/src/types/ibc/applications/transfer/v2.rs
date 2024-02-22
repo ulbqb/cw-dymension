@@ -17,17 +17,22 @@ use dymension_std_derive::CosmwasmExt;
 pub struct FungibleTokenPacketData {
     /// the token denomination to be transferred
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub denom: ::prost::alloc::string::String,
     /// the token amount to be transferred
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub amount: ::prost::alloc::string::String,
     /// the sender address
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub sender: ::prost::alloc::string::String,
     /// the recipient address on the destination chain
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub receiver: ::prost::alloc::string::String,
     /// optional memo
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub memo: ::prost::alloc::string::String,
 }

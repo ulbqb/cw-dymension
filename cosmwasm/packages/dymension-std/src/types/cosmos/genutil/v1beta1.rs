@@ -15,5 +15,6 @@ use dymension_std_derive::CosmwasmExt;
 pub struct GenesisState {
     /// gen_txs defines the genesis transactions.
     #[prost(bytes = "vec", repeated, tag = "1")]
+    #[serde(default)]
     pub gen_txs: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }

@@ -15,6 +15,7 @@ use dymension_std_derive::CosmwasmExt;
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.ValidatorSigningInfo")]
 pub struct ValidatorSigningInfo {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     /// Height at which validator was first a candidate OR was unjailed
     #[prost(int64, tag = "2")]
@@ -22,6 +23,7 @@ pub struct ValidatorSigningInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub start_height: i64,
     /// Index which is incremented each time the validator was a bonded
     /// in a block and may have signed a precommit or not. This in conjunction with the
@@ -31,13 +33,16 @@ pub struct ValidatorSigningInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub index_offset: i64,
     /// Timestamp until which the validator is jailed due to liveness downtime.
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub jailed_until: ::core::option::Option<crate::shim::Timestamp>,
     /// Whether or not a validator has been tombstoned (killed out of validator set). It is set
     /// once the validator commits an equivocation or for any other configured misbehiavor.
     #[prost(bool, tag = "5")]
+    #[serde(default)]
     pub tombstoned: bool,
     /// A counter kept to avoid unnecessary array reads.
     /// Note that `Sum(MissedBlocksBitArray)` always equals `MissedBlocksCounter`.
@@ -46,6 +51,7 @@ pub struct ValidatorSigningInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub missed_blocks_counter: i64,
 }
 /// Params represents the parameters used for by the slashing module.
@@ -67,26 +73,31 @@ pub struct Params {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub signed_blocks_window: i64,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub min_signed_per_window: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub downtime_jail_duration: ::core::option::Option<crate::shim::Duration>,
     #[prost(bytes = "vec", tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub slash_fraction_double_sign: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "5")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub slash_fraction_downtime: ::prost::alloc::vec::Vec<u8>,
 }
 /// GenesisState defines the slashing module's genesis state.
@@ -105,14 +116,17 @@ pub struct Params {
 pub struct GenesisState {
     /// params defines all the paramaters of related to deposit.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
     /// signing_infos represents a map between validator addresses and their
     /// signing infos.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub signing_infos: ::prost::alloc::vec::Vec<SigningInfo>,
     /// missed_blocks represents a map between validator addresses and their
     /// missed blocks.
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub missed_blocks: ::prost::alloc::vec::Vec<ValidatorMissedBlocks>,
 }
 /// SigningInfo stores validator signing info of corresponding address.
@@ -131,9 +145,11 @@ pub struct GenesisState {
 pub struct SigningInfo {
     /// address is the validator address.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     /// validator_signing_info represents the signing info of this validator.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub validator_signing_info: ::core::option::Option<ValidatorSigningInfo>,
 }
 /// ValidatorMissedBlocks contains array of missed blocks of corresponding
@@ -153,9 +169,11 @@ pub struct SigningInfo {
 pub struct ValidatorMissedBlocks {
     /// address is the validator address.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     /// missed_blocks is an array of missed blocks by the validator.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub missed_blocks: ::prost::alloc::vec::Vec<MissedBlock>,
 }
 /// MissedBlock contains height and missed status as boolean.
@@ -178,9 +196,11 @@ pub struct MissedBlock {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub index: i64,
     /// missed is the missed status.
     #[prost(bool, tag = "2")]
+    #[serde(default)]
     pub missed: bool,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method
@@ -216,6 +236,7 @@ pub struct QueryParamsRequest {}
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.QueryParamsResponse")]
 pub struct QueryParamsResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
 }
 /// QuerySigningInfoRequest is the request type for the Query/SigningInfo RPC
@@ -239,6 +260,7 @@ pub struct QueryParamsResponse {
 pub struct QuerySigningInfoRequest {
     /// cons_address is the address to query signing info of
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub cons_address: ::prost::alloc::string::String,
 }
 /// QuerySigningInfoResponse is the response type for the Query/SigningInfo RPC
@@ -258,6 +280,7 @@ pub struct QuerySigningInfoRequest {
 pub struct QuerySigningInfoResponse {
     /// val_signing_info is the signing info of requested val cons address
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub val_signing_info: ::core::option::Option<ValidatorSigningInfo>,
 }
 /// QuerySigningInfosRequest is the request type for the Query/SigningInfos RPC
@@ -280,6 +303,7 @@ pub struct QuerySigningInfoResponse {
 )]
 pub struct QuerySigningInfosRequest {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QuerySigningInfosResponse is the response type for the Query/SigningInfos RPC
@@ -299,8 +323,10 @@ pub struct QuerySigningInfosRequest {
 pub struct QuerySigningInfosResponse {
     /// info is the signing info of all validators
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub info: ::prost::alloc::vec::Vec<ValidatorSigningInfo>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// MsgUnjail defines the Msg/Unjail request type
@@ -318,6 +344,7 @@ pub struct QuerySigningInfosResponse {
 #[proto_message(type_url = "/cosmos.slashing.v1beta1.MsgUnjail")]
 pub struct MsgUnjail {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_addr: ::prost::alloc::string::String,
 }
 /// MsgUnjailResponse defines the Msg/Unjail response type

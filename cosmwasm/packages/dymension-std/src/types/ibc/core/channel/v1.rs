@@ -18,20 +18,25 @@ pub struct Channel {
     /// current state of the channel end
     #[prost(enumeration = "State", tag = "1")]
     #[serde(with = "State")]
+    #[serde(default)]
     pub state: i32,
     /// whether the channel is ordered or unordered
     #[prost(enumeration = "Order", tag = "2")]
     #[serde(with = "Order")]
+    #[serde(default)]
     pub ordering: i32,
     /// counterparty channel end
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub counterparty: ::core::option::Option<Counterparty>,
     /// list of connection identifiers, in order, along which packets sent on
     /// this channel will travel
     #[prost(string, repeated, tag = "4")]
+    #[serde(default)]
     pub connection_hops: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// opaque channel version, which is agreed upon during the handshake
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub version: ::prost::alloc::string::String,
 }
 /// IdentifiedChannel defines a channel with additional port and channel
@@ -52,28 +57,35 @@ pub struct IdentifiedChannel {
     /// current state of the channel end
     #[prost(enumeration = "State", tag = "1")]
     #[serde(with = "State")]
+    #[serde(default)]
     pub state: i32,
     /// whether the channel is ordered or unordered
     #[prost(enumeration = "Order", tag = "2")]
     #[serde(with = "Order")]
+    #[serde(default)]
     pub ordering: i32,
     /// counterparty channel end
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub counterparty: ::core::option::Option<Counterparty>,
     /// list of connection identifiers, in order, along which packets sent on
     /// this channel will travel
     #[prost(string, repeated, tag = "4")]
+    #[serde(default)]
     pub connection_hops: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// opaque channel version, which is agreed upon during the handshake
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub version: ::prost::alloc::string::String,
     /// port identifier
     #[prost(string, tag = "6")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel identifier
     #[prost(string, tag = "7")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
 }
 /// Counterparty defines a channel end counterparty
@@ -93,10 +105,12 @@ pub struct Counterparty {
     /// port on the counterparty chain which owns the other end of the channel.
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel end on the counterparty chain
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
 }
 /// Packet defines a type that carries data across different chains through IBC
@@ -121,18 +135,23 @@ pub struct Packet {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
     /// identifies the port on the sending chain.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub source_port: ::prost::alloc::string::String,
     /// identifies the channel end on the sending chain.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub source_channel: ::prost::alloc::string::String,
     /// identifies the port on the receiving chain.
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub destination_port: ::prost::alloc::string::String,
     /// identifies the channel end on the receiving chain.
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub destination_channel: ::prost::alloc::string::String,
     /// actual opaque bytes transferred directly to the application module
     #[prost(bytes = "vec", tag = "6")]
@@ -140,9 +159,11 @@ pub struct Packet {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<u8>,
     /// block height after which the packet times out
     #[prost(message, optional, tag = "7")]
+    #[serde(default)]
     pub timeout_height: ::core::option::Option<super::super::client::v1::Height>,
     /// block timestamp (in nanoseconds) after which the packet times out
     #[prost(uint64, tag = "8")]
@@ -150,6 +171,7 @@ pub struct Packet {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub timeout_timestamp: u64,
 }
 /// PacketState defines the generic type necessary to retrieve and store
@@ -172,10 +194,12 @@ pub struct PacketState {
     /// channel port identifier.
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel unique identifier.
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     /// packet sequence.
     #[prost(uint64, tag = "3")]
@@ -183,6 +207,7 @@ pub struct PacketState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
     /// embedded data that represents packet state.
     #[prost(bytes = "vec", tag = "4")]
@@ -190,6 +215,7 @@ pub struct PacketState {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
 /// PacketId is an identifer for a unique Packet
@@ -211,10 +237,12 @@ pub struct PacketId {
     /// channel port identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel unique identifier
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     /// packet sequence
     #[prost(uint64, tag = "3")]
@@ -222,6 +250,7 @@ pub struct PacketId {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
 }
 /// Acknowledgement is the recommended acknowledgement format to be used by
@@ -246,6 +275,7 @@ pub struct PacketId {
 pub struct Acknowledgement {
     /// response contains either a result or an error and must be non-empty
     #[prost(oneof = "acknowledgement::Response", tags = "21, 22")]
+    #[serde(default)]
     pub response: ::core::option::Option<acknowledgement::Response>,
 }
 /// Nested message and enum types in `Acknowledgement`.
@@ -364,18 +394,25 @@ impl Order {
 #[proto_message(type_url = "/ibc.core.channel.v1.GenesisState")]
 pub struct GenesisState {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub channels: ::prost::alloc::vec::Vec<IdentifiedChannel>,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub acknowledgements: ::prost::alloc::vec::Vec<PacketState>,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub commitments: ::prost::alloc::vec::Vec<PacketState>,
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub receipts: ::prost::alloc::vec::Vec<PacketState>,
     #[prost(message, repeated, tag = "5")]
+    #[serde(default)]
     pub send_sequences: ::prost::alloc::vec::Vec<PacketSequence>,
     #[prost(message, repeated, tag = "6")]
+    #[serde(default)]
     pub recv_sequences: ::prost::alloc::vec::Vec<PacketSequence>,
     #[prost(message, repeated, tag = "7")]
+    #[serde(default)]
     pub ack_sequences: ::prost::alloc::vec::Vec<PacketSequence>,
     /// the sequence for the next generated channel identifier
     #[prost(uint64, tag = "8")]
@@ -383,6 +420,7 @@ pub struct GenesisState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub next_channel_sequence: u64,
 }
 /// PacketSequence defines the genesis type necessary to retrieve and store
@@ -402,15 +440,18 @@ pub struct GenesisState {
 pub struct PacketSequence {
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
 }
 /// QueryChannelRequest is the request type for the Query/Channel RPC method
@@ -434,10 +475,12 @@ pub struct QueryChannelRequest {
     /// port unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel unique identifier
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
 }
 /// QueryChannelResponse is the response type for the Query/Channel RPC method.
@@ -458,6 +501,7 @@ pub struct QueryChannelRequest {
 pub struct QueryChannelResponse {
     /// channel associated with the request identifiers
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub channel: ::core::option::Option<Channel>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
@@ -465,9 +509,11 @@ pub struct QueryChannelResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryChannelsRequest is the request type for the Query/Channels RPC method
@@ -490,6 +536,7 @@ pub struct QueryChannelResponse {
 pub struct QueryChannelsRequest {
     /// pagination request
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageRequest,
     >,
@@ -510,14 +557,17 @@ pub struct QueryChannelsRequest {
 pub struct QueryChannelsResponse {
     /// list of stored channels of the chain.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub channels: ::prost::alloc::vec::Vec<IdentifiedChannel>,
     /// pagination response
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageResponse,
     >,
     /// query block height
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryConnectionChannelsRequest is the request type for the
@@ -541,9 +591,11 @@ pub struct QueryChannelsResponse {
 pub struct QueryConnectionChannelsRequest {
     /// connection unique identifier
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub connection: ::prost::alloc::string::String,
     /// pagination request
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageRequest,
     >,
@@ -565,14 +617,17 @@ pub struct QueryConnectionChannelsRequest {
 pub struct QueryConnectionChannelsResponse {
     /// list of channels associated with a connection.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub channels: ::prost::alloc::vec::Vec<IdentifiedChannel>,
     /// pagination response
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageResponse,
     >,
     /// query block height
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryChannelClientStateRequest is the request type for the Query/ClientState
@@ -597,10 +652,12 @@ pub struct QueryChannelClientStateRequest {
     /// port unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel unique identifier
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
 }
 /// QueryChannelClientStateResponse is the Response type for the
@@ -620,6 +677,7 @@ pub struct QueryChannelClientStateRequest {
 pub struct QueryChannelClientStateResponse {
     /// client state associated with the channel
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub identified_client_state:
         ::core::option::Option<super::super::client::v1::IdentifiedClientState>,
     /// merkle proof of existence
@@ -628,9 +686,11 @@ pub struct QueryChannelClientStateResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryChannelConsensusStateRequest is the request type for the
@@ -655,10 +715,12 @@ pub struct QueryChannelConsensusStateRequest {
     /// port unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel unique identifier
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     /// revision number of the consensus state
     #[prost(uint64, tag = "3")]
@@ -666,6 +728,7 @@ pub struct QueryChannelConsensusStateRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub revision_number: u64,
     /// revision height of the consensus state
     #[prost(uint64, tag = "4")]
@@ -673,6 +736,7 @@ pub struct QueryChannelConsensusStateRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub revision_height: u64,
 }
 /// QueryChannelClientStateResponse is the Response type for the
@@ -692,10 +756,12 @@ pub struct QueryChannelConsensusStateRequest {
 pub struct QueryChannelConsensusStateResponse {
     /// consensus state associated with the channel
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub consensus_state: ::core::option::Option<crate::shim::Any>,
     /// client ID associated with the consensus state
     #[prost(string, tag = "2")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "3")]
@@ -703,9 +769,11 @@ pub struct QueryChannelConsensusStateResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryPacketCommitmentRequest is the request type for the
@@ -730,10 +798,12 @@ pub struct QueryPacketCommitmentRequest {
     /// port unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel unique identifier
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     /// packet sequence
     #[prost(uint64, tag = "3")]
@@ -741,6 +811,7 @@ pub struct QueryPacketCommitmentRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
 }
 /// QueryPacketCommitmentResponse defines the client query response for a packet
@@ -765,6 +836,7 @@ pub struct QueryPacketCommitmentResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub commitment: ::prost::alloc::vec::Vec<u8>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
@@ -772,9 +844,11 @@ pub struct QueryPacketCommitmentResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryPacketCommitmentsRequest is the request type for the
@@ -799,13 +873,16 @@ pub struct QueryPacketCommitmentsRequest {
     /// port unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel unique identifier
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     /// pagination request
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageRequest,
     >,
@@ -826,14 +903,17 @@ pub struct QueryPacketCommitmentsRequest {
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketCommitmentsResponse")]
 pub struct QueryPacketCommitmentsResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub commitments: ::prost::alloc::vec::Vec<PacketState>,
     /// pagination response
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageResponse,
     >,
     /// query block height
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryPacketReceiptRequest is the request type for the
@@ -858,10 +938,12 @@ pub struct QueryPacketReceiptRequest {
     /// port unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel unique identifier
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     /// packet sequence
     #[prost(uint64, tag = "3")]
@@ -869,6 +951,7 @@ pub struct QueryPacketReceiptRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
 }
 /// QueryPacketReceiptResponse defines the client query response for a packet
@@ -889,6 +972,7 @@ pub struct QueryPacketReceiptRequest {
 pub struct QueryPacketReceiptResponse {
     /// success flag for if receipt exists
     #[prost(bool, tag = "2")]
+    #[serde(default)]
     pub received: bool,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "3")]
@@ -896,9 +980,11 @@ pub struct QueryPacketReceiptResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryPacketAcknowledgementRequest is the request type for the
@@ -923,10 +1009,12 @@ pub struct QueryPacketAcknowledgementRequest {
     /// port unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel unique identifier
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     /// packet sequence
     #[prost(uint64, tag = "3")]
@@ -934,6 +1022,7 @@ pub struct QueryPacketAcknowledgementRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
 }
 /// QueryPacketAcknowledgementResponse defines the client query response for a
@@ -958,6 +1047,7 @@ pub struct QueryPacketAcknowledgementResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub acknowledgement: ::prost::alloc::vec::Vec<u8>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
@@ -965,9 +1055,11 @@ pub struct QueryPacketAcknowledgementResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryPacketAcknowledgementsRequest is the request type for the
@@ -992,13 +1084,16 @@ pub struct QueryPacketAcknowledgementsRequest {
     /// port unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel unique identifier
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     /// pagination request
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageRequest,
     >,
@@ -1008,6 +1103,7 @@ pub struct QueryPacketAcknowledgementsRequest {
         serialize_with = "crate::serde::as_str_vec::serialize",
         deserialize_with = "crate::serde::as_str_vec::deserialize"
     )]
+    #[serde(default)]
     pub packet_commitment_sequences: ::prost::alloc::vec::Vec<u64>,
 }
 /// QueryPacketAcknowledgemetsResponse is the request type for the
@@ -1026,14 +1122,17 @@ pub struct QueryPacketAcknowledgementsRequest {
 #[proto_message(type_url = "/ibc.core.channel.v1.QueryPacketAcknowledgementsResponse")]
 pub struct QueryPacketAcknowledgementsResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub acknowledgements: ::prost::alloc::vec::Vec<PacketState>,
     /// pagination response
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageResponse,
     >,
     /// query block height
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryUnreceivedPacketsRequest is the request type for the
@@ -1058,10 +1157,12 @@ pub struct QueryUnreceivedPacketsRequest {
     /// port unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel unique identifier
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     /// list of packet sequences
     #[prost(uint64, repeated, tag = "3")]
@@ -1069,6 +1170,7 @@ pub struct QueryUnreceivedPacketsRequest {
         serialize_with = "crate::serde::as_str_vec::serialize",
         deserialize_with = "crate::serde::as_str_vec::deserialize"
     )]
+    #[serde(default)]
     pub packet_commitment_sequences: ::prost::alloc::vec::Vec<u64>,
 }
 /// QueryUnreceivedPacketsResponse is the response type for the
@@ -1092,9 +1194,11 @@ pub struct QueryUnreceivedPacketsResponse {
         serialize_with = "crate::serde::as_str_vec::serialize",
         deserialize_with = "crate::serde::as_str_vec::deserialize"
     )]
+    #[serde(default)]
     pub sequences: ::prost::alloc::vec::Vec<u64>,
     /// query block height
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryUnreceivedAcks is the request type for the
@@ -1119,10 +1223,12 @@ pub struct QueryUnreceivedAcksRequest {
     /// port unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel unique identifier
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     /// list of acknowledgement sequences
     #[prost(uint64, repeated, tag = "3")]
@@ -1130,6 +1236,7 @@ pub struct QueryUnreceivedAcksRequest {
         serialize_with = "crate::serde::as_str_vec::serialize",
         deserialize_with = "crate::serde::as_str_vec::deserialize"
     )]
+    #[serde(default)]
     pub packet_ack_sequences: ::prost::alloc::vec::Vec<u64>,
 }
 /// QueryUnreceivedAcksResponse is the response type for the
@@ -1153,9 +1260,11 @@ pub struct QueryUnreceivedAcksResponse {
         serialize_with = "crate::serde::as_str_vec::serialize",
         deserialize_with = "crate::serde::as_str_vec::deserialize"
     )]
+    #[serde(default)]
     pub sequences: ::prost::alloc::vec::Vec<u64>,
     /// query block height
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// QueryNextSequenceReceiveRequest is the request type for the
@@ -1180,10 +1289,12 @@ pub struct QueryNextSequenceReceiveRequest {
     /// port unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// channel unique identifier
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
 }
 /// QuerySequenceResponse is the request type for the
@@ -1207,6 +1318,7 @@ pub struct QueryNextSequenceReceiveResponse {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub next_sequence_receive: u64,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
@@ -1214,9 +1326,11 @@ pub struct QueryNextSequenceReceiveResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
 }
 /// MsgChannelOpenInit defines an sdk.Msg to initialize a channel handshake. It
@@ -1236,10 +1350,13 @@ pub struct QueryNextSequenceReceiveResponse {
 pub struct MsgChannelOpenInit {
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub channel: ::core::option::Option<Channel>,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelOpenInitResponse defines the Msg/ChannelOpenInit response type.
@@ -1258,8 +1375,10 @@ pub struct MsgChannelOpenInit {
 pub struct MsgChannelOpenInitResponse {
     #[prost(string, tag = "1")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub version: ::prost::alloc::string::String,
 }
 /// MsgChannelOpenInit defines a msg sent by a Relayer to try to open a channel
@@ -1280,26 +1399,33 @@ pub struct MsgChannelOpenInitResponse {
 pub struct MsgChannelOpenTry {
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     /// Deprecated: this field is unused. Crossing hello's are no longer supported in core IBC.
     #[deprecated]
     #[prost(string, tag = "2")]
     #[serde(alias = "previous_channelID")]
+    #[serde(default)]
     pub previous_channel_id: ::prost::alloc::string::String,
     /// NOTE: the version field within the channel has been deprecated. Its value will be ignored by core IBC.
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub channel: ::core::option::Option<Channel>,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub counterparty_version: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "5")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_init: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "6")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(string, tag = "7")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelOpenTryResponse defines the Msg/ChannelOpenTry response type.
@@ -1317,6 +1443,7 @@ pub struct MsgChannelOpenTry {
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgChannelOpenTryResponse")]
 pub struct MsgChannelOpenTryResponse {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub version: ::prost::alloc::string::String,
 }
 /// MsgChannelOpenAck defines a msg sent by a Relayer to Chain A to acknowledge
@@ -1336,24 +1463,31 @@ pub struct MsgChannelOpenTryResponse {
 pub struct MsgChannelOpenAck {
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
     #[serde(alias = "counterparty_channelID")]
+    #[serde(default)]
     pub counterparty_channel_id: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub counterparty_version: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "5")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_try: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "6")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(string, tag = "7")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelOpenAckResponse defines the Msg/ChannelOpenAck response type.
@@ -1387,19 +1521,24 @@ pub struct MsgChannelOpenAckResponse {}
 pub struct MsgChannelOpenConfirm {
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_ack: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelOpenConfirmResponse defines the Msg/ChannelOpenConfirm response
@@ -1434,11 +1573,14 @@ pub struct MsgChannelOpenConfirmResponse {}
 pub struct MsgChannelCloseInit {
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelCloseInitResponse defines the Msg/ChannelCloseInit response type.
@@ -1472,19 +1614,24 @@ pub struct MsgChannelCloseInitResponse {}
 pub struct MsgChannelCloseConfirm {
     #[prost(string, tag = "1")]
     #[serde(alias = "portID")]
+    #[serde(default)]
     pub port_id: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     #[serde(alias = "channelID")]
+    #[serde(default)]
     pub channel_id: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_init: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgChannelCloseConfirmResponse defines the Msg/ChannelCloseConfirm response
@@ -1517,16 +1664,20 @@ pub struct MsgChannelCloseConfirmResponse {}
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgRecvPacket")]
 pub struct MsgRecvPacket {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub packet: ::core::option::Option<Packet>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_commitment: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgRecvPacketResponse defines the Msg/RecvPacket response type.
@@ -1545,6 +1696,7 @@ pub struct MsgRecvPacket {
 pub struct MsgRecvPacketResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
     #[serde(with = "ResponseResultType")]
+    #[serde(default)]
     pub result: i32,
 }
 /// MsgTimeout receives timed-out packet
@@ -1562,22 +1714,27 @@ pub struct MsgRecvPacketResponse {
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgTimeout")]
 pub struct MsgTimeout {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub packet: ::core::option::Option<Packet>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_unreceived: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(uint64, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub next_sequence_recv: u64,
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgTimeoutResponse defines the Msg/Timeout response type.
@@ -1596,6 +1753,7 @@ pub struct MsgTimeout {
 pub struct MsgTimeoutResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
     #[serde(with = "ResponseResultType")]
+    #[serde(default)]
     pub result: i32,
 }
 /// MsgTimeoutOnClose timed-out packet upon counterparty channel closure.
@@ -1613,28 +1771,34 @@ pub struct MsgTimeoutResponse {
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgTimeoutOnClose")]
 pub struct MsgTimeoutOnClose {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub packet: ::core::option::Option<Packet>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_unreceived: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_close: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(uint64, tag = "5")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub next_sequence_recv: u64,
     #[prost(string, tag = "6")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgTimeoutOnCloseResponse defines the Msg/TimeoutOnClose response type.
@@ -1653,6 +1817,7 @@ pub struct MsgTimeoutOnClose {
 pub struct MsgTimeoutOnCloseResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
     #[serde(with = "ResponseResultType")]
+    #[serde(default)]
     pub result: i32,
 }
 /// MsgAcknowledgement receives incoming IBC acknowledgement
@@ -1670,22 +1835,27 @@ pub struct MsgTimeoutOnCloseResponse {
 #[proto_message(type_url = "/ibc.core.channel.v1.MsgAcknowledgement")]
 pub struct MsgAcknowledgement {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub packet: ::core::option::Option<Packet>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub acknowledgement: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_acked: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<super::super::client::v1::Height>,
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgAcknowledgementResponse defines the Msg/Acknowledgement response type.
@@ -1704,6 +1874,7 @@ pub struct MsgAcknowledgement {
 pub struct MsgAcknowledgementResponse {
     #[prost(enumeration = "ResponseResultType", tag = "1")]
     #[serde(with = "ResponseResultType")]
+    #[serde(default)]
     pub result: i32,
 }
 /// ResponseResultType defines the possible outcomes of the execution of a message

@@ -20,6 +20,7 @@ pub struct ClientState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
     /// frozen sequence of the solo machine
     #[prost(uint64, tag = "2")]
@@ -27,12 +28,15 @@ pub struct ClientState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub frozen_sequence: u64,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub consensus_state: ::core::option::Option<ConsensusState>,
     /// when set to true, will allow governance to update a solo machine client.
     /// The client will be unfrozen if it is frozen.
     #[prost(bool, tag = "4")]
+    #[serde(default)]
     pub allow_update_after_proposal: bool,
 }
 /// ConsensusState defines a solo machine consensus state. The sequence of a
@@ -53,17 +57,20 @@ pub struct ClientState {
 pub struct ConsensusState {
     /// public key of the solo machine
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub public_key: ::core::option::Option<crate::shim::Any>,
     /// diversifier allows the same public key to be re-used across different solo
     /// machine clients (potentially on different chains) without being considered
     /// misbehaviour.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub diversifier: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub timestamp: u64,
 }
 /// Header defines a solo machine consensus header
@@ -86,22 +93,27 @@ pub struct Header {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub timestamp: u64,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub signature: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub new_public_key: ::core::option::Option<crate::shim::Any>,
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub new_diversifier: ::prost::alloc::string::String,
 }
 /// Misbehaviour defines misbehaviour for a solo machine which consists
@@ -121,16 +133,20 @@ pub struct Header {
 pub struct Misbehaviour {
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub signature_one: ::core::option::Option<SignatureAndData>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub signature_two: ::core::option::Option<SignatureAndData>,
 }
 /// SignatureAndData contains a signature and the data signed over to create that
@@ -153,21 +169,25 @@ pub struct SignatureAndData {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub signature: ::prost::alloc::vec::Vec<u8>,
     #[prost(enumeration = "DataType", tag = "2")]
     #[serde(with = "DataType")]
+    #[serde(default)]
     pub data_type: i32,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<u8>,
     #[prost(uint64, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub timestamp: u64,
 }
 /// TimestampedSignatureData contains the signature data and the timestamp of the
@@ -190,12 +210,14 @@ pub struct TimestampedSignatureData {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub signature_data: ::prost::alloc::vec::Vec<u8>,
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub timestamp: u64,
 }
 /// SignBytes defines the signed bytes used for signature verification.
@@ -217,18 +239,22 @@ pub struct SignBytes {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub sequence: u64,
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub timestamp: u64,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub diversifier: ::prost::alloc::string::String,
     /// type of the data used
     #[prost(enumeration = "DataType", tag = "4")]
     #[serde(with = "DataType")]
+    #[serde(default)]
     pub data_type: i32,
     /// marshaled data
     #[prost(bytes = "vec", tag = "5")]
@@ -236,6 +262,7 @@ pub struct SignBytes {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<u8>,
 }
 /// HeaderData returns the SignBytes data for update verification.
@@ -254,9 +281,11 @@ pub struct SignBytes {
 pub struct HeaderData {
     /// header public key
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub new_pub_key: ::core::option::Option<crate::shim::Any>,
     /// header diversifier
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub new_diversifier: ::prost::alloc::string::String,
 }
 /// ClientStateData returns the SignBytes data for client state verification.
@@ -278,8 +307,10 @@ pub struct ClientStateData {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub path: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub client_state: ::core::option::Option<crate::shim::Any>,
 }
 /// ConsensusStateData returns the SignBytes data for consensus state
@@ -302,8 +333,10 @@ pub struct ConsensusStateData {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub path: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub consensus_state: ::core::option::Option<crate::shim::Any>,
 }
 /// ConnectionStateData returns the SignBytes data for connection state
@@ -326,8 +359,10 @@ pub struct ConnectionStateData {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub path: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub connection:
         ::core::option::Option<super::super::super::core::connection::v1::ConnectionEnd>,
 }
@@ -351,8 +386,10 @@ pub struct ChannelStateData {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub path: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub channel: ::core::option::Option<super::super::super::core::channel::v1::Channel>,
 }
 /// PacketCommitmentData returns the SignBytes data for packet commitment
@@ -375,12 +412,14 @@ pub struct PacketCommitmentData {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub path: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub commitment: ::prost::alloc::vec::Vec<u8>,
 }
 /// PacketAcknowledgementData returns the SignBytes data for acknowledgement
@@ -403,12 +442,14 @@ pub struct PacketAcknowledgementData {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub path: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub acknowledgement: ::prost::alloc::vec::Vec<u8>,
 }
 /// PacketReceiptAbsenceData returns the SignBytes data for
@@ -431,6 +472,7 @@ pub struct PacketReceiptAbsenceData {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub path: ::prost::alloc::vec::Vec<u8>,
 }
 /// NextSequenceRecvData returns the SignBytes data for verification of the next
@@ -453,12 +495,14 @@ pub struct NextSequenceRecvData {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub path: ::prost::alloc::vec::Vec<u8>,
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub next_seq_recv: u64,
 }
 /// DataType defines the type of solo machine proof being created. This is done

@@ -16,27 +16,35 @@ use dymension_std_derive::CosmwasmExt;
 pub struct ClientState {
     #[prost(string, tag = "1")]
     #[serde(alias = "chainID")]
+    #[serde(default)]
     pub chain_id: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub trust_level: ::core::option::Option<Fraction>,
     /// duration of the period since the LastestTimestamp during which the
     /// submitted headers are valid for upgrade
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub trusting_period: ::core::option::Option<crate::shim::Duration>,
     /// duration of the staking unbonding period
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub unbonding_period: ::core::option::Option<crate::shim::Duration>,
     /// defines how much new (untrusted) header's Time can drift into the future.
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub max_clock_drift: ::core::option::Option<crate::shim::Duration>,
     /// Block height when the client was frozen due to a misbehaviour
     #[prost(message, optional, tag = "6")]
+    #[serde(default)]
     pub frozen_height: ::core::option::Option<super::super::super::core::client::v1::Height>,
     /// Latest height the client was updated to
     #[prost(message, optional, tag = "7")]
+    #[serde(default)]
     pub latest_height: ::core::option::Option<super::super::super::core::client::v1::Height>,
     /// Proof specifications used in verifying counterparty state
     #[prost(message, repeated, tag = "8")]
+    #[serde(default)]
     pub proof_specs: ::prost::alloc::vec::Vec<super::super::super::super::ics23::ProofSpec>,
     /// Path at which next upgraded client will be committed.
     /// Each element corresponds to the key for a single CommitmentProof in the
@@ -46,14 +54,17 @@ pub struct ClientState {
     /// the default upgrade module, upgrade_path should be []string{"upgrade",
     /// "upgradedIBCState"}`
     #[prost(string, repeated, tag = "9")]
+    #[serde(default)]
     pub upgrade_path: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// allow_update_after_expiry is deprecated
     #[deprecated]
     #[prost(bool, tag = "10")]
+    #[serde(default)]
     pub allow_update_after_expiry: bool,
     /// allow_update_after_misbehaviour is deprecated
     #[deprecated]
     #[prost(bool, tag = "11")]
+    #[serde(default)]
     pub allow_update_after_misbehaviour: bool,
 }
 /// ConsensusState defines the consensus state from Tendermint.
@@ -73,15 +84,18 @@ pub struct ConsensusState {
     /// timestamp that corresponds to the block height in which the ConsensusState
     /// was stored.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub timestamp: ::core::option::Option<crate::shim::Timestamp>,
     /// commitment root (i.e app hash)
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub root: ::core::option::Option<super::super::super::core::commitment::v1::MerkleRoot>,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub next_validators_hash: ::prost::alloc::vec::Vec<u8>,
 }
 /// Misbehaviour is a wrapper over two conflicting Headers
@@ -101,10 +115,13 @@ pub struct ConsensusState {
 pub struct Misbehaviour {
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub header_1: ::core::option::Option<Header>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub header_2: ::core::option::Option<Header>,
 }
 /// Header defines the Tendermint client consensus Header.
@@ -133,14 +150,18 @@ pub struct Misbehaviour {
 #[proto_message(type_url = "/ibc.lightclients.tendermint.v1.Header")]
 pub struct Header {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub signed_header:
         ::core::option::Option<super::super::super::super::tendermint::types::SignedHeader>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub validator_set:
         ::core::option::Option<super::super::super::super::tendermint::types::ValidatorSet>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub trusted_height: ::core::option::Option<super::super::super::core::client::v1::Height>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub trusted_validators:
         ::core::option::Option<super::super::super::super::tendermint::types::ValidatorSet>,
 }
@@ -164,11 +185,13 @@ pub struct Fraction {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub numerator: u64,
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub denominator: u64,
 }

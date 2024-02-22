@@ -30,6 +30,7 @@ pub struct RequestBroadcastTx {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub tx: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -59,7 +60,9 @@ pub struct ResponsePing {}
 #[proto_message(type_url = "/tendermint.rpc.grpc.ResponseBroadcastTx")]
 pub struct ResponseBroadcastTx {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub check_tx: ::core::option::Option<super::super::abci::ResponseCheckTx>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub deliver_tx: ::core::option::Option<super::super::abci::ResponseDeliverTx>,
 }

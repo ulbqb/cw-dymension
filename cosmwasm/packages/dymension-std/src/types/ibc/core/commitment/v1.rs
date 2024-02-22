@@ -19,6 +19,7 @@ pub struct MerkleRoot {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub hash: ::prost::alloc::vec::Vec<u8>,
 }
 /// MerklePrefix is merkle path prefixed to the key.
@@ -42,6 +43,7 @@ pub struct MerklePrefix {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub key_prefix: ::prost::alloc::vec::Vec<u8>,
 }
 /// MerklePath is the path used to verify commitment proofs, which can be an
@@ -61,6 +63,7 @@ pub struct MerklePrefix {
 #[proto_message(type_url = "/ibc.core.commitment.v1.MerklePath")]
 pub struct MerklePath {
     #[prost(string, repeated, tag = "1")]
+    #[serde(default)]
     pub key_path: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// MerkleProof is a wrapper type over a chain of CommitmentProofs.
@@ -82,5 +85,6 @@ pub struct MerklePath {
 #[proto_message(type_url = "/ibc.core.commitment.v1.MerkleProof")]
 pub struct MerkleProof {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub proofs: ::prost::alloc::vec::Vec<super::super::super::super::ics23::CommitmentProof>,
 }

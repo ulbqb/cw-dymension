@@ -27,23 +27,28 @@ pub struct GenesisState {}
 #[proto_message(type_url = "/dymensionxyz.dymension.delayedack.RollappPacket")]
 pub struct RollappPacket {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub packet: ::core::option::Option<super::super::super::ibc::core::channel::v1::Packet>,
     #[prost(enumeration = "rollapp_packet::Status", tag = "2")]
     #[serde(with = "rollapp_packet::Status")]
+    #[serde(default)]
     pub status: i32,
     #[prost(uint64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proof_height: u64,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub error: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "5")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub relayer: ::prost::alloc::vec::Vec<u8>,
 }
 /// Nested message and enum types in `RollappPacket`.

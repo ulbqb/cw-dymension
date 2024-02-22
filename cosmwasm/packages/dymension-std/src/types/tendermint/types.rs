@@ -13,14 +13,17 @@ use dymension_std_derive::CosmwasmExt;
 #[proto_message(type_url = "/tendermint.types.ValidatorSet")]
 pub struct ValidatorSet {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub validators: ::prost::alloc::vec::Vec<Validator>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub proposer: ::core::option::Option<Validator>,
     #[prost(int64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub total_voting_power: i64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -41,20 +44,24 @@ pub struct Validator {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub address: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pub_key: ::core::option::Option<super::crypto::PublicKey>,
     #[prost(int64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub voting_power: i64,
     #[prost(int64, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposer_priority: i64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -71,12 +78,14 @@ pub struct Validator {
 #[proto_message(type_url = "/tendermint.types.SimpleValidator")]
 pub struct SimpleValidator {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pub_key: ::core::option::Option<super::crypto::PublicKey>,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub voting_power: i64,
 }
 /// PartsetHeader
@@ -98,12 +107,14 @@ pub struct PartSetHeader {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub total: u32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub hash: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -124,14 +135,17 @@ pub struct Part {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub index: u32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub bytes: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof: ::core::option::Option<super::crypto::Proof>,
 }
 /// BlockID
@@ -153,8 +167,10 @@ pub struct BlockId {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub hash: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub part_set_header: ::core::option::Option<PartSetHeader>,
 }
 /// Header defines the structure of a block header.
@@ -173,21 +189,26 @@ pub struct BlockId {
 pub struct Header {
     /// basic block info
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub version: ::core::option::Option<super::version::Consensus>,
     #[prost(string, tag = "2")]
     #[serde(alias = "chainID")]
+    #[serde(default)]
     pub chain_id: ::prost::alloc::string::String,
     #[prost(int64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub time: ::core::option::Option<crate::shim::Timestamp>,
     /// prev block info
     #[prost(message, optional, tag = "5")]
     #[serde(alias = "last_blockID")]
+    #[serde(default)]
     pub last_block_id: ::core::option::Option<BlockId>,
     /// hashes of block data
     ///
@@ -197,6 +218,7 @@ pub struct Header {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub last_commit_hash: ::prost::alloc::vec::Vec<u8>,
     /// transactions
     #[prost(bytes = "vec", tag = "7")]
@@ -204,6 +226,7 @@ pub struct Header {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub data_hash: ::prost::alloc::vec::Vec<u8>,
     /// hashes from the app output from the prev block
     ///
@@ -213,6 +236,7 @@ pub struct Header {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub validators_hash: ::prost::alloc::vec::Vec<u8>,
     /// validators for the next block
     #[prost(bytes = "vec", tag = "9")]
@@ -220,6 +244,7 @@ pub struct Header {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub next_validators_hash: ::prost::alloc::vec::Vec<u8>,
     /// consensus params for current block
     #[prost(bytes = "vec", tag = "10")]
@@ -227,6 +252,7 @@ pub struct Header {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub consensus_hash: ::prost::alloc::vec::Vec<u8>,
     /// state after txs from the previous block
     #[prost(bytes = "vec", tag = "11")]
@@ -234,6 +260,7 @@ pub struct Header {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub app_hash: ::prost::alloc::vec::Vec<u8>,
     /// root hash of all results from the txs from the previous block
     #[prost(bytes = "vec", tag = "12")]
@@ -241,6 +268,7 @@ pub struct Header {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub last_results_hash: ::prost::alloc::vec::Vec<u8>,
     /// consensus info
     ///
@@ -250,6 +278,7 @@ pub struct Header {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub evidence_hash: ::prost::alloc::vec::Vec<u8>,
     /// original proposer of the block
     #[prost(bytes = "vec", tag = "14")]
@@ -257,6 +286,7 @@ pub struct Header {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proposer_address: ::prost::alloc::vec::Vec<u8>,
 }
 /// Data contains the set of transactions included in the block
@@ -277,6 +307,7 @@ pub struct Data {
     /// NOTE: not all txs here are valid.  We're just agreeing on the order first.
     /// This means that block.AppHash does not include these txs.
     #[prost(bytes = "vec", repeated, tag = "1")]
+    #[serde(default)]
     pub txs: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 /// Vote represents a prevote, precommit, or commit vote from validators for
@@ -296,42 +327,50 @@ pub struct Data {
 pub struct Vote {
     #[prost(enumeration = "SignedMsgType", tag = "1")]
     #[serde(with = "SignedMsgType")]
+    #[serde(default)]
     pub r#type: i32,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(int32, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i32,
     /// zero if vote is nil.
     #[prost(message, optional, tag = "4")]
     #[serde(alias = "blockID")]
+    #[serde(default)]
     pub block_id: ::core::option::Option<BlockId>,
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub timestamp: ::core::option::Option<crate::shim::Timestamp>,
     #[prost(bytes = "vec", tag = "6")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::vec::Vec<u8>,
     #[prost(int32, tag = "7")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub validator_index: i32,
     #[prost(bytes = "vec", tag = "8")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub signature: ::prost::alloc::vec::Vec<u8>,
 }
 /// Commit contains the evidence that a block was committed by a set of validators.
@@ -353,17 +392,21 @@ pub struct Commit {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(int32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i32,
     #[prost(message, optional, tag = "3")]
     #[serde(alias = "blockID")]
+    #[serde(default)]
     pub block_id: ::core::option::Option<BlockId>,
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub signatures: ::prost::alloc::vec::Vec<CommitSig>,
 }
 /// CommitSig is a part of the Vote included in a Commit.
@@ -383,20 +426,24 @@ pub struct CommitSig {
     #[prost(enumeration = "BlockIdFlag", tag = "1")]
     #[serde(alias = "blockID_flag")]
     #[serde(with = "BlockIdFlag")]
+    #[serde(default)]
     pub block_id_flag: i32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub timestamp: ::core::option::Option<crate::shim::Timestamp>,
     #[prost(bytes = "vec", tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub signature: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -414,35 +461,42 @@ pub struct CommitSig {
 pub struct Proposal {
     #[prost(enumeration = "SignedMsgType", tag = "1")]
     #[serde(with = "SignedMsgType")]
+    #[serde(default)]
     pub r#type: i32,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(int32, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i32,
     #[prost(int32, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub pol_round: i32,
     #[prost(message, optional, tag = "5")]
     #[serde(alias = "blockID")]
+    #[serde(default)]
     pub block_id: ::core::option::Option<BlockId>,
     #[prost(message, optional, tag = "6")]
+    #[serde(default)]
     pub timestamp: ::core::option::Option<crate::shim::Timestamp>,
     #[prost(bytes = "vec", tag = "7")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub signature: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -459,8 +513,10 @@ pub struct Proposal {
 #[proto_message(type_url = "/tendermint.types.SignedHeader")]
 pub struct SignedHeader {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub header: ::core::option::Option<Header>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub commit: ::core::option::Option<Commit>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -477,8 +533,10 @@ pub struct SignedHeader {
 #[proto_message(type_url = "/tendermint.types.LightBlock")]
 pub struct LightBlock {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub signed_header: ::core::option::Option<SignedHeader>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub validator_set: ::core::option::Option<ValidatorSet>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -496,20 +554,24 @@ pub struct LightBlock {
 pub struct BlockMeta {
     #[prost(message, optional, tag = "1")]
     #[serde(alias = "blockID")]
+    #[serde(default)]
     pub block_id: ::core::option::Option<BlockId>,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub block_size: i64,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub header: ::core::option::Option<Header>,
     #[prost(int64, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub num_txs: i64,
 }
 /// TxProof represents a Merkle proof of the presence of a transaction in the Merkle tree.
@@ -531,14 +593,17 @@ pub struct TxProof {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub root_hash: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof: ::core::option::Option<super::crypto::Proof>,
 }
 /// BlockIdFlag indicates which BlcokID the signature is for
@@ -627,12 +692,16 @@ impl SignedMsgType {
 #[proto_message(type_url = "/tendermint.types.ConsensusParams")]
 pub struct ConsensusParams {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub block: ::core::option::Option<BlockParams>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub evidence: ::core::option::Option<EvidenceParams>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub validator: ::core::option::Option<ValidatorParams>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub version: ::core::option::Option<VersionParams>,
 }
 /// BlockParams contains limits on the block size.
@@ -656,6 +725,7 @@ pub struct BlockParams {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_bytes: i64,
     /// Max gas per block.
     /// Note: must be greater or equal to -1
@@ -664,6 +734,7 @@ pub struct BlockParams {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_gas: i64,
     /// Minimum time increment between consecutive blocks (in milliseconds) If the
     /// block header timestamp is ahead of the system clock, decrease this value.
@@ -674,6 +745,7 @@ pub struct BlockParams {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub time_iota_ms: i64,
 }
 /// EvidenceParams determine how we handle evidence of malfeasance.
@@ -699,6 +771,7 @@ pub struct EvidenceParams {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_age_num_blocks: i64,
     /// Max age of evidence, in time.
     ///
@@ -706,6 +779,7 @@ pub struct EvidenceParams {
     /// mechanism for handling [Nothing-At-Stake
     /// attacks](<https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQ#what-is-the-nothing-at-stake-problem-and-how-can-it-be-fixed>).
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub max_age_duration: ::core::option::Option<crate::shim::Duration>,
     /// This sets the maximum size of total evidence in bytes that can be committed in a single block.
     /// and should fall comfortably under the max block bytes.
@@ -715,6 +789,7 @@ pub struct EvidenceParams {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_bytes: i64,
 }
 /// ValidatorParams restrict the public key types validators can use.
@@ -733,6 +808,7 @@ pub struct EvidenceParams {
 #[proto_message(type_url = "/tendermint.types.ValidatorParams")]
 pub struct ValidatorParams {
     #[prost(string, repeated, tag = "1")]
+    #[serde(default)]
     pub pub_key_types: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// VersionParams contains the ABCI application version.
@@ -754,6 +830,7 @@ pub struct VersionParams {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub app_version: u64,
 }
 /// HashedParams is a subset of ConsensusParams.
@@ -777,12 +854,14 @@ pub struct HashedParams {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub block_max_bytes: i64,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub block_max_gas: i64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -799,6 +878,7 @@ pub struct HashedParams {
 #[proto_message(type_url = "/tendermint.types.Evidence")]
 pub struct Evidence {
     #[prost(oneof = "evidence::Sum", tags = "1, 2")]
+    #[serde(default)]
     pub sum: ::core::option::Option<evidence::Sum>,
 }
 /// Nested message and enum types in `Evidence`.
@@ -836,22 +916,27 @@ pub mod evidence {
 #[proto_message(type_url = "/tendermint.types.DuplicateVoteEvidence")]
 pub struct DuplicateVoteEvidence {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub vote_a: ::core::option::Option<Vote>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub vote_b: ::core::option::Option<Vote>,
     #[prost(int64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub total_voting_power: i64,
     #[prost(int64, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub validator_power: i64,
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub timestamp: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// LightClientAttackEvidence contains evidence of a set of validators attempting to mislead a light client.
@@ -869,22 +954,27 @@ pub struct DuplicateVoteEvidence {
 #[proto_message(type_url = "/tendermint.types.LightClientAttackEvidence")]
 pub struct LightClientAttackEvidence {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub conflicting_block: ::core::option::Option<LightBlock>,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub common_height: i64,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub byzantine_validators: ::prost::alloc::vec::Vec<Validator>,
     #[prost(int64, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub total_voting_power: i64,
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub timestamp: ::core::option::Option<crate::shim::Timestamp>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -901,6 +991,7 @@ pub struct LightClientAttackEvidence {
 #[proto_message(type_url = "/tendermint.types.EvidenceList")]
 pub struct EvidenceList {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub evidence: ::prost::alloc::vec::Vec<Evidence>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -917,12 +1008,16 @@ pub struct EvidenceList {
 #[proto_message(type_url = "/tendermint.types.Block")]
 pub struct Block {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub header: ::core::option::Option<Header>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub data: ::core::option::Option<Data>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub evidence: ::core::option::Option<EvidenceList>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub last_commit: ::core::option::Option<Commit>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -943,14 +1038,17 @@ pub struct EventDataRoundState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(int32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i32,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub step: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -971,8 +1069,10 @@ pub struct CanonicalBlockId {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub hash: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub part_set_header: ::core::option::Option<CanonicalPartSetHeader>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -993,12 +1093,14 @@ pub struct CanonicalPartSetHeader {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub total: u32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub hash: ::prost::alloc::vec::Vec<u8>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1017,6 +1119,7 @@ pub struct CanonicalProposal {
     /// type alias for byte
     #[prost(enumeration = "SignedMsgType", tag = "1")]
     #[serde(with = "SignedMsgType")]
+    #[serde(default)]
     pub r#type: i32,
     /// canonicalization requires fixed size encoding here
     #[prost(sfixed64, tag = "2")]
@@ -1024,6 +1127,7 @@ pub struct CanonicalProposal {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     /// canonicalization requires fixed size encoding here
     #[prost(sfixed64, tag = "3")]
@@ -1031,20 +1135,25 @@ pub struct CanonicalProposal {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i64,
     #[prost(int64, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub pol_round: i64,
     #[prost(message, optional, tag = "5")]
     #[serde(alias = "blockID")]
+    #[serde(default)]
     pub block_id: ::core::option::Option<CanonicalBlockId>,
     #[prost(message, optional, tag = "6")]
+    #[serde(default)]
     pub timestamp: ::core::option::Option<crate::shim::Timestamp>,
     #[prost(string, tag = "7")]
     #[serde(alias = "chainID")]
+    #[serde(default)]
     pub chain_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -1063,6 +1172,7 @@ pub struct CanonicalVote {
     /// type alias for byte
     #[prost(enumeration = "SignedMsgType", tag = "1")]
     #[serde(with = "SignedMsgType")]
+    #[serde(default)]
     pub r#type: i32,
     /// canonicalization requires fixed size encoding here
     #[prost(sfixed64, tag = "2")]
@@ -1070,6 +1180,7 @@ pub struct CanonicalVote {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     /// canonicalization requires fixed size encoding here
     #[prost(sfixed64, tag = "3")]
@@ -1077,14 +1188,18 @@ pub struct CanonicalVote {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i64,
     #[prost(message, optional, tag = "4")]
     #[serde(alias = "blockID")]
+    #[serde(default)]
     pub block_id: ::core::option::Option<CanonicalBlockId>,
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub timestamp: ::core::option::Option<crate::shim::Timestamp>,
     #[prost(string, tag = "6")]
     #[serde(alias = "chainID")]
+    #[serde(default)]
     pub chain_id: ::prost::alloc::string::String,
 }
 impl BlockIdFlag {

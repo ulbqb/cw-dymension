@@ -17,9 +17,11 @@ pub struct IdentifiedClientState {
     /// client identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// client state
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub client_state: ::core::option::Option<crate::shim::Any>,
 }
 /// ConsensusStateWithHeight defines a consensus state with an additional height
@@ -39,9 +41,11 @@ pub struct IdentifiedClientState {
 pub struct ConsensusStateWithHeight {
     /// consensus state height
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub height: ::core::option::Option<Height>,
     /// consensus state
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub consensus_state: ::core::option::Option<crate::shim::Any>,
 }
 /// ClientConsensusStates defines all the stored consensus states for a given
@@ -62,9 +66,11 @@ pub struct ClientConsensusStates {
     /// client identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// consensus states and their heights associated with the client
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub consensus_states: ::prost::alloc::vec::Vec<ConsensusStateWithHeight>,
 }
 /// ClientUpdateProposal is a governance proposal. If it passes, the substitute
@@ -86,18 +92,22 @@ pub struct ClientConsensusStates {
 pub struct ClientUpdateProposal {
     /// the title of the update proposal
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub title: ::prost::alloc::string::String,
     /// the description of the proposal
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
     /// the client identifier for the client to be updated if the proposal passes
     #[prost(string, tag = "3")]
     #[serde(alias = "subject_clientID")]
+    #[serde(default)]
     pub subject_client_id: ::prost::alloc::string::String,
     /// the substitute client identifier for the client standing in for the subject
     /// client
     #[prost(string, tag = "4")]
     #[serde(alias = "substitute_clientID")]
+    #[serde(default)]
     pub substitute_client_id: ::prost::alloc::string::String,
 }
 /// UpgradeProposal is a gov Content type for initiating an IBC breaking
@@ -116,10 +126,13 @@ pub struct ClientUpdateProposal {
 #[proto_message(type_url = "/ibc.core.client.v1.UpgradeProposal")]
 pub struct UpgradeProposal {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub title: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub plan: ::core::option::Option<super::super::super::super::cosmos::upgrade::v1beta1::Plan>,
     /// An UpgradedClientState must be provided to perform an IBC breaking upgrade.
     /// This will make the chain commit to the correct upgraded (self) client state
@@ -128,6 +141,7 @@ pub struct UpgradeProposal {
     /// of the chain. This will allow IBC connections to persist smoothly across
     /// planned chain upgrades
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub upgraded_client_state: ::core::option::Option<crate::shim::Any>,
 }
 /// Height is a monotonically increasing data type
@@ -159,6 +173,7 @@ pub struct Height {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub revision_number: u64,
     /// the height within the given revision
     #[prost(uint64, tag = "2")]
@@ -166,6 +181,7 @@ pub struct Height {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub revision_height: u64,
 }
 /// Params defines the set of IBC light client parameters.
@@ -184,6 +200,7 @@ pub struct Height {
 pub struct Params {
     /// allowed_clients defines the list of allowed client state types.
     #[prost(string, repeated, tag = "1")]
+    #[serde(default)]
     pub allowed_clients: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// GenesisState defines the ibc client submodule's genesis state.
@@ -202,17 +219,22 @@ pub struct Params {
 pub struct GenesisState {
     /// client states with their corresponding identifiers
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub clients: ::prost::alloc::vec::Vec<IdentifiedClientState>,
     /// consensus states from each client
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub clients_consensus: ::prost::alloc::vec::Vec<ClientConsensusStates>,
     /// metadata from each client
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub clients_metadata: ::prost::alloc::vec::Vec<IdentifiedGenesisMetadata>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
     /// create localhost on initialization
     #[prost(bool, tag = "5")]
+    #[serde(default)]
     pub create_localhost: bool,
     /// the sequence for the next generated client identifier
     #[prost(uint64, tag = "6")]
@@ -220,6 +242,7 @@ pub struct GenesisState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub next_client_sequence: u64,
 }
 /// GenesisMetadata defines the genesis type for metadata that clients may return
@@ -243,6 +266,7 @@ pub struct GenesisMetadata {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub key: ::prost::alloc::vec::Vec<u8>,
     /// metadata value
     #[prost(bytes = "vec", tag = "2")]
@@ -250,6 +274,7 @@ pub struct GenesisMetadata {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub value: ::prost::alloc::vec::Vec<u8>,
 }
 /// IdentifiedGenesisMetadata has the client metadata with the corresponding
@@ -269,8 +294,10 @@ pub struct GenesisMetadata {
 pub struct IdentifiedGenesisMetadata {
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub client_metadata: ::prost::alloc::vec::Vec<GenesisMetadata>,
 }
 /// QueryClientStateRequest is the request type for the Query/ClientState RPC
@@ -295,6 +322,7 @@ pub struct QueryClientStateRequest {
     /// client state unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
 }
 /// QueryClientStateResponse is the response type for the Query/ClientState RPC
@@ -315,6 +343,7 @@ pub struct QueryClientStateRequest {
 pub struct QueryClientStateResponse {
     /// client state associated with the request identifier
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub client_state: ::core::option::Option<crate::shim::Any>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
@@ -322,9 +351,11 @@ pub struct QueryClientStateResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<Height>,
 }
 /// QueryClientStatesRequest is the request type for the Query/ClientStates RPC
@@ -348,6 +379,7 @@ pub struct QueryClientStateResponse {
 pub struct QueryClientStatesRequest {
     /// pagination request
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageRequest,
     >,
@@ -369,9 +401,11 @@ pub struct QueryClientStatesRequest {
 pub struct QueryClientStatesResponse {
     /// list of stored ClientStates of the chain.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub client_states: ::prost::alloc::vec::Vec<IdentifiedClientState>,
     /// pagination response
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageResponse,
     >,
@@ -399,6 +433,7 @@ pub struct QueryConsensusStateRequest {
     /// client identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// consensus state revision number
     #[prost(uint64, tag = "2")]
@@ -406,6 +441,7 @@ pub struct QueryConsensusStateRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub revision_number: u64,
     /// consensus state revision height
     #[prost(uint64, tag = "3")]
@@ -413,10 +449,12 @@ pub struct QueryConsensusStateRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub revision_height: u64,
     /// latest_height overrrides the height field and queries the latest stored
     /// ConsensusState
     #[prost(bool, tag = "4")]
+    #[serde(default)]
     pub latest_height: bool,
 }
 /// QueryConsensusStateResponse is the response type for the Query/ConsensusState
@@ -436,6 +474,7 @@ pub struct QueryConsensusStateRequest {
 pub struct QueryConsensusStateResponse {
     /// consensus state associated with the client identifier at the given height
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub consensus_state: ::core::option::Option<crate::shim::Any>,
     /// merkle proof of existence
     #[prost(bytes = "vec", tag = "2")]
@@ -443,9 +482,11 @@ pub struct QueryConsensusStateResponse {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof: ::prost::alloc::vec::Vec<u8>,
     /// height at which the proof was retrieved
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proof_height: ::core::option::Option<Height>,
 }
 /// QueryConsensusStatesRequest is the request type for the Query/ConsensusStates
@@ -470,9 +511,11 @@ pub struct QueryConsensusStatesRequest {
     /// client identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// pagination request
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageRequest,
     >,
@@ -494,9 +537,11 @@ pub struct QueryConsensusStatesRequest {
 pub struct QueryConsensusStatesResponse {
     /// consensus states associated with the identifier
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub consensus_states: ::prost::alloc::vec::Vec<ConsensusStateWithHeight>,
     /// pagination response
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageResponse,
     >,
@@ -523,9 +568,11 @@ pub struct QueryConsensusStateHeightsRequest {
     /// client identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// pagination request
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageRequest,
     >,
@@ -547,9 +594,11 @@ pub struct QueryConsensusStateHeightsRequest {
 pub struct QueryConsensusStateHeightsResponse {
     /// consensus state heights
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub consensus_state_heights: ::prost::alloc::vec::Vec<Height>,
     /// pagination response
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<
         super::super::super::super::cosmos::base::query::v1beta1::PageResponse,
     >,
@@ -576,6 +625,7 @@ pub struct QueryClientStatusRequest {
     /// client unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
 }
 /// QueryClientStatusResponse is the response type for the Query/ClientStatus RPC
@@ -594,6 +644,7 @@ pub struct QueryClientStatusRequest {
 #[proto_message(type_url = "/ibc.core.client.v1.QueryClientStatusResponse")]
 pub struct QueryClientStatusResponse {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub status: ::prost::alloc::string::String,
 }
 /// QueryClientParamsRequest is the request type for the Query/ClientParams RPC
@@ -632,6 +683,7 @@ pub struct QueryClientParamsRequest {}
 pub struct QueryClientParamsResponse {
     /// params defines the parameters of the module.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
 }
 /// QueryUpgradedClientStateRequest is the request type for the
@@ -670,6 +722,7 @@ pub struct QueryUpgradedClientStateRequest {}
 pub struct QueryUpgradedClientStateResponse {
     /// client state associated with the request identifier
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub upgraded_client_state: ::core::option::Option<crate::shim::Any>,
 }
 /// QueryUpgradedConsensusStateRequest is the request type for the
@@ -708,6 +761,7 @@ pub struct QueryUpgradedConsensusStateRequest {}
 pub struct QueryUpgradedConsensusStateResponse {
     /// Consensus state associated with the request identifier
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub upgraded_consensus_state: ::core::option::Option<crate::shim::Any>,
 }
 /// MsgCreateClient defines a message to create an IBC client
@@ -726,13 +780,16 @@ pub struct QueryUpgradedConsensusStateResponse {
 pub struct MsgCreateClient {
     /// light client state
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub client_state: ::core::option::Option<crate::shim::Any>,
     /// consensus state associated with the client that corresponds to a given
     /// height.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub consensus_state: ::core::option::Option<crate::shim::Any>,
     /// signer address
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgCreateClientResponse defines the Msg/CreateClient response type.
@@ -767,12 +824,15 @@ pub struct MsgUpdateClient {
     /// client unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// header to update the light client
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub header: ::core::option::Option<crate::shim::Any>,
     /// signer address
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgUpdateClientResponse defines the Msg/UpdateClient response type.
@@ -807,13 +867,16 @@ pub struct MsgUpgradeClient {
     /// client unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// upgraded client state
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub client_state: ::core::option::Option<crate::shim::Any>,
     /// upgraded consensus state, only contains enough information to serve as a
     /// basis of trust in update logic
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub consensus_state: ::core::option::Option<crate::shim::Any>,
     /// proof that old chain committed to new client
     #[prost(bytes = "vec", tag = "4")]
@@ -821,6 +884,7 @@ pub struct MsgUpgradeClient {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_upgrade_client: ::prost::alloc::vec::Vec<u8>,
     /// proof that old chain committed to new consensus state
     #[prost(bytes = "vec", tag = "5")]
@@ -828,9 +892,11 @@ pub struct MsgUpgradeClient {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub proof_upgrade_consensus_state: ::prost::alloc::vec::Vec<u8>,
     /// signer address
     #[prost(string, tag = "6")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgUpgradeClientResponse defines the Msg/UpgradeClient response type.
@@ -865,12 +931,15 @@ pub struct MsgSubmitMisbehaviour {
     /// client unique identifier
     #[prost(string, tag = "1")]
     #[serde(alias = "clientID")]
+    #[serde(default)]
     pub client_id: ::prost::alloc::string::String,
     /// misbehaviour used for freezing the light client
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub misbehaviour: ::core::option::Option<crate::shim::Any>,
     /// signer address
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub signer: ::prost::alloc::string::String,
 }
 /// MsgSubmitMisbehaviourResponse defines the Msg/SubmitMisbehaviour response

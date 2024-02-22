@@ -19,30 +19,35 @@ pub struct NewRoundStep {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(int32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i32,
     #[prost(uint32, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub step: u32,
     #[prost(int64, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub seconds_since_start_time: i64,
     #[prost(int32, tag = "5")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub last_commit_round: i32,
 }
 /// NewValidBlock is sent when a validator observes a valid block B in some round r,
@@ -66,18 +71,23 @@ pub struct NewValidBlock {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(int32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i32,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub block_part_set_header: ::core::option::Option<super::types::PartSetHeader>,
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub block_parts: ::core::option::Option<super::libs::bits::BitArray>,
     #[prost(bool, tag = "5")]
+    #[serde(default)]
     pub is_commit: bool,
 }
 /// Proposal is sent when a new block is proposed.
@@ -95,6 +105,7 @@ pub struct NewValidBlock {
 #[proto_message(type_url = "/tendermint.consensus.Proposal")]
 pub struct Proposal {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub proposal: ::core::option::Option<super::types::Proposal>,
 }
 /// ProposalPOL is sent when a previous proposal is re-proposed.
@@ -116,14 +127,17 @@ pub struct ProposalPol {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(int32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_pol_round: i32,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub proposal_pol: ::core::option::Option<super::libs::bits::BitArray>,
 }
 /// BlockPart is sent when gossipping a piece of the proposed block.
@@ -145,14 +159,17 @@ pub struct BlockPart {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(int32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i32,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub part: ::core::option::Option<super::types::Part>,
 }
 /// Vote is sent when voting for a proposal (or lack thereof).
@@ -170,6 +187,7 @@ pub struct BlockPart {
 #[proto_message(type_url = "/tendermint.consensus.Vote")]
 pub struct Vote {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub vote: ::core::option::Option<super::types::Vote>,
 }
 /// HasVote is sent to indicate that a particular vote has been received.
@@ -191,21 +209,25 @@ pub struct HasVote {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(int32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i32,
     #[prost(enumeration = "super::types::SignedMsgType", tag = "3")]
     #[serde(with = "super::types::SignedMsgType")]
+    #[serde(default)]
     pub r#type: i32,
     #[prost(int32, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub index: i32,
 }
 /// VoteSetMaj23 is sent to indicate that a given BlockID has seen +2/3 votes.
@@ -227,18 +249,22 @@ pub struct VoteSetMaj23 {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(int32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i32,
     #[prost(enumeration = "super::types::SignedMsgType", tag = "3")]
     #[serde(with = "super::types::SignedMsgType")]
+    #[serde(default)]
     pub r#type: i32,
     #[prost(message, optional, tag = "4")]
     #[serde(alias = "blockID")]
+    #[serde(default)]
     pub block_id: ::core::option::Option<super::types::BlockId>,
 }
 /// VoteSetBits is sent to communicate the bit-array of votes seen for the BlockID.
@@ -260,20 +286,25 @@ pub struct VoteSetBits {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(int32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i32,
     #[prost(enumeration = "super::types::SignedMsgType", tag = "3")]
     #[serde(with = "super::types::SignedMsgType")]
+    #[serde(default)]
     pub r#type: i32,
     #[prost(message, optional, tag = "4")]
     #[serde(alias = "blockID")]
+    #[serde(default)]
     pub block_id: ::core::option::Option<super::types::BlockId>,
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub votes: ::core::option::Option<super::libs::bits::BitArray>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -290,6 +321,7 @@ pub struct VoteSetBits {
 #[proto_message(type_url = "/tendermint.consensus.Message")]
 pub struct Message {
     #[prost(oneof = "message::Sum", tags = "1, 2, 3, 4, 5, 6, 7, 8, 9")]
+    #[serde(default)]
     pub sum: ::core::option::Option<message::Sum>,
 }
 /// Nested message and enum types in `Message`.
@@ -341,9 +373,11 @@ pub mod message {
 #[proto_message(type_url = "/tendermint.consensus.MsgInfo")]
 pub struct MsgInfo {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub msg: ::core::option::Option<Message>,
     #[prost(string, tag = "2")]
     #[serde(alias = "peerID")]
+    #[serde(default)]
     pub peer_id: ::prost::alloc::string::String,
 }
 /// TimeoutInfo internally generated messages which may update the state
@@ -361,24 +395,28 @@ pub struct MsgInfo {
 #[proto_message(type_url = "/tendermint.consensus.TimeoutInfo")]
 pub struct TimeoutInfo {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub duration: ::core::option::Option<crate::shim::Duration>,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
     #[prost(int32, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub round: i32,
     #[prost(uint32, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub step: u32,
 }
 /// EndHeight marks the end of the given height inside WAL.
@@ -401,6 +439,7 @@ pub struct EndHeight {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: i64,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -417,6 +456,7 @@ pub struct EndHeight {
 #[proto_message(type_url = "/tendermint.consensus.WALMessage")]
 pub struct WalMessage {
     #[prost(oneof = "wal_message::Sum", tags = "1, 2, 3, 4")]
+    #[serde(default)]
     pub sum: ::core::option::Option<wal_message::Sum>,
 }
 /// Nested message and enum types in `WALMessage`.
@@ -458,7 +498,9 @@ pub mod wal_message {
 #[proto_message(type_url = "/tendermint.consensus.TimedWALMessage")]
 pub struct TimedWalMessage {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub time: ::core::option::Option<crate::shim::Timestamp>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub msg: ::core::option::Option<WalMessage>,
 }

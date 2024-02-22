@@ -15,18 +15,23 @@ use dymension_std_derive::CosmwasmExt;
 pub struct Description {
     /// moniker defines a human-readable name for the sequencer.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub moniker: ::prost::alloc::string::String,
     /// identity defines an optional identity signature (ex. UPort or Keybase).
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub identity: ::prost::alloc::string::String,
     /// website defines an optional website link.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub website: ::prost::alloc::string::String,
     /// securityContact defines an optional email for security contact.
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub security_contact: ::prost::alloc::string::String,
     /// details define other optional details.
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub details: ::prost::alloc::string::String,
 }
 /// Params defines the parameters for the module.
@@ -60,15 +65,19 @@ pub struct Params {}
 pub struct Sequencer {
     /// sequencerAddress is the bech32-encoded address of the sequencer account which is the account that the message was sent from.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub sequencer_address: ::prost::alloc::string::String,
     /// pubkey is the public key of the sequencers' dymint client, as a Protobuf Any.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub dymint_pub_key: ::core::option::Option<crate::shim::Any>,
     /// rollappId defines the rollapp to which the sequencer belongs.
     #[prost(string, repeated, tag = "3")]
+    #[serde(default)]
     pub rollapp_i_ds: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// description defines the descriptive terms for the sequencer.
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub description: ::core::option::Option<Description>,
 }
 /// SequencersByRollapp defines an map between rollappId to a list of
@@ -90,10 +99,12 @@ pub struct SequencersByRollapp {
     /// The rollappId follows the same standard as cosmos chain_id.
     #[prost(string, tag = "1")]
     #[serde(alias = "rollappID")]
+    #[serde(default)]
     pub rollapp_id: ::prost::alloc::string::String,
     /// list of sequencers' account address
     /// repeated string sequencers = 2;
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub sequencers: ::core::option::Option<Sequencers>,
 }
 /// Sequencers defines list of sequencers addresses.
@@ -111,6 +122,7 @@ pub struct SequencersByRollapp {
 #[proto_message(type_url = "/dymensionxyz.dymension.sequencer.Sequencers")]
 pub struct Sequencers {
     #[prost(string, repeated, tag = "1")]
+    #[serde(default)]
     pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// OperatingStatus defines the operating status of a sequencer
@@ -163,10 +175,12 @@ impl OperatingStatus {
 pub struct Scheduler {
     /// sequencerAddress is the bech32-encoded address of the sequencer account, identifying the sequencer
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub sequencer_address: ::prost::alloc::string::String,
     /// status is the operating status of this sequencer
     #[prost(enumeration = "OperatingStatus", tag = "2")]
     #[serde(with = "OperatingStatus")]
+    #[serde(default)]
     pub status: i32,
 }
 /// GenesisState defines the sequencer module's genesis state.
@@ -184,13 +198,17 @@ pub struct Scheduler {
 #[proto_message(type_url = "/dymensionxyz.dymension.sequencer.GenesisState")]
 pub struct GenesisState {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub sequencer_list: ::prost::alloc::vec::Vec<Sequencer>,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub sequencers_by_rollapp_list: ::prost::alloc::vec::Vec<SequencersByRollapp>,
     /// this line is used by starport scaffolding # genesis/proto/state
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub scheduler_list: ::prost::alloc::vec::Vec<Scheduler>,
 }
 /// SequencerInfo holds information for user query.
@@ -209,10 +227,12 @@ pub struct GenesisState {
 pub struct SequencerInfo {
     /// basic sequencer info
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub sequencer: ::core::option::Option<Sequencer>,
     /// sequencers' operating status
     #[prost(enumeration = "OperatingStatus", tag = "2")]
     #[serde(with = "OperatingStatus")]
+    #[serde(default)]
     pub status: i32,
 }
 /// QueryParamsRequest is request type for the Query/Params RPC method.
@@ -249,6 +269,7 @@ pub struct QueryParamsRequest {}
 pub struct QueryParamsResponse {
     /// params holds all the parameters of this module.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -269,6 +290,7 @@ pub struct QueryParamsResponse {
 )]
 pub struct QueryGetSequencerRequest {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub sequencer_address: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -285,6 +307,7 @@ pub struct QueryGetSequencerRequest {
 #[proto_message(type_url = "/dymensionxyz.dymension.sequencer.QueryGetSequencerResponse")]
 pub struct QueryGetSequencerResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub sequencer_info: ::core::option::Option<SequencerInfo>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -305,6 +328,7 @@ pub struct QueryGetSequencerResponse {
 )]
 pub struct QueryAllSequencerRequest {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
@@ -322,8 +346,10 @@ pub struct QueryAllSequencerRequest {
 #[proto_message(type_url = "/dymensionxyz.dymension.sequencer.QueryAllSequencerResponse")]
 pub struct QueryAllSequencerResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub sequencer_info_list: ::prost::alloc::vec::Vec<SequencerInfo>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
@@ -346,6 +372,7 @@ pub struct QueryAllSequencerResponse {
 pub struct QueryGetSequencersByRollappRequest {
     #[prost(string, tag = "1")]
     #[serde(alias = "rollappID")]
+    #[serde(default)]
     pub rollapp_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -363,8 +390,10 @@ pub struct QueryGetSequencersByRollappRequest {
 pub struct QueryGetSequencersByRollappResponse {
     #[prost(string, tag = "1")]
     #[serde(alias = "rollappID")]
+    #[serde(default)]
     pub rollapp_id: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub sequencer_info_list: ::prost::alloc::vec::Vec<SequencerInfo>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -385,6 +414,7 @@ pub struct QueryGetSequencersByRollappResponse {
 )]
 pub struct QueryAllSequencersByRollappRequest {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
@@ -402,8 +432,10 @@ pub struct QueryAllSequencersByRollappRequest {
 #[proto_message(type_url = "/dymensionxyz.dymension.sequencer.QueryAllSequencersByRollappResponse")]
 pub struct QueryAllSequencersByRollappResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub sequencers_by_rollapp: ::prost::alloc::vec::Vec<QueryGetSequencersByRollappResponse>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
@@ -425,6 +457,7 @@ pub struct QueryAllSequencersByRollappResponse {
 )]
 pub struct QueryGetSchedulerRequest {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub sequencer_address: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -441,6 +474,7 @@ pub struct QueryGetSchedulerRequest {
 #[proto_message(type_url = "/dymensionxyz.dymension.sequencer.QueryGetSchedulerResponse")]
 pub struct QueryGetSchedulerResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub scheduler: ::core::option::Option<Scheduler>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -461,6 +495,7 @@ pub struct QueryGetSchedulerResponse {
 )]
 pub struct QueryAllSchedulerRequest {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageRequest>,
 }
@@ -478,8 +513,10 @@ pub struct QueryAllSchedulerRequest {
 #[proto_message(type_url = "/dymensionxyz.dymension.sequencer.QueryAllSchedulerResponse")]
 pub struct QueryAllSchedulerResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub scheduler: ::prost::alloc::vec::Vec<Scheduler>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination:
         ::core::option::Option<super::super::super::cosmos::base::query::v1beta1::PageResponse>,
 }
@@ -499,16 +536,20 @@ pub struct QueryAllSchedulerResponse {
 pub struct MsgCreateSequencer {
     /// creator is the bech32-encoded address of the sequencer account which is the account that the message was sent from.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub creator: ::prost::alloc::string::String,
     /// pubkey is the public key of the sequencers' dymint client, as a Protobuf Any.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub dymint_pub_key: ::core::option::Option<crate::shim::Any>,
     /// rollappId defines the rollapp to which the sequencer belongs.
     #[prost(string, tag = "3")]
     #[serde(alias = "rollappID")]
+    #[serde(default)]
     pub rollapp_id: ::prost::alloc::string::String,
     /// description defines the descriptive terms for the sequencer.
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub description: ::core::option::Option<Description>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]

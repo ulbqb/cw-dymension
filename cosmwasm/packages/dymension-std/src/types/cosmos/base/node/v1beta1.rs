@@ -28,5 +28,6 @@ pub struct ConfigRequest {}
 #[proto_message(type_url = "/cosmos.base.node.v1beta1.ConfigResponse")]
 pub struct ConfigResponse {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub minimum_gas_price: ::prost::alloc::string::String,
 }

@@ -15,12 +15,16 @@ use dymension_std_derive::CosmwasmExt;
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.BaseVestingAccount")]
 pub struct BaseVestingAccount {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub base_account: ::core::option::Option<super::super::auth::v1beta1::BaseAccount>,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub original_vesting: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub delegated_free: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub delegated_vesting: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
     /// Vesting end time, as unix timestamp (in seconds).
     #[prost(int64, tag = "5")]
@@ -28,6 +32,7 @@ pub struct BaseVestingAccount {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub end_time: i64,
 }
 /// ContinuousVestingAccount implements the VestingAccount interface. It
@@ -46,6 +51,7 @@ pub struct BaseVestingAccount {
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.ContinuousVestingAccount")]
 pub struct ContinuousVestingAccount {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub base_vesting_account: ::core::option::Option<BaseVestingAccount>,
     /// Vesting start time, as unix timestamp (in seconds).
     #[prost(int64, tag = "2")]
@@ -53,6 +59,7 @@ pub struct ContinuousVestingAccount {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub start_time: i64,
 }
 /// DelayedVestingAccount implements the VestingAccount interface. It vests all
@@ -72,6 +79,7 @@ pub struct ContinuousVestingAccount {
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.DelayedVestingAccount")]
 pub struct DelayedVestingAccount {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub base_vesting_account: ::core::option::Option<BaseVestingAccount>,
 }
 /// Period defines a length of time and amount of coins that will vest.
@@ -94,8 +102,10 @@ pub struct Period {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub length: i64,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
 }
 /// PeriodicVestingAccount implements the VestingAccount interface. It
@@ -114,14 +124,17 @@ pub struct Period {
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.PeriodicVestingAccount")]
 pub struct PeriodicVestingAccount {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub base_vesting_account: ::core::option::Option<BaseVestingAccount>,
     #[prost(int64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub start_time: i64,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub vesting_periods: ::prost::alloc::vec::Vec<Period>,
 }
 /// PermanentLockedAccount implements the VestingAccount interface. It does
@@ -143,6 +156,7 @@ pub struct PeriodicVestingAccount {
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.PermanentLockedAccount")]
 pub struct PermanentLockedAccount {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub base_vesting_account: ::core::option::Option<BaseVestingAccount>,
 }
 /// MsgCreateVestingAccount defines a message that enables creating a vesting
@@ -161,10 +175,13 @@ pub struct PermanentLockedAccount {
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.MsgCreateVestingAccount")]
 pub struct MsgCreateVestingAccount {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub from_address: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub to_address: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
     /// end of vesting as unix time (in seconds).
     #[prost(int64, tag = "4")]
@@ -172,8 +189,10 @@ pub struct MsgCreateVestingAccount {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub end_time: i64,
     #[prost(bool, tag = "5")]
+    #[serde(default)]
     pub delayed: bool,
 }
 /// MsgCreateVestingAccountResponse defines the Msg/CreateVestingAccount response type.
@@ -208,10 +227,13 @@ pub struct MsgCreateVestingAccountResponse {}
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.MsgCreatePermanentLockedAccount")]
 pub struct MsgCreatePermanentLockedAccount {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub from_address: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub to_address: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
 }
 /// MsgCreatePermanentLockedAccountResponse defines the Msg/CreatePermanentLockedAccount response type.
@@ -248,8 +270,10 @@ pub struct MsgCreatePermanentLockedAccountResponse {}
 #[proto_message(type_url = "/cosmos.vesting.v1beta1.MsgCreatePeriodicVestingAccount")]
 pub struct MsgCreatePeriodicVestingAccount {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub from_address: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub to_address: ::prost::alloc::string::String,
     /// start of vesting as unix time (in seconds).
     #[prost(int64, tag = "3")]
@@ -257,8 +281,10 @@ pub struct MsgCreatePeriodicVestingAccount {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub start_time: i64,
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub vesting_periods: ::prost::alloc::vec::Vec<Period>,
 }
 /// MsgCreateVestingAccountResponse defines the Msg/CreatePeriodicVestingAccount

@@ -17,12 +17,14 @@ pub struct ModuleDescriptor {
     /// module in the runtime module registry. It is required to make debugging
     /// of configuration errors easier for users.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub go_import: ::prost::alloc::string::String,
     /// use_package refers to a protobuf package that this module
     /// uses and exposes to the world. In an app, only one module should "use"
     /// or own a single protobuf package. It is assumed that the module uses
     /// all of the .proto files in a single package.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub use_package: ::prost::alloc::vec::Vec<PackageReference>,
     /// can_migrate_from defines which module versions this module can migrate
     /// state from. The framework will check that one module version is able to
@@ -32,6 +34,7 @@ pub struct ModuleDescriptor {
     /// declares it can migrate from v1, the framework knows how to migrate
     /// from v1 to v3, assuming all 3 module versions are registered at runtime.
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub can_migrate_from: ::prost::alloc::vec::Vec<MigrateFromInfo>,
 }
 /// PackageReference is a reference to a protobuf package used by a module.
@@ -50,6 +53,7 @@ pub struct ModuleDescriptor {
 pub struct PackageReference {
     /// name is the fully-qualified name of the package.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub name: ::prost::alloc::string::String,
     /// revision is the optional revision of the package that is being used.
     /// Protobuf packages used in Cosmos should generally have a major version
@@ -91,6 +95,7 @@ pub struct PackageReference {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub revision: u32,
 }
 /// MigrateFromInfo is information on a module version that a newer module
@@ -111,6 +116,7 @@ pub struct MigrateFromInfo {
     /// module is the fully-qualified protobuf name of the module config object
     /// for the previous module version, ex: "cosmos.group.module.v1.Module".
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub module: ::prost::alloc::string::String,
 }
 /// Config represents the configuration for a Cosmos SDK ABCI app.
@@ -135,6 +141,7 @@ pub struct MigrateFromInfo {
 pub struct Config {
     /// modules are the module configurations for the app.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub modules: ::prost::alloc::vec::Vec<ModuleConfig>,
 }
 /// ModuleConfig is a module configuration for an app.
@@ -162,10 +169,12 @@ pub struct ModuleConfig {
     /// that the v1 module had. Note: modules should provide info on which versions
     /// they can migrate from in the ModuleDescriptor.can_migration_from field.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub name: ::prost::alloc::string::String,
     /// config is the config object for the module. Module config messages should
     /// define a ModuleDescriptor using the cosmos.app.v1alpha1.is_module extension.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub config: ::core::option::Option<crate::shim::Any>,
 }
 /// QueryConfigRequest is the Query/Config request type.
@@ -202,6 +211,7 @@ pub struct QueryConfigRequest {}
 pub struct QueryConfigResponse {
     /// config is the current app config.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub config: ::core::option::Option<Config>,
 }
 pub struct V1alpha1Querier<'a, Q: cosmwasm_std::CustomQuery> {

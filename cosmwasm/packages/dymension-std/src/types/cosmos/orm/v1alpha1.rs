@@ -14,6 +14,7 @@ use dymension_std_derive::CosmwasmExt;
 #[proto_message(type_url = "/cosmos.orm.v1alpha1.ModuleSchemaDescriptor")]
 pub struct ModuleSchemaDescriptor {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub schema_file: ::prost::alloc::vec::Vec<module_schema_descriptor::FileEntry>,
     /// prefix is an optional prefix that precedes all keys in this module's
     /// store.
@@ -22,6 +23,7 @@ pub struct ModuleSchemaDescriptor {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub prefix: ::prost::alloc::vec::Vec<u8>,
 }
 /// Nested message and enum types in `ModuleSchemaDescriptor`.
@@ -49,17 +51,20 @@ pub mod module_schema_descriptor {
             serialize_with = "crate::serde::as_str::serialize",
             deserialize_with = "crate::serde::as_str::deserialize"
         )]
+        #[serde(default)]
         pub id: u32,
         /// proto_file_name is the name of a file .proto in that contains
         /// table definitions. The .proto file must be in a package that the
         /// module has referenced using cosmos.app.v1.ModuleDescriptor.use_package.
         #[prost(string, tag = "2")]
+        #[serde(default)]
         pub proto_file_name: ::prost::alloc::string::String,
         /// storage_type optionally indicates the type of storage this file's
         /// tables should used. If it is left unspecified, the default KV-storage
         /// of the app will be used.
         #[prost(enumeration = "super::StorageType", tag = "3")]
         #[serde(with = "super::StorageType")]
+        #[serde(default)]
         pub storage_type: i32,
     }
 }

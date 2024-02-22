@@ -14,12 +14,16 @@ use dymension_std_derive::CosmwasmExt;
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.Params")]
 pub struct Params {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub community_tax: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub base_proposer_reward: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub bonus_proposer_reward: ::prost::alloc::string::String,
     #[prost(bool, tag = "4")]
+    #[serde(default)]
     pub withdraw_addr_enabled: bool,
 }
 /// ValidatorHistoricalRewards represents historical rewards for a validator.
@@ -48,12 +52,14 @@ pub struct Params {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorHistoricalRewards")]
 pub struct ValidatorHistoricalRewards {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub cumulative_reward_ratio: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
     #[prost(uint32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub reference_count: u32,
 }
 /// ValidatorCurrentRewards represents current rewards and current
@@ -73,12 +79,14 @@ pub struct ValidatorHistoricalRewards {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorCurrentRewards")]
 pub struct ValidatorCurrentRewards {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub rewards: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub period: u64,
 }
 /// ValidatorAccumulatedCommission represents accumulated commission
@@ -97,6 +105,7 @@ pub struct ValidatorCurrentRewards {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorAccumulatedCommission")]
 pub struct ValidatorAccumulatedCommission {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub commission: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
 }
 /// ValidatorOutstandingRewards represents outstanding (un-withdrawn) rewards
@@ -115,6 +124,7 @@ pub struct ValidatorAccumulatedCommission {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorOutstandingRewards")]
 pub struct ValidatorOutstandingRewards {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub rewards: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
 }
 /// ValidatorSlashEvent represents a validator slash event.
@@ -139,8 +149,10 @@ pub struct ValidatorSlashEvent {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub validator_period: u64,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub fraction: ::prost::alloc::string::String,
 }
 /// ValidatorSlashEvents is a collection of ValidatorSlashEvent messages.
@@ -158,6 +170,7 @@ pub struct ValidatorSlashEvent {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.ValidatorSlashEvents")]
 pub struct ValidatorSlashEvents {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub validator_slash_events: ::prost::alloc::vec::Vec<ValidatorSlashEvent>,
 }
 /// FeePool is the global fee pool for distribution.
@@ -175,6 +188,7 @@ pub struct ValidatorSlashEvents {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.FeePool")]
 pub struct FeePool {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub community_pool: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
 }
 /// CommunityPoolSpendProposal details a proposal for use of community funds,
@@ -194,12 +208,16 @@ pub struct FeePool {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.CommunityPoolSpendProposal")]
 pub struct CommunityPoolSpendProposal {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub title: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub recipient: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
 }
 /// DelegatorStartingInfo represents the starting info for a delegator reward
@@ -226,14 +244,17 @@ pub struct DelegatorStartingInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub previous_period: u64,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub stake: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: u64,
 }
 /// DelegationDelegatorReward represents the properties
@@ -252,8 +273,10 @@ pub struct DelegatorStartingInfo {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.DelegationDelegatorReward")]
 pub struct DelegationDelegatorReward {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub reward: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
 }
 /// CommunityPoolSpendProposalWithDeposit defines a CommunityPoolSpendProposal
@@ -272,14 +295,19 @@ pub struct DelegationDelegatorReward {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.CommunityPoolSpendProposalWithDeposit")]
 pub struct CommunityPoolSpendProposalWithDeposit {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub title: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub recipient: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub amount: ::prost::alloc::string::String,
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub deposit: ::prost::alloc::string::String,
 }
 /// DelegatorWithdrawInfo is the address for where distributions rewards are
@@ -300,9 +328,11 @@ pub struct CommunityPoolSpendProposalWithDeposit {
 pub struct DelegatorWithdrawInfo {
     /// delegator_address is the address of the delegator.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     /// withdraw_address is the address to withdraw the delegation rewards to.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub withdraw_address: ::prost::alloc::string::String,
 }
 /// ValidatorOutstandingRewardsRecord is used for import/export via genesis json.
@@ -321,9 +351,11 @@ pub struct DelegatorWithdrawInfo {
 pub struct ValidatorOutstandingRewardsRecord {
     /// validator_address is the address of the validator.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     /// outstanding_rewards represents the oustanding rewards of a validator.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub outstanding_rewards: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
 }
 /// ValidatorAccumulatedCommissionRecord is used for import / export via genesis
@@ -343,9 +375,11 @@ pub struct ValidatorOutstandingRewardsRecord {
 pub struct ValidatorAccumulatedCommissionRecord {
     /// validator_address is the address of the validator.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     /// accumulated is the accumulated commission of a validator.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub accumulated: ::core::option::Option<ValidatorAccumulatedCommission>,
 }
 /// ValidatorHistoricalRewardsRecord is used for import / export via genesis
@@ -365,6 +399,7 @@ pub struct ValidatorAccumulatedCommissionRecord {
 pub struct ValidatorHistoricalRewardsRecord {
     /// validator_address is the address of the validator.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     /// period defines the period the historical rewards apply to.
     #[prost(uint64, tag = "2")]
@@ -372,9 +407,11 @@ pub struct ValidatorHistoricalRewardsRecord {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub period: u64,
     /// rewards defines the historical rewards of a validator.
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub rewards: ::core::option::Option<ValidatorHistoricalRewards>,
 }
 /// ValidatorCurrentRewardsRecord is used for import / export via genesis json.
@@ -393,9 +430,11 @@ pub struct ValidatorHistoricalRewardsRecord {
 pub struct ValidatorCurrentRewardsRecord {
     /// validator_address is the address of the validator.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     /// rewards defines the current rewards of a validator.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub rewards: ::core::option::Option<ValidatorCurrentRewards>,
 }
 /// DelegatorStartingInfoRecord used for import / export via genesis json.
@@ -414,12 +453,15 @@ pub struct ValidatorCurrentRewardsRecord {
 pub struct DelegatorStartingInfoRecord {
     /// delegator_address is the address of the delegator.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     /// validator_address is the address of the validator.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     /// starting_info defines the starting info of a delegator.
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub starting_info: ::core::option::Option<DelegatorStartingInfo>,
 }
 /// ValidatorSlashEventRecord is used for import / export via genesis json.
@@ -438,6 +480,7 @@ pub struct DelegatorStartingInfoRecord {
 pub struct ValidatorSlashEventRecord {
     /// validator_address is the address of the validator.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     /// height defines the block height at which the slash event occured.
     #[prost(uint64, tag = "2")]
@@ -445,6 +488,7 @@ pub struct ValidatorSlashEventRecord {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub height: u64,
     /// period is the period of the slash event.
     #[prost(uint64, tag = "3")]
@@ -452,9 +496,11 @@ pub struct ValidatorSlashEventRecord {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub period: u64,
     /// validator_slash_event describes the slash event.
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub validator_slash_event: ::core::option::Option<ValidatorSlashEvent>,
 }
 /// GenesisState defines the distribution module's genesis state.
@@ -473,34 +519,44 @@ pub struct ValidatorSlashEventRecord {
 pub struct GenesisState {
     /// params defines all the paramaters of the module.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
     /// fee_pool defines the fee pool at genesis.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub fee_pool: ::core::option::Option<FeePool>,
     /// fee_pool defines the delegator withdraw infos at genesis.
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub delegator_withdraw_infos: ::prost::alloc::vec::Vec<DelegatorWithdrawInfo>,
     /// fee_pool defines the previous proposer at genesis.
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub previous_proposer: ::prost::alloc::string::String,
     /// fee_pool defines the outstanding rewards of all validators at genesis.
     #[prost(message, repeated, tag = "5")]
+    #[serde(default)]
     pub outstanding_rewards: ::prost::alloc::vec::Vec<ValidatorOutstandingRewardsRecord>,
     /// fee_pool defines the accumulated commisions of all validators at genesis.
     #[prost(message, repeated, tag = "6")]
+    #[serde(default)]
     pub validator_accumulated_commissions:
         ::prost::alloc::vec::Vec<ValidatorAccumulatedCommissionRecord>,
     /// fee_pool defines the historical rewards of all validators at genesis.
     #[prost(message, repeated, tag = "7")]
+    #[serde(default)]
     pub validator_historical_rewards: ::prost::alloc::vec::Vec<ValidatorHistoricalRewardsRecord>,
     /// fee_pool defines the current rewards of all validators at genesis.
     #[prost(message, repeated, tag = "8")]
+    #[serde(default)]
     pub validator_current_rewards: ::prost::alloc::vec::Vec<ValidatorCurrentRewardsRecord>,
     /// fee_pool defines the delegator starting infos at genesis.
     #[prost(message, repeated, tag = "9")]
+    #[serde(default)]
     pub delegator_starting_infos: ::prost::alloc::vec::Vec<DelegatorStartingInfoRecord>,
     /// fee_pool defines the validator slash events at genesis.
     #[prost(message, repeated, tag = "10")]
+    #[serde(default)]
     pub validator_slash_events: ::prost::alloc::vec::Vec<ValidatorSlashEventRecord>,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
@@ -537,6 +593,7 @@ pub struct QueryParamsRequest {}
 pub struct QueryParamsResponse {
     /// params defines the parameters of the module.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
 }
 /// QueryValidatorOutstandingRewardsRequest is the request type for the
@@ -560,6 +617,7 @@ pub struct QueryParamsResponse {
 pub struct QueryValidatorOutstandingRewardsRequest {
     /// validator_address defines the validator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
 }
 /// QueryValidatorOutstandingRewardsResponse is the response type for the
@@ -578,6 +636,7 @@ pub struct QueryValidatorOutstandingRewardsRequest {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.QueryValidatorOutstandingRewardsResponse")]
 pub struct QueryValidatorOutstandingRewardsResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub rewards: ::core::option::Option<ValidatorOutstandingRewards>,
 }
 /// QueryValidatorCommissionRequest is the request type for the
@@ -601,6 +660,7 @@ pub struct QueryValidatorOutstandingRewardsResponse {
 pub struct QueryValidatorCommissionRequest {
     /// validator_address defines the validator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
 }
 /// QueryValidatorCommissionResponse is the response type for the
@@ -620,6 +680,7 @@ pub struct QueryValidatorCommissionRequest {
 pub struct QueryValidatorCommissionResponse {
     /// commission defines the commision the validator received.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub commission: ::core::option::Option<ValidatorAccumulatedCommission>,
 }
 /// QueryValidatorSlashesRequest is the request type for the
@@ -643,6 +704,7 @@ pub struct QueryValidatorCommissionResponse {
 pub struct QueryValidatorSlashesRequest {
     /// validator_address defines the validator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
     /// starting_height defines the optional starting height to query the slashes.
     #[prost(uint64, tag = "2")]
@@ -650,6 +712,7 @@ pub struct QueryValidatorSlashesRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub starting_height: u64,
     /// starting_height defines the optional ending height to query the slashes.
     #[prost(uint64, tag = "3")]
@@ -657,9 +720,11 @@ pub struct QueryValidatorSlashesRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub ending_height: u64,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryValidatorSlashesResponse is the response type for the
@@ -679,9 +744,11 @@ pub struct QueryValidatorSlashesRequest {
 pub struct QueryValidatorSlashesResponse {
     /// slashes defines the slashes the validator received.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub slashes: ::prost::alloc::vec::Vec<ValidatorSlashEvent>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryDelegationRewardsRequest is the request type for the
@@ -705,9 +772,11 @@ pub struct QueryValidatorSlashesResponse {
 pub struct QueryDelegationRewardsRequest {
     /// delegator_address defines the delegator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     /// validator_address defines the validator address to query for.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
 }
 /// QueryDelegationRewardsResponse is the response type for the
@@ -727,6 +796,7 @@ pub struct QueryDelegationRewardsRequest {
 pub struct QueryDelegationRewardsResponse {
     /// rewards defines the rewards accrued by a delegation.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub rewards: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
 }
 /// QueryDelegationTotalRewardsRequest is the request type for the
@@ -750,6 +820,7 @@ pub struct QueryDelegationRewardsResponse {
 pub struct QueryDelegationTotalRewardsRequest {
     /// delegator_address defines the delegator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
 }
 /// QueryDelegationTotalRewardsResponse is the response type for the
@@ -769,9 +840,11 @@ pub struct QueryDelegationTotalRewardsRequest {
 pub struct QueryDelegationTotalRewardsResponse {
     /// rewards defines all the rewards accrued by a delegator.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub rewards: ::prost::alloc::vec::Vec<DelegationDelegatorReward>,
     /// total defines the sum of all the rewards.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub total: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
 }
 /// QueryDelegatorValidatorsRequest is the request type for the
@@ -795,6 +868,7 @@ pub struct QueryDelegationTotalRewardsResponse {
 pub struct QueryDelegatorValidatorsRequest {
     /// delegator_address defines the delegator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
 }
 /// QueryDelegatorValidatorsResponse is the response type for the
@@ -814,6 +888,7 @@ pub struct QueryDelegatorValidatorsRequest {
 pub struct QueryDelegatorValidatorsResponse {
     /// validators defines the validators a delegator is delegating for.
     #[prost(string, repeated, tag = "1")]
+    #[serde(default)]
     pub validators: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// QueryDelegatorWithdrawAddressRequest is the request type for the
@@ -837,6 +912,7 @@ pub struct QueryDelegatorValidatorsResponse {
 pub struct QueryDelegatorWithdrawAddressRequest {
     /// delegator_address defines the delegator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
 }
 /// QueryDelegatorWithdrawAddressResponse is the response type for the
@@ -856,6 +932,7 @@ pub struct QueryDelegatorWithdrawAddressRequest {
 pub struct QueryDelegatorWithdrawAddressResponse {
     /// withdraw_address defines the delegator address to query for.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub withdraw_address: ::prost::alloc::string::String,
 }
 /// QueryCommunityPoolRequest is the request type for the Query/CommunityPool RPC
@@ -894,6 +971,7 @@ pub struct QueryCommunityPoolRequest {}
 pub struct QueryCommunityPoolResponse {
     /// pool defines community pool's coins.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub pool: ::prost::alloc::vec::Vec<super::super::base::v1beta1::DecCoin>,
 }
 /// MsgSetWithdrawAddress sets the withdraw address for
@@ -912,8 +990,10 @@ pub struct QueryCommunityPoolResponse {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgSetWithdrawAddress")]
 pub struct MsgSetWithdrawAddress {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub withdraw_address: ::prost::alloc::string::String,
 }
 /// MsgSetWithdrawAddressResponse defines the Msg/SetWithdrawAddress response type.
@@ -946,8 +1026,10 @@ pub struct MsgSetWithdrawAddressResponse {}
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward")]
 pub struct MsgWithdrawDelegatorReward {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub delegator_address: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
 }
 /// MsgWithdrawDelegatorRewardResponse defines the Msg/WithdrawDelegatorReward response type.
@@ -966,6 +1048,7 @@ pub struct MsgWithdrawDelegatorReward {
 pub struct MsgWithdrawDelegatorRewardResponse {
     /// Since: cosmos-sdk 0.46
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
 }
 /// MsgWithdrawValidatorCommission withdraws the full commission to the validator
@@ -984,6 +1067,7 @@ pub struct MsgWithdrawDelegatorRewardResponse {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission")]
 pub struct MsgWithdrawValidatorCommission {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub validator_address: ::prost::alloc::string::String,
 }
 /// MsgWithdrawValidatorCommissionResponse defines the Msg/WithdrawValidatorCommission response type.
@@ -1002,6 +1086,7 @@ pub struct MsgWithdrawValidatorCommission {
 pub struct MsgWithdrawValidatorCommissionResponse {
     /// Since: cosmos-sdk 0.46
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
 }
 /// MsgFundCommunityPool allows an account to directly
@@ -1020,8 +1105,10 @@ pub struct MsgWithdrawValidatorCommissionResponse {
 #[proto_message(type_url = "/cosmos.distribution.v1beta1.MsgFundCommunityPool")]
 pub struct MsgFundCommunityPool {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub depositor: ::prost::alloc::string::String,
 }
 /// MsgFundCommunityPoolResponse defines the Msg/FundCommunityPool response type.

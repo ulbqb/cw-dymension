@@ -16,15 +16,19 @@ use dymension_std_derive::CosmwasmExt;
 pub struct Member {
     /// address is the member's account address.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     /// weight is the member's voting weight that should be greater than 0.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub weight: ::prost::alloc::string::String,
     /// metadata is any arbitrary metadata attached to the member.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
     /// added_at is a timestamp specifying when a member was added.
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub added_at: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// MemberRequest represents a group member to be used in Msg server requests.
@@ -45,12 +49,15 @@ pub struct Member {
 pub struct MemberRequest {
     /// address is the member's account address.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     /// weight is the member's voting weight that should be greater than 0.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub weight: ::prost::alloc::string::String,
     /// metadata is any arbitrary metadata attached to the member.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
 }
 /// ThresholdDecisionPolicy is a decision policy where a proposal passes when it
@@ -75,9 +82,11 @@ pub struct ThresholdDecisionPolicy {
     /// threshold is the minimum weighted sum of `YES` votes that must be met or
     /// exceeded for a proposal to succeed.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub threshold: ::prost::alloc::string::String,
     /// windows defines the different windows for voting and execution.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub windows: ::core::option::Option<DecisionPolicyWindows>,
 }
 /// PercentageDecisionPolicy is a decision policy where a proposal passes when
@@ -102,9 +111,11 @@ pub struct PercentageDecisionPolicy {
     /// percentage is the minimum percentage the weighted sum of `YES` votes must
     /// meet for a proposal to succeed.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub percentage: ::prost::alloc::string::String,
     /// windows defines the different windows for voting and execution.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub windows: ::core::option::Option<DecisionPolicyWindows>,
 }
 /// DecisionPolicyWindows defines the different windows for voting and execution.
@@ -124,6 +135,7 @@ pub struct DecisionPolicyWindows {
     /// voting_period is the duration from submission of a proposal to the end of voting period
     /// Within this times votes can be submitted with MsgVote.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub voting_period: ::core::option::Option<crate::shim::Duration>,
     /// min_execution_period is the minimum duration after the proposal submission
     /// where members can start sending MsgExec. This means that the window for
@@ -137,6 +149,7 @@ pub struct DecisionPolicyWindows {
     /// is empty, meaning that all proposals created with this decision policy
     /// won't be able to be executed.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub min_execution_period: ::core::option::Option<crate::shim::Duration>,
 }
 /// GroupInfo represents the high-level on-chain information for a group.
@@ -160,12 +173,15 @@ pub struct GroupInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub id: u64,
     /// admin is the account address of the group's admin.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub admin: ::prost::alloc::string::String,
     /// metadata is any arbitrary metadata to attached to the group.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
     /// version is used to track changes to a group's membership structure that
     /// would break existing proposals. Whenever any members weight is changed,
@@ -176,12 +192,15 @@ pub struct GroupInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub version: u64,
     /// total_weight is the sum of the group members' weights.
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub total_weight: ::prost::alloc::string::String,
     /// created_at is a timestamp specifying when a group was created.
     #[prost(message, optional, tag = "6")]
+    #[serde(default)]
     pub created_at: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// GroupMember represents the relationship between a group and a member.
@@ -205,9 +224,11 @@ pub struct GroupMember {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
     /// member is the member data.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub member: ::core::option::Option<Member>,
 }
 /// GroupPolicyInfo represents the high-level on-chain information for a group policy.
@@ -226,6 +247,7 @@ pub struct GroupMember {
 pub struct GroupPolicyInfo {
     /// address is the account address of group policy.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "2")]
@@ -234,12 +256,15 @@ pub struct GroupPolicyInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
     /// admin is the account address of the group admin.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub admin: ::prost::alloc::string::String,
     /// metadata is any arbitrary metadata to attached to the group policy.
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
     /// version is used to track changes to a group's GroupPolicyInfo structure that
     /// would create a different result on a running proposal.
@@ -248,12 +273,15 @@ pub struct GroupPolicyInfo {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub version: u64,
     /// decision_policy specifies the group policy's decision policy.
     #[prost(message, optional, tag = "6")]
+    #[serde(default)]
     pub decision_policy: ::core::option::Option<crate::shim::Any>,
     /// created_at is a timestamp specifying when a group policy was created.
     #[prost(message, optional, tag = "7")]
+    #[serde(default)]
     pub created_at: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// Proposal defines a group proposal. Any member of a group can submit a proposal
@@ -280,18 +308,23 @@ pub struct Proposal {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub id: u64,
     /// group_policy_address is the account address of group policy.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub group_policy_address: ::prost::alloc::string::String,
     /// metadata is any arbitrary metadata to attached to the proposal.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
     /// proposers are the account addresses of the proposers.
     #[prost(string, repeated, tag = "4")]
+    #[serde(default)]
     pub proposers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// submit_time is a timestamp specifying when a proposal was submitted.
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub submit_time: ::core::option::Option<crate::shim::Timestamp>,
     /// group_version tracks the version of the group at proposal submission.
     /// This field is here for informational purposes only.
@@ -300,6 +333,7 @@ pub struct Proposal {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_version: u64,
     /// group_policy_version tracks the version of the group policy at proposal submission.
     /// When a decision policy is changed, existing proposals from previous policy
@@ -310,16 +344,19 @@ pub struct Proposal {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_policy_version: u64,
     /// status represents the high level position in the life cycle of the proposal. Initial value is Submitted.
     #[prost(enumeration = "ProposalStatus", tag = "8")]
     #[serde(with = "ProposalStatus")]
+    #[serde(default)]
     pub status: i32,
     /// final_tally_result contains the sums of all weighted votes for this
     /// proposal for each vote option. It is empty at submission, and only
     /// populated after tallying, at voting period end or at proposal execution,
     /// whichever happens first.
     #[prost(message, optional, tag = "9")]
+    #[serde(default)]
     pub final_tally_result: ::core::option::Option<TallyResult>,
     /// voting_period_end is the timestamp before which voting must be done.
     /// Unless a successfull MsgExec is called before (to execute a proposal whose
@@ -327,13 +364,16 @@ pub struct Proposal {
     /// at this point, and the `final_tally_result`and `status` fields will be
     /// accordingly updated.
     #[prost(message, optional, tag = "10")]
+    #[serde(default)]
     pub voting_period_end: ::core::option::Option<crate::shim::Timestamp>,
     /// executor_result is the final result of the proposal execution. Initial value is NotRun.
     #[prost(enumeration = "ProposalExecutorResult", tag = "11")]
     #[serde(with = "ProposalExecutorResult")]
+    #[serde(default)]
     pub executor_result: i32,
     /// messages is a list of `sdk.Msg`s that will be executed if the proposal passes.
     #[prost(message, repeated, tag = "12")]
+    #[serde(default)]
     pub messages: ::prost::alloc::vec::Vec<crate::shim::Any>,
 }
 /// TallyResult represents the sum of weighted votes for each vote option.
@@ -352,15 +392,19 @@ pub struct Proposal {
 pub struct TallyResult {
     /// yes_count is the weighted sum of yes votes.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub yes_count: ::prost::alloc::string::String,
     /// abstain_count is the weighted sum of abstainers.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub abstain_count: ::prost::alloc::string::String,
     /// no_count is the weighted sum of no votes.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub no_count: ::prost::alloc::string::String,
     /// no_with_veto_count is the weighted sum of veto.
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub no_with_veto_count: ::prost::alloc::string::String,
 }
 /// Vote represents a vote for a proposal.
@@ -384,19 +428,24 @@ pub struct Vote {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     /// voter is the account address of the voter.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub voter: ::prost::alloc::string::String,
     /// option is the voter's choice on the proposal.
     #[prost(enumeration = "VoteOption", tag = "3")]
     #[serde(with = "VoteOption")]
+    #[serde(default)]
     pub option: i32,
     /// metadata is any arbitrary metadata to attached to the vote.
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
     /// submit_time is the timestamp when the vote was submitted.
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub submit_time: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// VoteOption enumerates the valid vote options for a given proposal.
@@ -551,6 +600,7 @@ pub struct EventCreateGroup {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
 }
 /// EventUpdateGroup is an event emitted when a group is updated.
@@ -574,6 +624,7 @@ pub struct EventUpdateGroup {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
 }
 /// EventCreateGroupPolicy is an event emitted when a group policy is created.
@@ -592,6 +643,7 @@ pub struct EventUpdateGroup {
 pub struct EventCreateGroupPolicy {
     /// address is the account address of the group policy.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
 }
 /// EventUpdateGroupPolicy is an event emitted when a group policy is updated.
@@ -610,6 +662,7 @@ pub struct EventCreateGroupPolicy {
 pub struct EventUpdateGroupPolicy {
     /// address is the account address of the group policy.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
 }
 /// EventSubmitProposal is an event emitted when a proposal is created.
@@ -633,6 +686,7 @@ pub struct EventSubmitProposal {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
 }
 /// EventWithdrawProposal is an event emitted when a proposal is withdrawn.
@@ -656,6 +710,7 @@ pub struct EventWithdrawProposal {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
 }
 /// EventVote is an event emitted when a voter votes on a proposal.
@@ -679,6 +734,7 @@ pub struct EventVote {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
 }
 /// EventExec is an event emitted when a proposal is executed.
@@ -702,13 +758,16 @@ pub struct EventExec {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     /// result is the proposal execution result.
     #[prost(enumeration = "ProposalExecutorResult", tag = "2")]
     #[serde(with = "ProposalExecutorResult")]
+    #[serde(default)]
     pub result: i32,
     /// logs contains error logs in case the execution result is FAILURE.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub logs: ::prost::alloc::string::String,
 }
 /// EventLeaveGroup is an event emitted when group member leaves the group.
@@ -732,9 +791,11 @@ pub struct EventLeaveGroup {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
     /// address is the account address of the group member.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
 }
 /// EventProposalPruned is an event emitted when a proposal is pruned.
@@ -758,13 +819,16 @@ pub struct EventProposalPruned {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     /// status is the proposal status (UNSPECIFIED, SUBMITTED, ACCEPTED, REJECTED, ABORTED, WITHDRAWN).
     #[prost(enumeration = "ProposalStatus", tag = "2")]
     #[serde(with = "ProposalStatus")]
+    #[serde(default)]
     pub status: i32,
     /// tally_result is the proposal tally result (when applicable).
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub tally_result: ::core::option::Option<TallyResult>,
 }
 /// GenesisState defines the group module's genesis state.
@@ -788,12 +852,15 @@ pub struct GenesisState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_seq: u64,
     /// groups is the list of groups info.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub groups: ::prost::alloc::vec::Vec<GroupInfo>,
     /// group_members is the list of groups members.
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub group_members: ::prost::alloc::vec::Vec<GroupMember>,
     /// group_policy_seq is the group policy table orm.Sequence,
     /// it is used to generate the next group policy account address.
@@ -802,9 +869,11 @@ pub struct GenesisState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_policy_seq: u64,
     /// group_policies is the list of group policies info.
     #[prost(message, repeated, tag = "5")]
+    #[serde(default)]
     pub group_policies: ::prost::alloc::vec::Vec<GroupPolicyInfo>,
     /// proposal_seq is the proposal table orm.Sequence,
     /// it is used to get the next proposal ID.
@@ -813,12 +882,15 @@ pub struct GenesisState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_seq: u64,
     /// proposals is the list of proposals.
     #[prost(message, repeated, tag = "7")]
+    #[serde(default)]
     pub proposals: ::prost::alloc::vec::Vec<Proposal>,
     /// votes is the list of votes.
     #[prost(message, repeated, tag = "8")]
+    #[serde(default)]
     pub votes: ::prost::alloc::vec::Vec<Vote>,
 }
 /// QueryGroupInfoRequest is the Query/GroupInfo request type.
@@ -846,6 +918,7 @@ pub struct QueryGroupInfoRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
 }
 /// QueryGroupInfoResponse is the Query/GroupInfo response type.
@@ -864,6 +937,7 @@ pub struct QueryGroupInfoRequest {
 pub struct QueryGroupInfoResponse {
     /// info is the GroupInfo for the group.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub info: ::core::option::Option<GroupInfo>,
 }
 /// QueryGroupPolicyInfoRequest is the Query/GroupPolicyInfo request type.
@@ -886,6 +960,7 @@ pub struct QueryGroupInfoResponse {
 pub struct QueryGroupPolicyInfoRequest {
     /// address is the account address of the group policy.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
 }
 /// QueryGroupPolicyInfoResponse is the Query/GroupPolicyInfo response type.
@@ -904,6 +979,7 @@ pub struct QueryGroupPolicyInfoRequest {
 pub struct QueryGroupPolicyInfoResponse {
     /// info is the GroupPolicyInfo for the group policy.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub info: ::core::option::Option<GroupPolicyInfo>,
 }
 /// QueryGroupMembersRequest is the Query/GroupMembers request type.
@@ -931,9 +1007,11 @@ pub struct QueryGroupMembersRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryGroupMembersResponse is the Query/GroupMembersResponse response type.
@@ -952,9 +1030,11 @@ pub struct QueryGroupMembersRequest {
 pub struct QueryGroupMembersResponse {
     /// members are the members of the group with given group_id.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub members: ::prost::alloc::vec::Vec<GroupMember>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryGroupsByAdminRequest is the Query/GroupsByAdmin request type.
@@ -977,9 +1057,11 @@ pub struct QueryGroupMembersResponse {
 pub struct QueryGroupsByAdminRequest {
     /// admin is the account address of a group's admin.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub admin: ::prost::alloc::string::String,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryGroupsByAdminResponse is the Query/GroupsByAdminResponse response type.
@@ -998,9 +1080,11 @@ pub struct QueryGroupsByAdminRequest {
 pub struct QueryGroupsByAdminResponse {
     /// groups are the groups info with the provided admin.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub groups: ::prost::alloc::vec::Vec<GroupInfo>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryGroupPoliciesByGroupRequest is the Query/GroupPoliciesByGroup request type.
@@ -1028,9 +1112,11 @@ pub struct QueryGroupPoliciesByGroupRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryGroupPoliciesByGroupResponse is the Query/GroupPoliciesByGroup response type.
@@ -1049,9 +1135,11 @@ pub struct QueryGroupPoliciesByGroupRequest {
 pub struct QueryGroupPoliciesByGroupResponse {
     /// group_policies are the group policies info associated with the provided group.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub group_policies: ::prost::alloc::vec::Vec<GroupPolicyInfo>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryGroupPoliciesByAdminRequest is the Query/GroupPoliciesByAdmin request type.
@@ -1074,9 +1162,11 @@ pub struct QueryGroupPoliciesByGroupResponse {
 pub struct QueryGroupPoliciesByAdminRequest {
     /// admin is the admin address of the group policy.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub admin: ::prost::alloc::string::String,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryGroupPoliciesByAdminResponse is the Query/GroupPoliciesByAdmin response type.
@@ -1095,9 +1185,11 @@ pub struct QueryGroupPoliciesByAdminRequest {
 pub struct QueryGroupPoliciesByAdminResponse {
     /// group_policies are the group policies info with provided admin.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub group_policies: ::prost::alloc::vec::Vec<GroupPolicyInfo>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryProposalRequest is the Query/Proposal request type.
@@ -1125,6 +1217,7 @@ pub struct QueryProposalRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
 }
 /// QueryProposalResponse is the Query/Proposal response type.
@@ -1143,6 +1236,7 @@ pub struct QueryProposalRequest {
 pub struct QueryProposalResponse {
     /// proposal is the proposal info.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub proposal: ::core::option::Option<Proposal>,
 }
 /// QueryProposalsByGroupPolicyRequest is the Query/ProposalByGroupPolicy request type.
@@ -1165,9 +1259,11 @@ pub struct QueryProposalResponse {
 pub struct QueryProposalsByGroupPolicyRequest {
     /// address is the account address of the group policy related to proposals.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryProposalsByGroupPolicyResponse is the Query/ProposalByGroupPolicy response type.
@@ -1186,9 +1282,11 @@ pub struct QueryProposalsByGroupPolicyRequest {
 pub struct QueryProposalsByGroupPolicyResponse {
     /// proposals are the proposals with given group policy.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub proposals: ::prost::alloc::vec::Vec<Proposal>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryVoteByProposalVoterRequest is the Query/VoteByProposalVoter request type.
@@ -1216,9 +1314,11 @@ pub struct QueryVoteByProposalVoterRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     /// voter is a proposal voter account address.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub voter: ::prost::alloc::string::String,
 }
 /// QueryVoteByProposalVoterResponse is the Query/VoteByProposalVoter response type.
@@ -1237,6 +1337,7 @@ pub struct QueryVoteByProposalVoterRequest {
 pub struct QueryVoteByProposalVoterResponse {
     /// vote is the vote with given proposal_id and voter.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub vote: ::core::option::Option<Vote>,
 }
 /// QueryVotesByProposalRequest is the Query/VotesByProposal request type.
@@ -1264,9 +1365,11 @@ pub struct QueryVotesByProposalRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryVotesByProposalResponse is the Query/VotesByProposal response type.
@@ -1285,9 +1388,11 @@ pub struct QueryVotesByProposalRequest {
 pub struct QueryVotesByProposalResponse {
     /// votes are the list of votes for given proposal_id.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub votes: ::prost::alloc::vec::Vec<Vote>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryVotesByVoterRequest is the Query/VotesByVoter request type.
@@ -1310,9 +1415,11 @@ pub struct QueryVotesByProposalResponse {
 pub struct QueryVotesByVoterRequest {
     /// voter is a proposal voter account address.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub voter: ::prost::alloc::string::String,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryVotesByVoterResponse is the Query/VotesByVoter response type.
@@ -1331,9 +1438,11 @@ pub struct QueryVotesByVoterRequest {
 pub struct QueryVotesByVoterResponse {
     /// votes are the list of votes by given voter.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub votes: ::prost::alloc::vec::Vec<Vote>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryGroupsByMemberRequest is the Query/GroupsByMember request type.
@@ -1356,9 +1465,11 @@ pub struct QueryVotesByVoterResponse {
 pub struct QueryGroupsByMemberRequest {
     /// address is the group member address.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryGroupsByMemberResponse is the Query/GroupsByMember response type.
@@ -1377,9 +1488,11 @@ pub struct QueryGroupsByMemberRequest {
 pub struct QueryGroupsByMemberResponse {
     /// groups are the groups info with the provided group member.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub groups: ::prost::alloc::vec::Vec<GroupInfo>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryTallyResultRequest is the Query/TallyResult request type.
@@ -1407,6 +1520,7 @@ pub struct QueryTallyResultRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
 }
 /// QueryTallyResultResponse is the Query/TallyResult response type.
@@ -1425,6 +1539,7 @@ pub struct QueryTallyResultRequest {
 pub struct QueryTallyResultResponse {
     /// tally defines the requested tally.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub tally: ::core::option::Option<TallyResult>,
 }
 /// QueryGroupsRequest is the Query/Groups request type.
@@ -1449,6 +1564,7 @@ pub struct QueryTallyResultResponse {
 pub struct QueryGroupsRequest {
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryGroupsResponse is the Query/Groups response type.
@@ -1469,9 +1585,11 @@ pub struct QueryGroupsRequest {
 pub struct QueryGroupsResponse {
     /// `groups` is all the groups present in state.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub groups: ::prost::alloc::vec::Vec<GroupInfo>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// MsgCreateGroup is the Msg/CreateGroup request type.
@@ -1490,12 +1608,15 @@ pub struct QueryGroupsResponse {
 pub struct MsgCreateGroup {
     /// admin is the account address of the group admin.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub admin: ::prost::alloc::string::String,
     /// members defines the group members.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub members: ::prost::alloc::vec::Vec<MemberRequest>,
     /// metadata is any arbitrary metadata to attached to the group.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
 }
 /// MsgCreateGroupResponse is the Msg/CreateGroup response type.
@@ -1519,6 +1640,7 @@ pub struct MsgCreateGroupResponse {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
 }
 /// MsgUpdateGroupMembers is the Msg/UpdateGroupMembers request type.
@@ -1537,6 +1659,7 @@ pub struct MsgCreateGroupResponse {
 pub struct MsgUpdateGroupMembers {
     /// admin is the account address of the group admin.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub admin: ::prost::alloc::string::String,
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "2")]
@@ -1545,10 +1668,12 @@ pub struct MsgUpdateGroupMembers {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
     /// member_updates is the list of members to update,
     /// set weight to 0 to remove a member.
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub member_updates: ::prost::alloc::vec::Vec<MemberRequest>,
 }
 /// MsgUpdateGroupMembersResponse is the Msg/UpdateGroupMembers response type.
@@ -1581,6 +1706,7 @@ pub struct MsgUpdateGroupMembersResponse {}
 pub struct MsgUpdateGroupAdmin {
     /// admin is the current account address of the group admin.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub admin: ::prost::alloc::string::String,
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "2")]
@@ -1589,9 +1715,11 @@ pub struct MsgUpdateGroupAdmin {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
     /// new_admin is the group new admin account address.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub new_admin: ::prost::alloc::string::String,
 }
 /// MsgUpdateGroupAdminResponse is the Msg/UpdateGroupAdmin response type.
@@ -1624,6 +1752,7 @@ pub struct MsgUpdateGroupAdminResponse {}
 pub struct MsgUpdateGroupMetadata {
     /// admin is the account address of the group admin.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub admin: ::prost::alloc::string::String,
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "2")]
@@ -1632,9 +1761,11 @@ pub struct MsgUpdateGroupMetadata {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
     /// metadata is the updated group's metadata.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
 }
 /// MsgUpdateGroupMetadataResponse is the Msg/UpdateGroupMetadata response type.
@@ -1667,6 +1798,7 @@ pub struct MsgUpdateGroupMetadataResponse {}
 pub struct MsgCreateGroupPolicy {
     /// admin is the account address of the group admin.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub admin: ::prost::alloc::string::String,
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "2")]
@@ -1675,12 +1807,15 @@ pub struct MsgCreateGroupPolicy {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
     /// metadata is any arbitrary metadata attached to the group policy.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
     /// decision_policy specifies the group policy's decision policy.
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub decision_policy: ::core::option::Option<crate::shim::Any>,
 }
 /// MsgCreateGroupPolicyResponse is the Msg/CreateGroupPolicy response type.
@@ -1699,6 +1834,7 @@ pub struct MsgCreateGroupPolicy {
 pub struct MsgCreateGroupPolicyResponse {
     /// address is the account address of the newly created group policy.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
 }
 /// MsgUpdateGroupPolicyAdmin is the Msg/UpdateGroupPolicyAdmin request type.
@@ -1717,12 +1853,15 @@ pub struct MsgCreateGroupPolicyResponse {
 pub struct MsgUpdateGroupPolicyAdmin {
     /// admin is the account address of the group admin.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub admin: ::prost::alloc::string::String,
     /// group_policy_address is the account address of the group policy.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub group_policy_address: ::prost::alloc::string::String,
     /// new_admin is the new group policy admin.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub new_admin: ::prost::alloc::string::String,
 }
 /// MsgCreateGroupWithPolicy is the Msg/CreateGroupWithPolicy request type.
@@ -1741,22 +1880,28 @@ pub struct MsgUpdateGroupPolicyAdmin {
 pub struct MsgCreateGroupWithPolicy {
     /// admin is the account address of the group and group policy admin.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub admin: ::prost::alloc::string::String,
     /// members defines the group members.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub members: ::prost::alloc::vec::Vec<MemberRequest>,
     /// group_metadata is any arbitrary metadata attached to the group.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub group_metadata: ::prost::alloc::string::String,
     /// group_policy_metadata is any arbitrary metadata attached to the group policy.
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub group_policy_metadata: ::prost::alloc::string::String,
     /// group_policy_as_admin is a boolean field, if set to true, the group policy account address will be used as group
     /// and group policy admin.
     #[prost(bool, tag = "5")]
+    #[serde(default)]
     pub group_policy_as_admin: bool,
     /// decision_policy specifies the group policy's decision policy.
     #[prost(message, optional, tag = "6")]
+    #[serde(default)]
     pub decision_policy: ::core::option::Option<crate::shim::Any>,
 }
 /// MsgCreateGroupWithPolicyResponse is the Msg/CreateGroupWithPolicy response type.
@@ -1780,9 +1925,11 @@ pub struct MsgCreateGroupWithPolicyResponse {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
     /// group_policy_address is the account address of the newly created group policy.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub group_policy_address: ::prost::alloc::string::String,
 }
 /// MsgUpdateGroupPolicyAdminResponse is the Msg/UpdateGroupPolicyAdmin response type.
@@ -1815,12 +1962,15 @@ pub struct MsgUpdateGroupPolicyAdminResponse {}
 pub struct MsgUpdateGroupPolicyDecisionPolicy {
     /// admin is the account address of the group admin.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub admin: ::prost::alloc::string::String,
     /// group_policy_address is the account address of group policy.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub group_policy_address: ::prost::alloc::string::String,
     /// decision_policy is the updated group policy's decision policy.
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub decision_policy: ::core::option::Option<crate::shim::Any>,
 }
 /// MsgUpdateGroupPolicyDecisionPolicyResponse is the Msg/UpdateGroupPolicyDecisionPolicy response type.
@@ -1853,12 +2003,15 @@ pub struct MsgUpdateGroupPolicyDecisionPolicyResponse {}
 pub struct MsgUpdateGroupPolicyMetadata {
     /// admin is the account address of the group admin.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub admin: ::prost::alloc::string::String,
     /// group_policy_address is the account address of group policy.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub group_policy_address: ::prost::alloc::string::String,
     /// metadata is the updated group policy metadata.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
 }
 /// MsgUpdateGroupPolicyMetadataResponse is the Msg/UpdateGroupPolicyMetadata response type.
@@ -1891,22 +2044,27 @@ pub struct MsgUpdateGroupPolicyMetadataResponse {}
 pub struct MsgSubmitProposal {
     /// group_policy_address is the account address of group policy.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub group_policy_address: ::prost::alloc::string::String,
     /// proposers are the account addresses of the proposers.
     /// Proposers signatures will be counted as yes votes.
     #[prost(string, repeated, tag = "2")]
+    #[serde(default)]
     pub proposers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
     /// metadata is any arbitrary metadata to attached to the proposal.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
     /// messages is a list of `sdk.Msg`s that will be executed if the proposal passes.
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub messages: ::prost::alloc::vec::Vec<crate::shim::Any>,
     /// exec defines the mode of execution of the proposal,
     /// whether it should be executed immediately on creation or not.
     /// If so, proposers signatures are considered as Yes votes.
     #[prost(enumeration = "Exec", tag = "5")]
     #[serde(with = "Exec")]
+    #[serde(default)]
     pub exec: i32,
 }
 /// MsgSubmitProposalResponse is the Msg/SubmitProposal response type.
@@ -1930,6 +2088,7 @@ pub struct MsgSubmitProposalResponse {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
 }
 /// MsgWithdrawProposal is the Msg/WithdrawProposal request type.
@@ -1953,9 +2112,11 @@ pub struct MsgWithdrawProposal {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     /// address is the admin of the group policy or one of the proposer of the proposal.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
 }
 /// MsgWithdrawProposalResponse is the Msg/WithdrawProposal response type.
@@ -1993,21 +2154,26 @@ pub struct MsgVote {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     /// voter is the voter account address.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub voter: ::prost::alloc::string::String,
     /// option is the voter's choice on the proposal.
     #[prost(enumeration = "VoteOption", tag = "3")]
     #[serde(with = "VoteOption")]
+    #[serde(default)]
     pub option: i32,
     /// metadata is any arbitrary metadata to attached to the vote.
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
     /// exec defines whether the proposal should be executed
     /// immediately after voting or not.
     #[prost(enumeration = "Exec", tag = "5")]
     #[serde(with = "Exec")]
+    #[serde(default)]
     pub exec: i32,
 }
 /// MsgVoteResponse is the Msg/Vote response type.
@@ -2045,9 +2211,11 @@ pub struct MsgExec {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     /// executor is the account address used to execute the proposal.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub executor: ::prost::alloc::string::String,
 }
 /// MsgExecResponse is the Msg/Exec request type.
@@ -2067,6 +2235,7 @@ pub struct MsgExecResponse {
     /// result is the final result of the proposal execution.
     #[prost(enumeration = "ProposalExecutorResult", tag = "2")]
     #[serde(with = "ProposalExecutorResult")]
+    #[serde(default)]
     pub result: i32,
 }
 /// MsgLeaveGroup is the Msg/LeaveGroup request type.
@@ -2085,6 +2254,7 @@ pub struct MsgExecResponse {
 pub struct MsgLeaveGroup {
     /// address is the account address of the group member.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     /// group_id is the unique ID of the group.
     #[prost(uint64, tag = "2")]
@@ -2093,6 +2263,7 @@ pub struct MsgLeaveGroup {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub group_id: u64,
 }
 /// MsgLeaveGroupResponse is the Msg/LeaveGroup response type.

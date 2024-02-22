@@ -15,14 +15,17 @@ use dymension_std_derive::CosmwasmExt;
 pub struct InterchainAccountPacketData {
     #[prost(enumeration = "Type", tag = "1")]
     #[serde(with = "Type")]
+    #[serde(default)]
     pub r#type: i32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub data: ::prost::alloc::vec::Vec<u8>,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub memo: ::prost::alloc::string::String,
 }
 /// CosmosTx contains a list of sdk.Msg's. It should be used when sending transactions to an SDK host chain.
@@ -40,6 +43,7 @@ pub struct InterchainAccountPacketData {
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.v1.CosmosTx")]
 pub struct CosmosTx {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub messages: ::prost::alloc::vec::Vec<crate::shim::Any>,
 }
 /// Type defines a classification of message issued from a controller chain to its associated interchain accounts
@@ -88,9 +92,11 @@ impl Type {
 #[proto_message(type_url = "/ibc.applications.interchain_accounts.v1.InterchainAccount")]
 pub struct InterchainAccount {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub base_account:
         ::core::option::Option<super::super::super::super::cosmos::auth::v1beta1::BaseAccount>,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub account_owner: ::prost::alloc::string::String,
 }
 /// Metadata defines a set of protocol specific data encoded into the ICS27 channel version bytestring
@@ -110,24 +116,30 @@ pub struct InterchainAccount {
 pub struct Metadata {
     /// version defines the ICS27 protocol version
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub version: ::prost::alloc::string::String,
     /// controller_connection_id is the connection identifier associated with the controller chain
     #[prost(string, tag = "2")]
     #[serde(alias = "controller_connectionID")]
+    #[serde(default)]
     pub controller_connection_id: ::prost::alloc::string::String,
     /// host_connection_id is the connection identifier associated with the host chain
     #[prost(string, tag = "3")]
     #[serde(alias = "host_connectionID")]
+    #[serde(default)]
     pub host_connection_id: ::prost::alloc::string::String,
     /// address defines the interchain account address to be fulfilled upon the OnChanOpenTry handshake step
     /// NOTE: the address field is empty on the OnChanOpenInit handshake step
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub address: ::prost::alloc::string::String,
     /// encoding defines the supported codec format
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub encoding: ::prost::alloc::string::String,
     /// tx_type defines the type of transactions the interchain account can execute
     #[prost(string, tag = "6")]
+    #[serde(default)]
     pub tx_type: ::prost::alloc::string::String,
 }
 impl Type {

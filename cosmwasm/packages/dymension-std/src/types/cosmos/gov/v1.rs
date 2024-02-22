@@ -15,8 +15,10 @@ use dymension_std_derive::CosmwasmExt;
 pub struct WeightedVoteOption {
     #[prost(enumeration = "VoteOption", tag = "1")]
     #[serde(with = "VoteOption")]
+    #[serde(default)]
     pub option: i32,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub weight: ::prost::alloc::string::String,
 }
 /// Deposit defines an amount deposited by an account address to an active
@@ -40,10 +42,13 @@ pub struct Deposit {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub depositor: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
 }
 /// Proposal defines the core field members of a governance proposal.
@@ -66,29 +71,39 @@ pub struct Proposal {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub id: u64,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub messages: ::prost::alloc::vec::Vec<crate::shim::Any>,
     #[prost(enumeration = "ProposalStatus", tag = "3")]
     #[serde(with = "ProposalStatus")]
+    #[serde(default)]
     pub status: i32,
     /// final_tally_result is the final tally result of the proposal. When
     /// querying a proposal via gRPC, this field is not populated until the
     /// proposal's voting period has ended.
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub final_tally_result: ::core::option::Option<TallyResult>,
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub submit_time: ::core::option::Option<crate::shim::Timestamp>,
     #[prost(message, optional, tag = "6")]
+    #[serde(default)]
     pub deposit_end_time: ::core::option::Option<crate::shim::Timestamp>,
     #[prost(message, repeated, tag = "7")]
+    #[serde(default)]
     pub total_deposit: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
     #[prost(message, optional, tag = "8")]
+    #[serde(default)]
     pub voting_start_time: ::core::option::Option<crate::shim::Timestamp>,
     #[prost(message, optional, tag = "9")]
+    #[serde(default)]
     pub voting_end_time: ::core::option::Option<crate::shim::Timestamp>,
     /// metadata is any arbitrary metadata attached to the proposal.
     #[prost(string, tag = "10")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
 }
 /// TallyResult defines a standard tally for a governance proposal.
@@ -106,12 +121,16 @@ pub struct Proposal {
 #[proto_message(type_url = "/cosmos.gov.v1.TallyResult")]
 pub struct TallyResult {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub yes_count: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub abstain_count: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub no_count: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub no_with_veto_count: ::prost::alloc::string::String,
 }
 /// Vote defines a vote on a governance proposal.
@@ -135,13 +154,17 @@ pub struct Vote {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub voter: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub options: ::prost::alloc::vec::Vec<WeightedVoteOption>,
     /// metadata is any  arbitrary metadata to attached to the vote.
     #[prost(string, tag = "5")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
 }
 /// DepositParams defines the params for deposits on governance proposals.
@@ -160,10 +183,12 @@ pub struct Vote {
 pub struct DepositParams {
     ///   Minimum deposit for a proposal to enter voting period.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub min_deposit: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
     ///   Maximum period for Atom holders to deposit on a proposal. Initial value: 2
     ///   months.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub max_deposit_period: ::core::option::Option<crate::shim::Duration>,
 }
 /// VotingParams defines the params for voting on governance proposals.
@@ -182,6 +207,7 @@ pub struct DepositParams {
 pub struct VotingParams {
     ///   Length of the voting period.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub voting_period: ::core::option::Option<crate::shim::Duration>,
 }
 /// TallyParams defines the params for tallying votes on governance proposals.
@@ -201,13 +227,16 @@ pub struct TallyParams {
     ///   Minimum percentage of total stake needed to vote for a result to be
     ///   considered valid.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub quorum: ::prost::alloc::string::String,
     ///   Minimum proportion of Yes votes for proposal to pass. Default value: 0.5.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub threshold: ::prost::alloc::string::String,
     ///   Minimum value of Veto votes to Total votes ratio for proposal to be
     ///   vetoed. Default value: 1/3.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub veto_threshold: ::prost::alloc::string::String,
 }
 /// VoteOption enumerates the valid vote options for a given governance proposal.
@@ -324,24 +353,31 @@ pub struct GenesisState {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub starting_proposal_id: u64,
     /// deposits defines all the deposits present at genesis.
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub deposits: ::prost::alloc::vec::Vec<Deposit>,
     /// votes defines all the votes present at genesis.
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub votes: ::prost::alloc::vec::Vec<Vote>,
     /// proposals defines all the proposals present at genesis.
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub proposals: ::prost::alloc::vec::Vec<Proposal>,
     /// params defines all the paramaters of related to deposit.
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub deposit_params: ::core::option::Option<DepositParams>,
     /// params defines all the paramaters of related to voting.
     #[prost(message, optional, tag = "6")]
+    #[serde(default)]
     pub voting_params: ::core::option::Option<VotingParams>,
     /// params defines all the paramaters of related to tally.
     #[prost(message, optional, tag = "7")]
+    #[serde(default)]
     pub tally_params: ::core::option::Option<TallyParams>,
 }
 /// QueryProposalRequest is the request type for the Query/Proposal RPC method.
@@ -369,6 +405,7 @@ pub struct QueryProposalRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
 }
 /// QueryProposalResponse is the response type for the Query/Proposal RPC method.
@@ -386,6 +423,7 @@ pub struct QueryProposalRequest {
 #[proto_message(type_url = "/cosmos.gov.v1.QueryProposalResponse")]
 pub struct QueryProposalResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub proposal: ::core::option::Option<Proposal>,
 }
 /// QueryProposalsRequest is the request type for the Query/Proposals RPC method.
@@ -409,15 +447,19 @@ pub struct QueryProposalsRequest {
     /// proposal_status defines the status of the proposals.
     #[prost(enumeration = "ProposalStatus", tag = "1")]
     #[serde(with = "ProposalStatus")]
+    #[serde(default)]
     pub proposal_status: i32,
     /// voter defines the voter address for the proposals.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub voter: ::prost::alloc::string::String,
     /// depositor defines the deposit addresses from the proposals.
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub depositor: ::prost::alloc::string::String,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "4")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryProposalsResponse is the response type for the Query/Proposals RPC
@@ -436,9 +478,11 @@ pub struct QueryProposalsRequest {
 #[proto_message(type_url = "/cosmos.gov.v1.QueryProposalsResponse")]
 pub struct QueryProposalsResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub proposals: ::prost::alloc::vec::Vec<Proposal>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryVoteRequest is the request type for the Query/Vote RPC method.
@@ -463,9 +507,11 @@ pub struct QueryVoteRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     /// voter defines the voter address for the proposals.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub voter: ::prost::alloc::string::String,
 }
 /// QueryVoteResponse is the response type for the Query/Vote RPC method.
@@ -484,6 +530,7 @@ pub struct QueryVoteRequest {
 pub struct QueryVoteResponse {
     /// vote defined the queried vote.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub vote: ::core::option::Option<Vote>,
 }
 /// QueryVotesRequest is the request type for the Query/Votes RPC method.
@@ -508,9 +555,11 @@ pub struct QueryVotesRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryVotesResponse is the response type for the Query/Votes RPC method.
@@ -529,9 +578,11 @@ pub struct QueryVotesRequest {
 pub struct QueryVotesResponse {
     /// votes defined the queried votes.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub votes: ::prost::alloc::vec::Vec<Vote>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
@@ -552,6 +603,7 @@ pub struct QueryParamsRequest {
     /// params_type defines which parameters to query for, can be one of "voting",
     /// "tallying" or "deposit".
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub params_type: ::prost::alloc::string::String,
 }
 /// QueryParamsResponse is the response type for the Query/Params RPC method.
@@ -570,12 +622,15 @@ pub struct QueryParamsRequest {
 pub struct QueryParamsResponse {
     /// voting_params defines the parameters related to voting.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub voting_params: ::core::option::Option<VotingParams>,
     /// deposit_params defines the parameters related to deposit.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub deposit_params: ::core::option::Option<DepositParams>,
     /// tally_params defines the parameters related to tally.
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub tally_params: ::core::option::Option<TallyParams>,
 }
 /// QueryDepositRequest is the request type for the Query/Deposit RPC method.
@@ -603,9 +658,11 @@ pub struct QueryDepositRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     /// depositor defines the deposit addresses from the proposals.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub depositor: ::prost::alloc::string::String,
 }
 /// QueryDepositResponse is the response type for the Query/Deposit RPC method.
@@ -624,6 +681,7 @@ pub struct QueryDepositRequest {
 pub struct QueryDepositResponse {
     /// deposit defines the requested deposit.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub deposit: ::core::option::Option<Deposit>,
 }
 /// QueryDepositsRequest is the request type for the Query/Deposits RPC method.
@@ -651,9 +709,11 @@ pub struct QueryDepositsRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     /// pagination defines an optional pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryDepositsResponse is the response type for the Query/Deposits RPC method.
@@ -671,9 +731,11 @@ pub struct QueryDepositsRequest {
 #[proto_message(type_url = "/cosmos.gov.v1.QueryDepositsResponse")]
 pub struct QueryDepositsResponse {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub deposits: ::prost::alloc::vec::Vec<Deposit>,
     /// pagination defines the pagination in the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryTallyResultRequest is the request type for the Query/Tally RPC method.
@@ -701,6 +763,7 @@ pub struct QueryTallyResultRequest {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
 }
 /// QueryTallyResultResponse is the response type for the Query/Tally RPC method.
@@ -719,6 +782,7 @@ pub struct QueryTallyResultRequest {
 pub struct QueryTallyResultResponse {
     /// tally defines the requested tally.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub tally: ::core::option::Option<TallyResult>,
 }
 /// MsgSubmitProposal defines an sdk.Msg type that supports submitting arbitrary
@@ -737,13 +801,17 @@ pub struct QueryTallyResultResponse {
 #[proto_message(type_url = "/cosmos.gov.v1.MsgSubmitProposal")]
 pub struct MsgSubmitProposal {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub messages: ::prost::alloc::vec::Vec<crate::shim::Any>,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub initial_deposit: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
     #[prost(string, tag = "3")]
+    #[serde(default)]
     pub proposer: ::prost::alloc::string::String,
     /// metadata is any arbitrary metadata attached to the proposal.
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
 }
 /// MsgSubmitProposalResponse defines the Msg/SubmitProposal response type.
@@ -766,6 +834,7 @@ pub struct MsgSubmitProposalResponse {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
 }
 /// MsgExecLegacyContent is used to wrap the legacy content field into a message.
@@ -785,9 +854,11 @@ pub struct MsgSubmitProposalResponse {
 pub struct MsgExecLegacyContent {
     /// content is the proposal's content.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub content: ::core::option::Option<crate::shim::Any>,
     /// authority must be the gov module address.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub authority: ::prost::alloc::string::String,
 }
 /// MsgExecLegacyContentResponse defines the Msg/ExecLegacyContent response type.
@@ -824,13 +895,17 @@ pub struct MsgVote {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub voter: ::prost::alloc::string::String,
     #[prost(enumeration = "VoteOption", tag = "3")]
     #[serde(with = "VoteOption")]
+    #[serde(default)]
     pub option: i32,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
 }
 /// MsgVoteResponse defines the Msg/Vote response type.
@@ -867,12 +942,16 @@ pub struct MsgVoteWeighted {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub voter: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub options: ::prost::alloc::vec::Vec<WeightedVoteOption>,
     #[prost(string, tag = "4")]
+    #[serde(default)]
     pub metadata: ::prost::alloc::string::String,
 }
 /// MsgVoteWeightedResponse defines the Msg/VoteWeighted response type.
@@ -909,10 +988,13 @@ pub struct MsgDeposit {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub proposal_id: u64,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub depositor: ::prost::alloc::string::String,
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub amount: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
 }
 /// MsgDepositResponse defines the Msg/Deposit response type.

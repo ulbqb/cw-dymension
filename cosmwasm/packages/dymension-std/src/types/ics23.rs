@@ -37,16 +37,20 @@ pub struct ExistenceProof {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub key: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub value: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub leaf: ::core::option::Option<LeafOp>,
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub path: ::prost::alloc::vec::Vec<InnerOp>,
 }
 ///
@@ -72,10 +76,13 @@ pub struct NonExistenceProof {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub key: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub left: ::core::option::Option<ExistenceProof>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub right: ::core::option::Option<ExistenceProof>,
 }
 ///
@@ -94,6 +101,7 @@ pub struct NonExistenceProof {
 #[proto_message(type_url = "/ics23.CommitmentProof")]
 pub struct CommitmentProof {
     #[prost(oneof = "commitment_proof::Proof", tags = "1, 2, 3, 4")]
+    #[serde(default)]
     pub proof: ::core::option::Option<commitment_proof::Proof>,
 }
 /// Nested message and enum types in `CommitmentProof`.
@@ -150,15 +158,19 @@ pub mod commitment_proof {
 pub struct LeafOp {
     #[prost(enumeration = "HashOp", tag = "1")]
     #[serde(with = "HashOp")]
+    #[serde(default)]
     pub hash: i32,
     #[prost(enumeration = "HashOp", tag = "2")]
     #[serde(with = "HashOp")]
+    #[serde(default)]
     pub prehash_key: i32,
     #[prost(enumeration = "HashOp", tag = "3")]
     #[serde(with = "HashOp")]
+    #[serde(default)]
     pub prehash_value: i32,
     #[prost(enumeration = "LengthOp", tag = "4")]
     #[serde(with = "LengthOp")]
+    #[serde(default)]
     pub length: i32,
     /// prefix is a fixed bytes that may optionally be included at the beginning to differentiate
     /// a leaf node from an inner node.
@@ -167,6 +179,7 @@ pub struct LeafOp {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub prefix: ::prost::alloc::vec::Vec<u8>,
 }
 /// *
@@ -200,18 +213,21 @@ pub struct LeafOp {
 pub struct InnerOp {
     #[prost(enumeration = "HashOp", tag = "1")]
     #[serde(with = "HashOp")]
+    #[serde(default)]
     pub hash: i32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub prefix: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub suffix: ::prost::alloc::vec::Vec<u8>,
 }
 /// *
@@ -241,8 +257,10 @@ pub struct ProofSpec {
     /// any field in the ExistenceProof must be the same as in this spec.
     /// except Prefix, which is just the first bytes of prefix (spec can be longer)
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub leaf_spec: ::core::option::Option<LeafOp>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub inner_spec: ::core::option::Option<InnerSpec>,
     /// max_depth (if > 0) is the maximum number of InnerOps allowed (mainly for fixed-depth tries)
     #[prost(int32, tag = "3")]
@@ -250,6 +268,7 @@ pub struct ProofSpec {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_depth: i32,
     /// min_depth (if > 0) is the minimum number of InnerOps allowed (mainly for fixed-depth tries)
     #[prost(int32, tag = "4")]
@@ -257,6 +276,7 @@ pub struct ProofSpec {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub min_depth: i32,
 }
 ///
@@ -289,24 +309,28 @@ pub struct InnerSpec {
         serialize_with = "crate::serde::as_str_vec::serialize",
         deserialize_with = "crate::serde::as_str_vec::deserialize"
     )]
+    #[serde(default)]
     pub child_order: ::prost::alloc::vec::Vec<i32>,
     #[prost(int32, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub child_size: i32,
     #[prost(int32, tag = "3")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub min_prefix_length: i32,
     #[prost(int32, tag = "4")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub max_prefix_length: i32,
     /// empty child is the prehash image that is used when one child is nil (eg. 20 bytes of 0)
     #[prost(bytes = "vec", tag = "5")]
@@ -314,10 +338,12 @@ pub struct InnerSpec {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub empty_child: ::prost::alloc::vec::Vec<u8>,
     /// hash is the algorithm that must be used for each InnerOp
     #[prost(enumeration = "HashOp", tag = "6")]
     #[serde(with = "HashOp")]
+    #[serde(default)]
     pub hash: i32,
 }
 ///
@@ -336,6 +362,7 @@ pub struct InnerSpec {
 #[proto_message(type_url = "/ics23.BatchProof")]
 pub struct BatchProof {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub entries: ::prost::alloc::vec::Vec<BatchEntry>,
 }
 /// Use BatchEntry not CommitmentProof, to avoid recursion
@@ -353,6 +380,7 @@ pub struct BatchProof {
 #[proto_message(type_url = "/ics23.BatchEntry")]
 pub struct BatchEntry {
     #[prost(oneof = "batch_entry::Proof", tags = "1, 2")]
+    #[serde(default)]
     pub proof: ::core::option::Option<batch_entry::Proof>,
 }
 /// Nested message and enum types in `BatchEntry`.
@@ -389,8 +417,10 @@ pub mod batch_entry {
 #[proto_message(type_url = "/ics23.CompressedBatchProof")]
 pub struct CompressedBatchProof {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub entries: ::prost::alloc::vec::Vec<CompressedBatchEntry>,
     #[prost(message, repeated, tag = "2")]
+    #[serde(default)]
     pub lookup_inners: ::prost::alloc::vec::Vec<InnerOp>,
 }
 /// Use BatchEntry not CommitmentProof, to avoid recursion
@@ -408,6 +438,7 @@ pub struct CompressedBatchProof {
 #[proto_message(type_url = "/ics23.CompressedBatchEntry")]
 pub struct CompressedBatchEntry {
     #[prost(oneof = "compressed_batch_entry::Proof", tags = "1, 2")]
+    #[serde(default)]
     pub proof: ::core::option::Option<compressed_batch_entry::Proof>,
 }
 /// Nested message and enum types in `CompressedBatchEntry`.
@@ -448,14 +479,17 @@ pub struct CompressedExistenceProof {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub key: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub value: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub leaf: ::core::option::Option<LeafOp>,
     /// these are indexes into the lookup_inners table in CompressedBatchProof
     #[prost(int32, repeated, tag = "4")]
@@ -463,6 +497,7 @@ pub struct CompressedExistenceProof {
         serialize_with = "crate::serde::as_str_vec::serialize",
         deserialize_with = "crate::serde::as_str_vec::deserialize"
     )]
+    #[serde(default)]
     pub path: ::prost::alloc::vec::Vec<i32>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -484,10 +519,13 @@ pub struct CompressedNonExistenceProof {
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub key: ::prost::alloc::vec::Vec<u8>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub left: ::core::option::Option<CompressedExistenceProof>,
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub right: ::core::option::Option<CompressedExistenceProof>,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]

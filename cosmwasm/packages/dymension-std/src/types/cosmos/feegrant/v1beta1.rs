@@ -18,9 +18,11 @@ pub struct BasicAllowance {
     /// by this allowance and will be updated as coins are spent. If it is
     /// empty, there is no spend limit and any amount of coins can be spent.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub spend_limit: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
     /// expiration specifies an optional time when this allowance expires
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub expiration: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// PeriodicAllowance extends Allowance to allow for both a maximum cap,
@@ -40,22 +42,27 @@ pub struct BasicAllowance {
 pub struct PeriodicAllowance {
     /// basic specifies a struct of `BasicAllowance`
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub basic: ::core::option::Option<BasicAllowance>,
     /// period specifies the time duration in which period_spend_limit coins can
     /// be spent before that allowance is reset
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub period: ::core::option::Option<crate::shim::Duration>,
     /// period_spend_limit specifies the maximum number of coins that can be spent
     /// in the period
     #[prost(message, repeated, tag = "3")]
+    #[serde(default)]
     pub period_spend_limit: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
     /// period_can_spend is the number of coins left to be spent before the period_reset time
     #[prost(message, repeated, tag = "4")]
+    #[serde(default)]
     pub period_can_spend: ::prost::alloc::vec::Vec<super::super::base::v1beta1::Coin>,
     /// period_reset is the time at which this period resets and a new one begins,
     /// it is calculated from the start time of the first transaction after the
     /// last period ended
     #[prost(message, optional, tag = "5")]
+    #[serde(default)]
     pub period_reset: ::core::option::Option<crate::shim::Timestamp>,
 }
 /// AllowedMsgAllowance creates allowance only for specified message types.
@@ -74,9 +81,11 @@ pub struct PeriodicAllowance {
 pub struct AllowedMsgAllowance {
     /// allowance can be any of basic and periodic fee allowance.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub allowance: ::core::option::Option<crate::shim::Any>,
     /// allowed_messages are the messages for which the grantee has the access.
     #[prost(string, repeated, tag = "2")]
+    #[serde(default)]
     pub allowed_messages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// Grant is stored in the KVStore to record a grant with full context
@@ -95,12 +104,15 @@ pub struct AllowedMsgAllowance {
 pub struct Grant {
     /// granter is the address of the user granting an allowance of their funds.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub granter: ::prost::alloc::string::String,
     /// grantee is the address of the user being granted an allowance of another user's funds.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub grantee: ::prost::alloc::string::String,
     /// allowance can be any of basic, periodic, allowed fee allowance.
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub allowance: ::core::option::Option<crate::shim::Any>,
 }
 /// GenesisState contains a set of fee allowances, persisted from the store
@@ -118,6 +130,7 @@ pub struct Grant {
 #[proto_message(type_url = "/cosmos.feegrant.v1beta1.GenesisState")]
 pub struct GenesisState {
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub allowances: ::prost::alloc::vec::Vec<Grant>,
 }
 /// QueryAllowanceRequest is the request type for the Query/Allowance RPC method.
@@ -140,9 +153,11 @@ pub struct GenesisState {
 pub struct QueryAllowanceRequest {
     /// granter is the address of the user granting an allowance of their funds.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub granter: ::prost::alloc::string::String,
     /// grantee is the address of the user being granted an allowance of another user's funds.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub grantee: ::prost::alloc::string::String,
 }
 /// QueryAllowanceResponse is the response type for the Query/Allowance RPC method.
@@ -161,6 +176,7 @@ pub struct QueryAllowanceRequest {
 pub struct QueryAllowanceResponse {
     /// allowance is a allowance granted for grantee by granter.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub allowance: ::core::option::Option<Grant>,
 }
 /// QueryAllowancesRequest is the request type for the Query/Allowances RPC method.
@@ -182,9 +198,11 @@ pub struct QueryAllowanceResponse {
 )]
 pub struct QueryAllowancesRequest {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub grantee: ::prost::alloc::string::String,
     /// pagination defines an pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryAllowancesResponse is the response type for the Query/Allowances RPC method.
@@ -203,9 +221,11 @@ pub struct QueryAllowancesRequest {
 pub struct QueryAllowancesResponse {
     /// allowances are allowance's granted for grantee by granter.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub allowances: ::prost::alloc::vec::Vec<Grant>,
     /// pagination defines an pagination for the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// QueryAllowancesByGranterRequest is the request type for the Query/AllowancesByGranter RPC method.
@@ -229,9 +249,11 @@ pub struct QueryAllowancesResponse {
 )]
 pub struct QueryAllowancesByGranterRequest {
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub granter: ::prost::alloc::string::String,
     /// pagination defines an pagination for the request.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageRequest>,
 }
 /// QueryAllowancesByGranterResponse is the response type for the Query/AllowancesByGranter RPC method.
@@ -252,9 +274,11 @@ pub struct QueryAllowancesByGranterRequest {
 pub struct QueryAllowancesByGranterResponse {
     /// allowances that have been issued by the granter.
     #[prost(message, repeated, tag = "1")]
+    #[serde(default)]
     pub allowances: ::prost::alloc::vec::Vec<Grant>,
     /// pagination defines an pagination for the response.
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub pagination: ::core::option::Option<super::super::base::query::v1beta1::PageResponse>,
 }
 /// MsgGrantAllowance adds permission for Grantee to spend up to Allowance
@@ -274,12 +298,15 @@ pub struct QueryAllowancesByGranterResponse {
 pub struct MsgGrantAllowance {
     /// granter is the address of the user granting an allowance of their funds.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub granter: ::prost::alloc::string::String,
     /// grantee is the address of the user being granted an allowance of another user's funds.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub grantee: ::prost::alloc::string::String,
     /// allowance can be any of basic, periodic, allowed fee allowance.
     #[prost(message, optional, tag = "3")]
+    #[serde(default)]
     pub allowance: ::core::option::Option<crate::shim::Any>,
 }
 /// MsgGrantAllowanceResponse defines the Msg/GrantAllowanceResponse response type.
@@ -312,9 +339,11 @@ pub struct MsgGrantAllowanceResponse {}
 pub struct MsgRevokeAllowance {
     /// granter is the address of the user granting an allowance of their funds.
     #[prost(string, tag = "1")]
+    #[serde(default)]
     pub granter: ::prost::alloc::string::String,
     /// grantee is the address of the user being granted an allowance of another user's funds.
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub grantee: ::prost::alloc::string::String,
 }
 /// MsgRevokeAllowanceResponse defines the Msg/RevokeAllowanceResponse response type.

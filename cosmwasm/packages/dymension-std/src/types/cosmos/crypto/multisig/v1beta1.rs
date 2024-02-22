@@ -16,6 +16,7 @@ use dymension_std_derive::CosmwasmExt;
 #[proto_message(type_url = "/cosmos.crypto.multisig.v1beta1.MultiSignature")]
 pub struct MultiSignature {
     #[prost(bytes = "vec", repeated, tag = "1")]
+    #[serde(default)]
     pub signatures: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
 }
 /// CompactBitArray is an implementation of a space efficient bit array.
@@ -40,11 +41,13 @@ pub struct CompactBitArray {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub extra_bits_stored: u32,
     #[prost(bytes = "vec", tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_base64_encoded_string::serialize",
         deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
     )]
+    #[serde(default)]
     pub elems: ::prost::alloc::vec::Vec<u8>,
 }

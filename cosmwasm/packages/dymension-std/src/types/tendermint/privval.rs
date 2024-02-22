@@ -17,8 +17,10 @@ pub struct RemoteSignerError {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub code: i32,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub description: ::prost::alloc::string::String,
 }
 /// PubKeyRequest requests the consensus public key from the remote signer.
@@ -37,6 +39,7 @@ pub struct RemoteSignerError {
 pub struct PubKeyRequest {
     #[prost(string, tag = "1")]
     #[serde(alias = "chainID")]
+    #[serde(default)]
     pub chain_id: ::prost::alloc::string::String,
 }
 /// PubKeyResponse is a response message containing the public key.
@@ -54,8 +57,10 @@ pub struct PubKeyRequest {
 #[proto_message(type_url = "/tendermint.privval.PubKeyResponse")]
 pub struct PubKeyResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub pub_key: ::core::option::Option<super::crypto::PublicKey>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub error: ::core::option::Option<RemoteSignerError>,
 }
 /// SignVoteRequest is a request to sign a vote
@@ -73,9 +78,11 @@ pub struct PubKeyResponse {
 #[proto_message(type_url = "/tendermint.privval.SignVoteRequest")]
 pub struct SignVoteRequest {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub vote: ::core::option::Option<super::types::Vote>,
     #[prost(string, tag = "2")]
     #[serde(alias = "chainID")]
+    #[serde(default)]
     pub chain_id: ::prost::alloc::string::String,
 }
 /// SignedVoteResponse is a response containing a signed vote or an error
@@ -93,8 +100,10 @@ pub struct SignVoteRequest {
 #[proto_message(type_url = "/tendermint.privval.SignedVoteResponse")]
 pub struct SignedVoteResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub vote: ::core::option::Option<super::types::Vote>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub error: ::core::option::Option<RemoteSignerError>,
 }
 /// SignProposalRequest is a request to sign a proposal
@@ -112,9 +121,11 @@ pub struct SignedVoteResponse {
 #[proto_message(type_url = "/tendermint.privval.SignProposalRequest")]
 pub struct SignProposalRequest {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub proposal: ::core::option::Option<super::types::Proposal>,
     #[prost(string, tag = "2")]
     #[serde(alias = "chainID")]
+    #[serde(default)]
     pub chain_id: ::prost::alloc::string::String,
 }
 /// SignedProposalResponse is response containing a signed proposal or an error
@@ -132,8 +143,10 @@ pub struct SignProposalRequest {
 #[proto_message(type_url = "/tendermint.privval.SignedProposalResponse")]
 pub struct SignedProposalResponse {
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub proposal: ::core::option::Option<super::types::Proposal>,
     #[prost(message, optional, tag = "2")]
+    #[serde(default)]
     pub error: ::core::option::Option<RemoteSignerError>,
 }
 /// PingRequest is a request to confirm that the connection is alive.
@@ -178,6 +191,7 @@ pub struct PingResponse {}
 #[proto_message(type_url = "/tendermint.privval.Message")]
 pub struct Message {
     #[prost(oneof = "message::Sum", tags = "1, 2, 3, 4, 5, 6, 7, 8")]
+    #[serde(default)]
     pub sum: ::core::option::Option<message::Sum>,
 }
 /// Nested message and enum types in `Message`.

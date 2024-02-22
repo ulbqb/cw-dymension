@@ -16,9 +16,11 @@ use dymension_std_derive::CosmwasmExt;
 pub struct Params {
     /// host_enabled enables or disables the host submodule.
     #[prost(bool, tag = "1")]
+    #[serde(default)]
     pub host_enabled: bool,
     /// allow_messages defines a list of sdk message typeURLs allowed to be executed on a host chain.
     #[prost(string, repeated, tag = "2")]
+    #[serde(default)]
     pub allow_messages: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
@@ -55,6 +57,7 @@ pub struct QueryParamsRequest {}
 pub struct QueryParamsResponse {
     /// params defines the parameters of the module.
     #[prost(message, optional, tag = "1")]
+    #[serde(default)]
     pub params: ::core::option::Option<Params>,
 }
 pub struct HostQuerier<'a, Q: cosmwasm_std::CustomQuery> {

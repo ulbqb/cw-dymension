@@ -20,8 +20,10 @@ pub struct App {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub protocol: u64,
     #[prost(string, tag = "2")]
+    #[serde(default)]
     pub software: ::prost::alloc::string::String,
 }
 /// Consensus captures the consensus rules for processing a block in the blockchain,
@@ -45,11 +47,13 @@ pub struct Consensus {
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub block: u64,
     #[prost(uint64, tag = "2")]
     #[serde(
         serialize_with = "crate::serde::as_str::serialize",
         deserialize_with = "crate::serde::as_str::deserialize"
     )]
+    #[serde(default)]
     pub app: u64,
 }
