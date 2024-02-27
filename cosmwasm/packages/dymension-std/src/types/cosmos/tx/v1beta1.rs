@@ -701,7 +701,7 @@ pub struct SimulateResponse {
     /// result is the result of the simulation.
     #[prost(message, optional, tag = "2")]
     #[serde(default)]
-    pub result: ::core::option::Option<super::super::base::abci::v1beta1::Result>,
+    pub result: ::core::option::Option<crate::shim::ABCIResult>,
 }
 /// GetTxRequest is the request type for the Service.GetTx
 /// RPC method.

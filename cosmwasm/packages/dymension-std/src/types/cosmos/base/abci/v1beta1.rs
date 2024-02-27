@@ -196,48 +196,6 @@ pub struct GasInfo {
     #[serde(default)]
     pub gas_used: u64,
 }
-/// Result is the union of ResponseFormat and ResponseCheckTx.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(
-    Clone,
-    PartialEq,
-    Eq,
-    ::prost::Message,
-    ::serde::Serialize,
-    ::serde::Deserialize,
-    ::schemars::JsonSchema,
-    CosmwasmExt,
-)]
-#[proto_message(type_url = "/cosmos.base.abci.v1beta1.Result")]
-pub struct Result {
-    /// Data is any data returned from message or handler execution. It MUST be
-    /// length prefixed in order to separate data from multiple message executions.
-    /// Deprecated. This field is still populated, but prefer msg_response instead
-    /// because it also contains the Msg response typeURL.
-    #[deprecated]
-    #[prost(bytes = "vec", tag = "1")]
-    #[serde(
-        serialize_with = "crate::serde::as_base64_encoded_string::serialize",
-        deserialize_with = "crate::serde::as_base64_encoded_string::deserialize"
-    )]
-    #[serde(default)]
-    pub data: ::prost::alloc::vec::Vec<u8>,
-    /// Log contains the log information from message or handler execution.
-    #[prost(string, tag = "2")]
-    #[serde(default)]
-    pub log: ::prost::alloc::string::String,
-    /// Events contains a slice of Event objects that were emitted during message
-    /// or handler execution.
-    #[prost(message, repeated, tag = "3")]
-    #[serde(default)]
-    pub events: ::prost::alloc::vec::Vec<super::super::super::super::tendermint::abci::Event>,
-    /// msg_responses contains the Msg handler responses type packed in Anys.
-    ///
-    /// Since: cosmos-sdk 0.46
-    #[prost(message, repeated, tag = "4")]
-    #[serde(default)]
-    pub msg_responses: ::prost::alloc::vec::Vec<crate::shim::Any>,
-}
 /// SimulationResponse defines the response generated when a transaction is
 /// successfully simulated.
 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -258,7 +216,7 @@ pub struct SimulationResponse {
     pub gas_info: ::core::option::Option<GasInfo>,
     #[prost(message, optional, tag = "2")]
     #[serde(default)]
-    pub result: ::core::option::Option<Result>,
+    pub result: ::core::option::Option<crate::shim::ABCIResult>,
 }
 /// MsgData defines the data returned in a Result object during message
 /// execution.
