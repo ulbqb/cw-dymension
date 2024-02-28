@@ -15,7 +15,7 @@ pub fn create_rollapp(
         return Err(StdError::generic_err(ERR_ROLLAPPS_DISABLED).into());
     }
 
-    if get_rollapp(storage, msg.rollapp_id.clone()).is_err() {
+    if get_rollapp(storage, msg.rollapp_id.clone()).is_ok() {
         return Err(StdError::generic_err(ERR_ROLLAPP_EXISTS).into());
     }
 
