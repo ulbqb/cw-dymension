@@ -1,0 +1,16 @@
+{
+    "sequencer": {
+        "create_sequencer": {
+            "creator": "",
+            "dymint_pub_key": {},
+            "rollapp_id": "",
+            "description": {
+                "moniker": "",
+                "identity": "",
+                "website": "",
+                "security_contact": "",
+                "details": ""
+            }
+        }
+    }
+}

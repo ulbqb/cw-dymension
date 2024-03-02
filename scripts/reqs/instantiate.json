@@ -1,0 +1,20 @@
+{
+    "rollapp": {
+        "params": {
+            "dispute_period_in_blocks": "10",
+            "deployer_whitelist": [],
+            "rollapps_enabled": true
+        },
+        "rollapp_list": [],
+        "state_info_list": [],
+        "latest_state_info_index_list": [],
+        "latest_finalized_state_index_list": [],
+        "block_height_to_finalization_queue_list": []
+    },
+    "sequencer": {
+        "params": {},
+        "sequencer_list": [],
+        "sequencers_by_rollapp_list": [],
+        "scheduler_list": []
+    }
+}
