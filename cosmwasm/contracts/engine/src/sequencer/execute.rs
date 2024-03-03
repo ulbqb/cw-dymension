@@ -46,7 +46,7 @@ pub fn create_sequencer(
                 .into());
             }
 
-            if !x.rollapp_i_ds.contains(&msg.rollapp_id) {
+            if x.rollapp_i_ds.contains(&msg.rollapp_id) {
                 return Err(StdError::generic_err(ERR_SEQUENCER_ALREADY_REGISTERED).into());
             }
             x.rollapp_i_ds.push(msg.rollapp_id.clone());
