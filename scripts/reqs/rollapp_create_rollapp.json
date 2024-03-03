@@ -1,0 +1,14 @@
+{
+    "rollapp": {
+        "create_rollapp": {
+            "creator": "",
+            "rollapp_id": "",
+            "code_stamp": "",
+            "genesis_path": "",
+            "max_withholding_blocks": "0",
+            "max_sequencers": "5",
+            "permissioned_addresses": [],
+            "metadatas": []
+        }
+    }
+}

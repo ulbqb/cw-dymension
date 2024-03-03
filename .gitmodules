@@ -1,0 +1,15 @@
+[submodule "cosmwasm/dependencies/cosmos-sdk"]
+	path = cosmwasm/dependencies/cosmos-sdk
+	url = https://github.com/cosmos/cosmos-sdk.git
+[submodule "cosmwasm/dependencies/dymension"]
+	path = cosmwasm/dependencies/dymension
+	url = https://github.com/dymensionxyz/dymension.git
+[submodule "cosmwasm/dependencies/cometbft"]
+	path = cosmwasm/dependencies/cometbft
+	url = https://github.com/cometbft/cometbft.git
+[submodule "cosmwasm/dependencies/ibc-go"]
+	path = cosmwasm/dependencies/ibc-go
+	url = https://github.com/cosmos/ibc-go.git
+[submodule "cosmwasm/dependencies/ics23"]
+	path = cosmwasm/dependencies/ics23
+	url = https://github.com/confio/ics23.git
