@@ -1,13 +1,13 @@
 # CW Dymension
 
-This is a engine contract (like x/rollapp and x/sequencer) of Dymension rollapp.
+This is a engine contract (like x/rollapp and x/sequencer) of [Dymension](https://dymension.xyz/) rollapp.
 
 ## Demo on Neutron Testnet (Pion)
 
 This demo uses a pre-deployed contract on Neutron testnet so you don't need to deploy the contract. 
 
-Code ID: [3171](https://neutron.celat.one/pion-1/codes/3171/info)
-Contract Address: [neutron1fvlf4r7evmj8zryxgujdslnnfv4ywxu54pf68jy77hyvz6dlr8dscz7yc2](https://neutron.celat.one/pion-1/contracts/neutron1fvlf4r7evmj8zryxgujdslnnfv4ywxu54pf68jy77hyvz6dlr8dscz7yc2)
+- Code ID: [3171](https://neutron.celat.one/pion-1/codes/3171/info)
+- Contract Address: [neutron1fvlf4r7evmj8zryxgujdslnnfv4ywxu54pf68jy77hyvz6dlr8dscz7yc2](https://neutron.celat.one/pion-1/contracts/neutron1fvlf4r7evmj8zryxgujdslnnfv4ywxu54pf68jy77hyvz6dlr8dscz7yc2)
 
 ### Install Binaries
 
@@ -79,9 +79,11 @@ $ tail -f logs/rollapp-evm.log
 ## Dependecies
 
 - https://github.com/ulbqb/cw-dymension
-    - cosmwasm - Engine contract
-    - endblocker - Finalizer for rollapp blocks
-    - scripts - Demo scripts
+    - Equivalent to dymension@v3.0.0
+    - Directories
+        - cosmwasm - Engine contract
+        - endblocker - Finalizer for rollapp blocks
+        - scripts - Demo scripts
 - https://github.com/ulbqb/rollapp-evm/tree/1cf5795-cw
     - Replace ulbqb/dymint with dymensionxyz/dymint
 - https://github.com/ulbqb/dymint/tree/v0.6.1-beta-cw
