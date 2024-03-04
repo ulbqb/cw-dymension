@@ -1,6 +1,6 @@
 # CW Dymension
 
-This is a engine contract (like x/rollapp and x/sequencer) of [Dymension](https://dymension.xyz/) rollapp.
+This is a engine contract (like x/rollapp and x/sequencer) of [Dymension](https://dymension.xyz/) rollapp. This enables to run Dymension Rollapp on any Cosmwasm chains.
 
 ## Demo on Neutron Testnet (Pion)
 
