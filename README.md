@@ -4,17 +4,24 @@ This is a engine contract (like x/rollapp and x/sequencer) of [Dymension](https:
 
 ## Demo on Neutron Testnet (Pion)
 
-This demo uses a pre-deployed contract on Neutron testnet so you don't need to deploy the contract. 
+This demo uses a pre-deployed contract on Neutron testnet so you don't need to deploy the contract.
 
 - Code ID: [3171](https://neutron.celat.one/pion-1/codes/3171/info)
 - Contract Address: [neutron1fvlf4r7evmj8zryxgujdslnnfv4ywxu54pf68jy77hyvz6dlr8dscz7yc2](https://neutron.celat.one/pion-1/contracts/neutron1fvlf4r7evmj8zryxgujdslnnfv4ywxu54pf68jy77hyvz6dlr8dscz7yc2)
+
+### Clone CW Dymension
+
+```shell
+$ git clone https://github.com/ulbqb/cw-dymension.git
+$ cd cw-dymension
+```
 
 ### Install Binaries
 
 Install `neutrond`.
 
 ```shell
-$ git clone git@github.com:neutron-org/neutron.git
+$ git clone https://github.com/neutron-org/neutron.git
 $ cd neutron
 $ git checkout v2.0.1
 $ make install
@@ -25,12 +32,12 @@ $ neutrond version
 Install `rollapp-evm`.
 
 ```shell
-$ git clone git@github.com:ulbqb/rollapp-evm.git
+$ git clone https://github.com/ulbqb/rollapp-evm.git
 $ cd rollapp-evm
 $ git checkout 81405c59acb59285054cacc33a3f2932fccf83c2
 $ make install
 $ rollapp-evm version
-1cf5795-cw-81405c59acb59285054cacc33a3f2932fccf83c2
+HEAD-81405c59acb59285054cacc33a3f2932fccf83c2
 ```
 
 ### Setup Enviroiment
@@ -76,17 +83,23 @@ $ bash 9_run_rollapp.sh
 $ tail -f logs/rollapp-evm.log
 ```
 
+### Stop Rollapp
+
+```shell
+$ pkill rollapp-evm
+```
+
 ## Dependecies
 
 - https://github.com/ulbqb/cw-dymension
-    - Equivalent to dymension@v3.0.0
-    - Directories
-        - cosmwasm - Engine contract
-        - endblocker - Finalizer for rollapp blocks
-        - scripts - Demo scripts
+  - Equivalent to dymension@v3.0.0
+  - Directories
+    - cosmwasm - Engine contract
+    - endblocker - Finalizer for rollapp blocks
+    - scripts - Demo scripts
 - https://github.com/ulbqb/rollapp-evm/tree/1cf5795-cw
-    - Replace ulbqb/dymint with dymensionxyz/dymint
+  - Replace ulbqb/dymint with dymensionxyz/dymint
 - https://github.com/ulbqb/dymint/tree/v0.6.1-beta-cw
-    - Add cosmwasm clinet
+  - Add cosmwasm clinet
 - https://github.com/ulbqb/cosmwasm/tree/v1.1.9_plus
-    - Update serde-json-wasm
+  - Update serde-json-wasm
